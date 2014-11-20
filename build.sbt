@@ -1,0 +1,3 @@
+name := "AllMyData"
+
+version := "0.0.1"
