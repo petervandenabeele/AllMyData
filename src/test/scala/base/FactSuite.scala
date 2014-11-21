@@ -71,5 +71,12 @@ class FactSuite extends FunSuite {
       assert(uuid.size === 36)
     }
   }
+
+  test("Fact has an optional uuid and default is a new random UUID") {
+    new testPeter {
+      val uuid: ATD_Uuid = fact.uuid
+      assert(uuid.size === 36)
+    }
+  }
 }
 

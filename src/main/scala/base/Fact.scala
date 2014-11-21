@@ -1,12 +1,14 @@
 package base
 
+import java.util.UUID
+
 import common._
 
 /**
  * Created by peter_v on 21/11/14.
  */
 
-case class Fact (uuid: ATD_Uuid = "",
+case class Fact (uuid: ATD_Uuid = UUID.randomUUID().toString,
                  subject: ATD_Subject = "",
                  predicate: ATD_Predicate,
                  objectType: ATD_ObjectType,
