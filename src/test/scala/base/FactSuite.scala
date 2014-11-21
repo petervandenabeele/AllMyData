@@ -4,6 +4,8 @@ package base
  * Created by peter_v on 20/11/14.
  */
 
+import java.util.UUID
+
 import common._
 import org.scalatest.FunSuite
 
@@ -59,6 +61,14 @@ class FactSuite extends FunSuite {
     new testPeter {
       val subject: ATD_Subject = fact.subject
       assert(subject === "")
+    }
+  }
+
+  test("Fact has an optional uuid") {
+    new testPeter {
+      val factWithUuid = fact.copy(uuid = UUID.randomUUID().toString)
+      val uuid: ATD_Uuid = factWithUuid.uuid
+      assert(uuid.size === 36)
     }
   }
 }
