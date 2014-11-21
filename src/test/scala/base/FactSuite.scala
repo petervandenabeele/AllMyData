@@ -54,5 +54,12 @@ class FactSuite extends FunSuite {
       assert(subject === "abcd-1234")
     }
   }
+
+  test("Fact has an optional subject and default is empty string") {
+    new testPeter {
+      val subject: ATD_Subject = fact.subject
+      assert(subject === "")
+    }
+  }
 }
 
