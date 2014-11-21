@@ -15,4 +15,9 @@ class FactSuite extends FunSuite {
   test("the truth") {
     assert(true === true)
   }
+
+  test("Fact can be created without explicit arguments") {
+    val fact = Fact()
+  }
 }
+
