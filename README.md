@@ -12,5 +12,5 @@ Licensed under the [MIT License][MIT].
 
 [RDF]:          http://www.w3.org/RDF/
 [Rationale]:    http://github.com/petervandenabeele/dbd/blob/master/docs/rationale.md
-[MIT]:          https://github.com/petervandenabeele/dbd/blob/master/LICENSE.txt
+[MIT]:          https://github.com/petervandenabeele/AllMyData/blob/master/LICENSE.txt
 [Dbd]:          https://github.com/petervandenabeele/dbd#readme
