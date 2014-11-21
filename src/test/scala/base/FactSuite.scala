@@ -13,18 +13,38 @@ import org.scalatest.junit.JUnitRunner
 @RunWith(classOf[JUnitRunner])
 class FactSuite extends FunSuite {
 
-  test("the truth") {
-    assert(true === true)
+  trait testPeter {
+    val fact =
+      Fact(predicate = "atd:first_name",
+           objectType = "s",
+           objectValue = "Peter")
   }
 
   test("Fact can be created without the default arguments") {
-    val fact = Fact(predicate = "atd:first_name")
+    new testPeter {
+      assert(fact != Nil) // does not fail
+    }
   }
 
   test("Fact has a predicate attribute") {
-    val fact = Fact(predicate = "atd:first_name")
-    val predicate: ATD_Predicate = fact.predicate
-    assert(predicate == "atd:first_name")
+    new testPeter {
+      val predicate: ATD_Predicate = fact.predicate
+      assert(predicate === "atd:first_name")
+    }
+  }
+
+  test("Fact has an object_type attribute") {
+    new testPeter {
+      val objectType: ATD_ObjectType = fact.objectType
+      assert(objectType === "s")
+    }
+  }
+
+  test("Fact has an object attribute") {
+    new testPeter {
+      val objectValue: ATD_ObjectValue = fact.objectValue
+      assert(objectValue === "Peter")
+    }
   }
 }
 
