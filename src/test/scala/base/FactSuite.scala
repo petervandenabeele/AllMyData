@@ -78,5 +78,20 @@ class FactSuite extends FunSuite {
       assert(uuid.size === 36)
     }
   }
+
+  test("Fact has an optional timeStamp") {
+    new testPeter {
+      val factWithTimeStamp = fact.copy(timeStamp = "2014-11-21 23:59:36.134567890")
+      val timeStamp: ATD_TimeStamp = factWithTimeStamp.timeStamp
+      assert(timeStamp === "2014-11-21 23:59:36.134567890")
+    }
+  }
+
+  test("Fact has an optional timeStamp and default is empty string") {
+    new testPeter {
+      val timeStamp: ATD_TimeStamp = fact.timeStamp
+      assert(timeStamp === "")
+    }
+  }
 }
 
