@@ -22,7 +22,7 @@ class FactSuite extends FunSuite {
 
   test("Fact can be created without the default arguments") {
     new testPeter {
-      assert(fact != Nil) // does not fail
+      assert(fact.objectValue != "") // does not fail
     }
   }
 
@@ -44,6 +44,14 @@ class FactSuite extends FunSuite {
     new testPeter {
       val objectValue: ATD_ObjectValue = fact.objectValue
       assert(objectValue === "Peter")
+    }
+  }
+
+  test("Fact has an optional subject") {
+    new testPeter {
+      val factWithSubject = fact.copy(subject = "abcd-1234")
+      val subject: ATD_Subject = factWithSubject.subject
+      assert(subject === "abcd-1234")
     }
   }
 }
