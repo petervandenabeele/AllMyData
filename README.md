@@ -1,12 +1,13 @@
 # AllMyData: Event Sourcing All My Data (to never forget it)
 
 This is an Event Sourcing implementation in Scala, based on the
-original [Dbd][Dbd] ideas (and that was naively reinventing the Event
+original [Dbd][Dbd] ideas (which was naively reinventing the Event
 Sourcing concepts and using them for better storage and distributed
 caching of [RDF triples][RDF] to provide better handling of Linked
 Data ...).
 
 [Why?][Rationale]
+[Design][Dbd]
 
 Licensed under the [MIT License][MIT].
 
