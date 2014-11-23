@@ -4,12 +4,12 @@
 
 package base
 
+import java.util.UUID
+
 import common._
 import org.scalatest.FunSuite
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
-
-import java.util.UUID
 
 @RunWith(classOf[JUnitRunner])
 class FactSuite extends FunSuite {
