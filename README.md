@@ -7,6 +7,7 @@ caching of [RDF triples][RDF] to provide better handling of Linked
 Data ...).
 
 [Why?][Rationale]
+
 [Design][Dbd]
 
 Licensed under the [MIT License][MIT].
