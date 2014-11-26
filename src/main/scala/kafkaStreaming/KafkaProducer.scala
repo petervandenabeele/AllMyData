@@ -100,7 +100,9 @@ case class KafkaProducer(
     }
   }
 
-  def send(message: String, partition: String = null): Unit = send(message.getBytes("UTF8"), if (partition == null) null else partition.getBytes("UTF8"))
+  def send(message: String, partition: String = null): Unit = {
+    send(message.getBytes("UTF8"), if (partition == null) null else partition.getBytes("UTF8"))
+  }
 
   def send(message: Array[Byte], partition: Array[Byte]): Unit = {
     try {
