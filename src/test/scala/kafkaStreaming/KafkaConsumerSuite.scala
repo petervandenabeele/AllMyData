@@ -45,4 +45,22 @@ class KafkaConsumerSuite extends FunSuite {
     new aConsumer {
     }
   }
+
+  test("Can read a message from ATD_test") {
+    def puts(msg: String): Unit = {
+      println("Read as Kafka consumer on ATD_test : " + msg)
+    }
+
+    new aConsumer {
+      new aProducer {
+        new testPeter {
+          kafkaProducer.send(fact1.toString)
+          kafkaProducer.send(fact2.toString)
+          kafkaProducer.send("foobar123")
+          val result = kafkaConsumer.read(x => puts(x))
+          assert(result === "break on foobar123")
+        }
+      }
+    }
+  }
 }
