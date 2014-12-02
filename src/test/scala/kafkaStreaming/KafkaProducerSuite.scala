@@ -15,22 +15,22 @@ import org.scalatest.junit.JUnitRunner
 @RunWith(classOf[JUnitRunner])
 class KafkaProducerSuite extends FunSuite {
 
-  trait testPeter {
+  trait testFooBar {
     val subject = "88301684-3859-4f70-8f90-2c7a90256268"
     val timePoint1: LocalDateTime = LocalDateTime.now()
     val fact1 =
       Fact(subject = subject,
-           predicate = "atd:first_name",
+           predicate = "atd:foo",
            objectType = "s",
-           objectValue = "Peter",
+           objectValue = "Bar",
            timeStamp = timePoint1.toString)
 
     val timePoint2: LocalDateTime = LocalDateTime.now()
     val fact2 =
       Fact(subject = subject,
-           predicate = "atd:last_name",
+           predicate = "atd:tux",
            objectType = "s",
-           objectValue = "V",
+           objectValue = "Ping",
            timeStamp = timePoint2.toString)
   }
 
@@ -45,7 +45,7 @@ class KafkaProducerSuite extends FunSuite {
 
   test("Can send a message to ATD_test") {
     new aProducer {
-      new testPeter {
+      new testFooBar {
         kafkaProducer.send(fact1.toString)
         kafkaProducer.send(fact2.toString)
       }

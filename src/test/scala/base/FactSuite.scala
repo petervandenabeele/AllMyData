@@ -14,42 +14,42 @@ import org.scalatest.junit.JUnitRunner
 @RunWith(classOf[JUnitRunner])
 class FactSuite extends FunSuite {
 
-  trait testPeter {
+  trait testFoo {
     val fact =
-      Fact(predicate = "atd:first_name",
+      Fact(predicate = "atd:foo",
            objectType = "s",
-           objectValue = "Peter")
+           objectValue = "Bar")
   }
 
   test("Fact can be created without the default arguments") {
-    new testPeter {
+    new testFoo {
       assert(fact.objectValue != "") // does not fail
     }
   }
 
   test("Fact has a predicate attribute") {
-    new testPeter {
+    new testFoo {
       val predicate: ATD_Predicate = fact.predicate
-      assert(predicate === "atd:first_name")
+      assert(predicate === "atd:foo")
     }
   }
 
   test("Fact has an object_type attribute") {
-    new testPeter {
+    new testFoo {
       val objectType: ATD_ObjectType = fact.objectType
       assert(objectType === "s")
     }
   }
 
   test("Fact has an object attribute") {
-    new testPeter {
+    new testFoo {
       val objectValue: ATD_ObjectValue = fact.objectValue
-      assert(objectValue === "Peter")
+      assert(objectValue === "Bar")
     }
   }
 
   test("Fact has an optional subject") {
-    new testPeter {
+    new testFoo {
       val factWithSubject = fact.copy(subject = "abcd-1234")
       val subject: ATD_Subject = factWithSubject.subject
       assert(subject === "abcd-1234")
@@ -57,14 +57,14 @@ class FactSuite extends FunSuite {
   }
 
   test("Fact has an optional subject and default is empty string") {
-    new testPeter {
+    new testFoo {
       val subject: ATD_Subject = fact.subject
       assert(subject === "")
     }
   }
 
   test("Fact has an optional uuid") {
-    new testPeter {
+    new testFoo {
       val factWithUuid = fact.copy(uuid = UUID.randomUUID().toString)
       val uuid: ATD_Uuid = factWithUuid.uuid
       assert(uuid.size === 36)
@@ -72,14 +72,14 @@ class FactSuite extends FunSuite {
   }
 
   test("Fact has an optional uuid and default is a new random UUID") {
-    new testPeter {
+    new testFoo {
       val uuid: ATD_Uuid = fact.uuid
       assert(uuid.size === 36)
     }
   }
 
   test("Fact has an optional timeStamp") {
-    new testPeter {
+    new testFoo {
       val factWithTimeStamp = fact.copy(timeStamp = "2014-11-21 23:59:36.134567890")
       val timeStamp: ATD_TimeStamp = factWithTimeStamp.timeStamp
       assert(timeStamp === "2014-11-21 23:59:36.134567890")
@@ -87,7 +87,7 @@ class FactSuite extends FunSuite {
   }
 
   test("Fact has an optional timeStamp and default is empty string") {
-    new testPeter {
+    new testFoo {
       val timeStamp: ATD_TimeStamp = fact.timeStamp
       assert(timeStamp === "")
     }

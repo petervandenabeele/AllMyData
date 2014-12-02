@@ -12,30 +12,30 @@ import org.scalatest.junit.JUnitRunner
 @RunWith(classOf[JUnitRunner])
 class FactStreamSuite extends FunSuite {
 
-  trait testPeter {
+  trait testFooBar {
     val fact1 =
-      Fact(predicate = "atd:first_name",
+      Fact(predicate = "atd:foo",
            objectType = "s",
-           objectValue = "Peter")
+           objectValue = "Bar")
     val fact2 =
-      Fact(predicate = "atd:last_name",
+      Fact(predicate = "atd:tux",
            objectType = "s",
-           objectValue = "V")
+           objectValue = "Ping")
   }
 
   test("Empty FactStream can be created") {
-    new testPeter {
+    new testFooBar {
       val factStream: FactStream = Stream.empty
       assert(factStream.size === 0)
    }
   }
 
   test("FactStream with 2 facts can be created") {
-    new testPeter {
+    new testFooBar {
       val factStream: FactStream = fact2 #:: fact1 #:: Stream.empty
       assert(factStream.size === 2)
-      assert(factStream.head.objectValue === "V")
-      assert(factStream.tail.head.objectValue === "Peter")
+      assert(factStream.head.objectValue === "Ping")
+      assert(factStream.tail.head.objectValue === "Bar")
     }
   }
 }
