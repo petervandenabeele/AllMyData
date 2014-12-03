@@ -15,7 +15,7 @@ import org.scalatest.junit.JUnitRunner
 @RunWith(classOf[JUnitRunner])
 class FactEncoderSuite extends FunSuite {
 
-  trait testFoo {
+  trait testFooBar {
     val subject = "88301684-3859-4f70-8f90-2c7a90256268"
     val timePoint1: LocalDateTime = LocalDateTime.now()
     val fact1 =
@@ -24,19 +24,42 @@ class FactEncoderSuite extends FunSuite {
         objectType = "s",
         objectValue = "Bar",
         timeStamp = timePoint1.toString)
+    val fact2 =
+      Fact(subject = subject,
+        predicate = "atd:bar",
+        objectType = "s",
+        objectValue = "Tux\nPing",
+        timeStamp = timePoint1.toString)
   }
 
-  test("new FactEncoder() works") {
+  test("FactEncoder can be instantiated") {
     new FactEncoder()
   }
 
-  test("new FactEncoder() can do encoding") {
-    new testFoo {
+  test("FactEncoder does encoding") {
+    new testFooBar {
       val factEncoder = new FactEncoder()
       val kafkaProducer = KafkaProducer(brokerList = "localhost:9092")
       val partition = null
 
-      kafkaProducer.send(factEncoder.toBytes(fact1), partition)
+      val encoded = factEncoder.toBytes(fact1)
+    }
+  }
+
+  test("FactEncoder does encoding with newline in the string") {
+    new testFooBar {
+      val factEncoder = new FactEncoder()
+      val kafkaProducer = KafkaProducer(brokerList = "localhost:9092")
+
+      val endoced = factEncoder.toBytes(fact2)
+    }
+  }
+
+  test("FactEncoder result can be sent on KafkaProducer") {
+    new testFooBar {
+      val factEncoder = new FactEncoder()
+      val kafkaProducer = KafkaProducer(brokerList = "localhost:9092")
+      kafkaProducer.send(factEncoder.toBytes(fact2), null)
     }
   }
 }

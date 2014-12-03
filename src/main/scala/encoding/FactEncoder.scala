@@ -18,6 +18,11 @@ class FactEncoder(props: VerifiableProperties = null) extends Encoder[Fact]{
   override def toBytes(fact: Fact): Array[Byte] =
     if(fact == null)
       null
-    else
-      fact.toString.getBytes(encoding) // mock implementation
+    else {
+      // Under the presumption that only the object
+      // may contain comma's and newlines, this is
+      // a sub optimal, but _working_ enconding ...
+      val raw = fact.toString
+      raw.substring(5, raw.length()-1).getBytes(encoding)
+    }
 }

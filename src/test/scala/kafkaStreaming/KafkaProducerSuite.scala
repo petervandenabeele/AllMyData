@@ -8,6 +8,7 @@ import java.util.UUID
 import java.time.LocalDateTime
 
 import base.Fact
+import encoding.FactEncoder
 import org.scalatest.FunSuite
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
@@ -46,8 +47,10 @@ class KafkaProducerSuite extends FunSuite {
   test("Can send a message to ATD_test") {
     new aProducer {
       new testFooBar {
-        kafkaProducer.send(fact1.toString)
-        kafkaProducer.send(fact2.toString)
+        val factEncoder = new FactEncoder()
+
+        kafkaProducer.send(factEncoder.toBytes(fact1), null)
+        kafkaProducer.send(factEncoder.toBytes(fact2), null)
       }
     }
   }
