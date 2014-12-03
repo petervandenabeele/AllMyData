@@ -7,7 +7,6 @@ package encoding
 import base.Fact
 import kafka.serializer.Decoder
 import kafka.utils.VerifiableProperties
-import sun.misc.Regexp
 
 class FactDecoder(props: VerifiableProperties = null) extends Decoder[Fact]{
   val encoding =
