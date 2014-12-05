@@ -4,8 +4,8 @@
 
 package cli
 
-object InsertFacts {
+object FactsInserter {
   def main(args: Array[String]): Unit = {
-    println("Starting AllMyData InsertFacts.main")
+    println("Starting AllMyData FactsInserter.main")
   }
 }

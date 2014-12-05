@@ -9,9 +9,9 @@ import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 
 @RunWith(classOf[JUnitRunner])
-class InsertFactsSuite extends FunSuite {
+class FactsInserterSuite extends FunSuite {
 
-  test("Object InstertFact exists") {
-    val insterter = InsertFacts
+  test("Object FactsInserter exists") {
+    val insterter = FactsInserter
   }
 }
