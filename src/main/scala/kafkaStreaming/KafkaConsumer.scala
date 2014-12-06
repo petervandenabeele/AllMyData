@@ -95,6 +95,7 @@ case class KafkaConsumer(
 
   def read(write: (String)=>Unit) = {
     info("reading on stream now")
+    println("reading on stream now")
     breakable {
       for(messageAndTopic <- stream) {
 
