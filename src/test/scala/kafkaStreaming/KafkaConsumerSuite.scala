@@ -22,7 +22,8 @@ class KafkaConsumerSuite extends FunSuite {
     val kafkaConsumer: KafkaConsumer = KafkaConsumer()
   }
 
-  test("Can read a message from ATD_test") {
+  // ignore for now, since depends on stable ip address
+  ignore("Can read a message from ATD_test") {
     def puts(msg: String): Unit = {
       println("Read as Kafka consumer on ATD_test : " + msg)
     }
