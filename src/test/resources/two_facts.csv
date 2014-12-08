@@ -1,6 +1,6 @@
 1,,atd:foo,s,bar
-1,,atd:tux,s,ping
-1,,atd:ping,s,pong
 2,,atd:bar,s,foo
+1,,atd:tux,s,ping
 2,,atd:ping,s,tux
+1,,atd:ping,s,pong
 2,,atd:pong,s,ping

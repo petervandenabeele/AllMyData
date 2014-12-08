@@ -69,11 +69,13 @@ class FactsInserterSuite extends FunSuite {
     val file = scala.io.Source.fromURL(getClass.getResource(filename))
     val factIterator = reader(file)
     val facts: Array[Fact] = factIterator.toArray
+
+    // scrambled order (but it still works :-)
+    val fact_3 = facts(4)
     val fact_1 = facts(0)
-    val fact_2 = facts(1)
-    val fact_3 = facts(2)
-    val fact_4 = facts(3)
-    val fact_5 = facts(4)
+    val fact_2 = facts(2)
+    val fact_4 = facts(1)
+    val fact_5 = facts(3)
     val fact_6 = facts(5)
 
     assert(facts.size === 6)
