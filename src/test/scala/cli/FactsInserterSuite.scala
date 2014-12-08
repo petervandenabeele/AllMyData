@@ -63,4 +63,51 @@ class FactsInserterSuite extends FunSuite {
     assert(fact_2.uuid === resource_uuid)
     assert(fact_3.uuid === resource_uuid)
   }
+
+  test("two_facts.csv creates 2 resources with 3 facts each") {
+    val filename = "/two_facts.csv"
+    val file = scala.io.Source.fromURL(getClass.getResource(filename))
+    val factIterator = reader(file)
+    val facts: Array[Fact] = factIterator.toArray
+    val fact_1 = facts(0)
+    val fact_2 = facts(1)
+    val fact_3 = facts(2)
+    val fact_4 = facts(3)
+    val fact_5 = facts(4)
+    val fact_6 = facts(5)
+
+    assert(facts.size === 6)
+
+    assert(fact_1.predicate === "atd:foo")
+    assert(fact_1.objectType === "s")
+    assert(fact_1.objectValue === "bar")
+
+    assert(fact_2.predicate === "atd:tux")
+    assert(fact_2.objectType === "s")
+    assert(fact_2.objectValue === "ping")
+
+    assert(fact_3.predicate === "atd:ping")
+    assert(fact_3.objectType === "s")
+    assert(fact_3.objectValue === "pong")
+
+    assert(fact_4.predicate === "atd:bar")
+    assert(fact_4.objectType === "s")
+    assert(fact_4.objectValue === "foo")
+
+    assert(fact_5.predicate === "atd:ping")
+    assert(fact_5.objectType === "s")
+    assert(fact_5.objectValue === "tux")
+
+    assert(fact_6.predicate === "atd:pong")
+    assert(fact_6.objectType === "s")
+    assert(fact_6.objectValue === "ping")
+
+    val resource_uuid_1 = fact_1.uuid
+    assert(fact_2.uuid === resource_uuid_1)
+    assert(fact_3.uuid === resource_uuid_1)
+
+    val resource_uuid_2 = fact_4.uuid
+    assert(fact_5.uuid === resource_uuid_2)
+    assert(fact_6.uuid === resource_uuid_2)
+  }
 }
