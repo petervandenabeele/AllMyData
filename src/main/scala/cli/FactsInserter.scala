@@ -6,11 +6,23 @@ package cli
 
 import base.Fact
 import common._
+import encoding.FactEncoder
+import kafkaStreaming.KafkaProducer
 import scala.io.BufferedSource
 
 object FactsInserter {
   def main(args: Array[String]): Unit = {
     println("Starting AllMyData FactsInserter.main")
+    val filename = "/Users/peter_v/data/private/data/input.csv"
+    val file = scala.io.Source.fromFile(filename)
+
+    val factIterator = reader(file)
+
+    val kafkaProducer: KafkaProducer = KafkaProducer(brokerList = "localhost:9092")
+    val factEncoder = new FactEncoder()
+    factIterator.foreach(fact => {
+      kafkaProducer.send(factEncoder.toBytes(fact), null)
+    })
   }
 
   // reading from a CSV with structure
