@@ -59,9 +59,9 @@ class FactsInserterSuite extends FunSuite {
     assert(fact_3.objectType === "s")
     assert(fact_3.objectValue === "pong")
 
-    val resource_uuid = fact_1.uuid
-    assert(fact_2.uuid === resource_uuid)
-    assert(fact_3.uuid === resource_uuid)
+    val resource_subject = fact_1.subject
+    assert(fact_2.subject === resource_subject)
+    assert(fact_3.subject === resource_subject)
   }
 
   test("two_facts.csv creates 2 resources with 3 facts each") {
@@ -104,12 +104,12 @@ class FactsInserterSuite extends FunSuite {
     assert(fact_6.objectType === "s")
     assert(fact_6.objectValue === "ping")
 
-    val resource_uuid_1 = fact_1.uuid
-    assert(fact_2.uuid === resource_uuid_1)
-    assert(fact_3.uuid === resource_uuid_1)
+    val resource_subject_1 = fact_1.subject
+    assert(fact_2.subject === resource_subject_1)
+    assert(fact_3.subject === resource_subject_1)
 
-    val resource_uuid_2 = fact_4.uuid
-    assert(fact_5.uuid === resource_uuid_2)
-    assert(fact_6.uuid === resource_uuid_2)
+    val resource_subject_2 = fact_4.subject
+    assert(fact_5.subject === resource_subject_2)
+    assert(fact_6.subject === resource_subject_2)
   }
 }
