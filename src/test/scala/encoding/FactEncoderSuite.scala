@@ -17,19 +17,16 @@ class FactEncoderSuite extends FunSuite {
 
   trait testFooBar {
     val subject = "88301684-3859-4f70-8f90-2c7a90256268"
-    val timePoint1: LocalDateTime = LocalDateTime.now()
     val fact1 =
       Fact(subject = subject,
         predicate = "atd:foo",
         objectType = "s",
-        objectValue = "Bar",
-        timeStamp = timePoint1.toString)
+        objectValue = "Bar")
     val fact2 =
       Fact(subject = subject,
         predicate = "atd:bar",
         objectType = "s",
-        objectValue = "Tux\nPing",
-        timeStamp = timePoint1.toString)
+        objectValue = "Tux\nPing")
   }
 
   test("FactEncoder can be instantiated") {

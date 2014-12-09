@@ -4,9 +4,6 @@
 
 package kafkaStreaming
 
-import java.time.LocalDateTime
-
-import base.Fact
 import org.junit.runner.RunWith
 import org.scalatest.FunSuite
 import org.scalatest.junit.JUnitRunner
@@ -15,7 +12,7 @@ import org.scalatest.junit.JUnitRunner
 class KafkaConsumerSuite extends FunSuite {
 
   trait aProducer {
-    val sentinel = "foobar124"
+    val sentinel = "foobar125"
     val kafkaProducer: KafkaProducer = KafkaProducer(brokerList = "localhost:9092")
     kafkaProducer.send(sentinel)
   }

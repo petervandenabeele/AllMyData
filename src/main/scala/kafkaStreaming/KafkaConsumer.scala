@@ -94,7 +94,7 @@ case class KafkaConsumer(
   info("setup:complete topic=%s for zk=%s and groupId=%s".format(topic,zookeeperConnect,groupId))
 
   def read(write: (String)=>Unit) = {
-    val sentinel = "foobar124"
+    val sentinel = "foobar125"
     info("reading on stream now")
     println("reading on stream now")
     breakable {

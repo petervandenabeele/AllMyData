@@ -4,9 +4,6 @@
 
 package kafkaStreaming
 
-import java.util.UUID
-import java.time.LocalDateTime
-
 import base.Fact
 import encoding.FactEncoder
 import org.scalatest.FunSuite
@@ -17,22 +14,14 @@ import org.scalatest.junit.JUnitRunner
 class KafkaProducerSuite extends FunSuite {
 
   trait testFooBar {
-    val subject = "88301684-3859-4f70-8f90-2c7a90256268"
-    val timePoint1: LocalDateTime = LocalDateTime.now()
     val fact1 =
-      Fact(subject = subject,
-           predicate = "atd:foo",
+      Fact(predicate = "atd:foo",
            objectType = "s",
-           objectValue = "Bar",
-           timeStamp = timePoint1.toString)
-
-    val timePoint2: LocalDateTime = LocalDateTime.now()
+           objectValue = "Bar")
     val fact2 =
-      Fact(subject = subject,
-           predicate = "atd:tux",
+      Fact(predicate = "atd:tux",
            objectType = "s",
-           objectValue = "Ping",
-           timeStamp = timePoint2.toString)
+           objectValue = "Ping")
   }
 
   trait aProducer {

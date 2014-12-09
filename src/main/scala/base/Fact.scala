@@ -5,10 +5,12 @@
 package base
 
 import java.util.UUID
+import java.time.{ZoneId, ZonedDateTime}
 
 import common._
 
-case class Fact (timeStamp: ATD_TimeStamp = "",
+// TODO Fix the timestamp to have more digits and/or be monotonic
+case class Fact (timeStamp: ATD_TimeStamp = ZonedDateTime.now(ZoneId.of("UTC")).toString,
                  uuid: ATD_Uuid = UUID.randomUUID().toString,
                  subject: ATD_Subject = UUID.randomUUID().toString,
                  predicate: ATD_Predicate,

@@ -86,10 +86,10 @@ class FactSuite extends FunSuite {
     }
   }
 
-  test("Fact has an optional timeStamp and default is empty string") {
+  test("Fact has an optional timeStamp and default is a UTC time") {
     new testFoo {
       val timeStamp: ATD_TimeStamp = fact.timeStamp
-      assert(timeStamp === "")
+      assert(timeStamp.size === 29)
     }
   }
 }
