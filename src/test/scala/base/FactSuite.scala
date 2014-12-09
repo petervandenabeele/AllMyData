@@ -56,10 +56,10 @@ class FactSuite extends FunSuite {
     }
   }
 
-  test("Fact has an optional subject and default is empty string") {
+  test("Fact has an optional subject and default is a UUID") {
     new testFoo {
       val subject: ATD_Subject = fact.subject
-      assert(subject === "")
+      assert(subject.size === 36)
     }
   }
 

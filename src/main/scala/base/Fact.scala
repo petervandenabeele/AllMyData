@@ -10,7 +10,7 @@ import common._
 
 case class Fact (timeStamp: ATD_TimeStamp = "",
                  uuid: ATD_Uuid = UUID.randomUUID().toString,
-                 subject: ATD_Subject = "",
+                 subject: ATD_Subject = UUID.randomUUID().toString,
                  predicate: ATD_Predicate,
                  objectType: ATD_ObjectType,
                  objectValue: ATD_ObjectValue) {}
