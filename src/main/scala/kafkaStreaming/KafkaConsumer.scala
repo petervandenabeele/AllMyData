@@ -94,12 +94,13 @@ case class KafkaConsumer(
   info("setup:complete topic=%s for zk=%s and groupId=%s".format(topic,zookeeperConnect,groupId))
 
   def read(write: (String)=>Unit) = {
+    val sentinel = "foobar124"
     info("reading on stream now")
     println("reading on stream now")
     breakable {
       for(messageAndTopic <- stream) {
 
-        if (messageAndTopic.message == "foobar123") break
+        if (messageAndTopic.message == sentinel) break
 
         try {
           info("writing from stream")
@@ -115,8 +116,9 @@ case class KafkaConsumer(
         }
       }
     }
-    println("reached the break on foobar123")
-    "break on foobar123"
+
+    println("reached the break on " + sentinel)
+    sentinel
   }
 
   def close() {

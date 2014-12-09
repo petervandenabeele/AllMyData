@@ -15,7 +15,9 @@ import org.scalatest.junit.JUnitRunner
 class KafkaConsumerSuite extends FunSuite {
 
   trait aProducer {
+    val sentinel = "foobar124"
     val kafkaProducer: KafkaProducer = KafkaProducer(brokerList = "localhost:9092")
+    kafkaProducer.send(sentinel)
   }
 
   trait aConsumer {
@@ -23,18 +25,16 @@ class KafkaConsumerSuite extends FunSuite {
   }
 
   // ignore for now, since depends on stable ip address
-  ignore("Can read a message from ATD_test") {
+  test("Can read a message from ATD_test") {
     def puts(msg: String): Unit = {
       println("Read as Kafka consumer on ATD_test : " + msg)
     }
 
-    new aProducer {
-      kafkaProducer.send("foobar123")
-    }
-
     new aConsumer {
-      val result = kafkaConsumer.read(x => puts(x))
-      assert(result === "break on foobar123")
+      new aProducer {
+        val result = kafkaConsumer.read(x => puts(x))
+        assert(result === sentinel)
+      }
     }
   }
 }
