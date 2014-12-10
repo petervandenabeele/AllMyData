@@ -36,7 +36,7 @@ class FactEncoderSuite extends FunSuite {
   test("FactEncoder does encoding") {
     new testFooBar {
       val factEncoder = new FactEncoder()
-      val kafkaProducer = KafkaProducer(brokerList = "localhost:9092")
+      val kafkaProducer = KafkaProducer()
       val partition = null
 
       val encoded = factEncoder.toBytes(fact1)
@@ -46,7 +46,7 @@ class FactEncoderSuite extends FunSuite {
   test("FactEncoder does encoding with newline in the string") {
     new testFooBar {
       val factEncoder = new FactEncoder()
-      val kafkaProducer = KafkaProducer(brokerList = "localhost:9092")
+      val kafkaProducer = KafkaProducer()
 
       val endoced = factEncoder.toBytes(fact2)
     }
@@ -55,7 +55,7 @@ class FactEncoderSuite extends FunSuite {
   test("FactEncoder result can be sent on KafkaProducer") {
     new testFooBar {
       val factEncoder = new FactEncoder()
-      val kafkaProducer = KafkaProducer(brokerList = "localhost:9092")
+      val kafkaProducer = KafkaProducer()
       kafkaProducer.send(factEncoder.toBytes(fact2), null)
     }
   }

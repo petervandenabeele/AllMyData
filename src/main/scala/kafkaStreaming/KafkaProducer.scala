@@ -31,7 +31,7 @@ import java.util.{Properties, UUID}
 
 case class KafkaProducer(
   topic: String = "ATD_test",
-  brokerList: String,
+  brokerList: String = "localhost:9092",
   /** brokerList
     * This is for bootstrapping and the producer will only use it for getting metadata (topics, partitions and replicas).
     * The socket connections for sending the actual data will be established based on the broker information returned in

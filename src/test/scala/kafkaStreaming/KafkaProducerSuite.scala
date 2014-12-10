@@ -25,7 +25,7 @@ class KafkaProducerSuite extends FunSuite {
   }
 
   trait aProducer {
-    val kafkaProducer: KafkaProducer = KafkaProducer(brokerList = "localhost:9092")
+    val kafkaProducer: KafkaProducer = KafkaProducer()
   }
 
   test("Can create a KafkaProducer") {

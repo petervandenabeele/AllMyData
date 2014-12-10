@@ -58,7 +58,7 @@ class FactDecoderSuite extends FunSuite {
       assert(decoded_fact2.objectType === fact2.objectType)
       assert(decoded_fact2.objectValue === fact2.objectValue)
 
-      val kafkaProducer = KafkaProducer(brokerList = "localhost:9092")
+      val kafkaProducer = KafkaProducer()
       kafkaProducer.send(encoded_fact2, null)
     }
   }

@@ -13,7 +13,7 @@ class KafkaConsumerSuite extends FunSuite {
 
   trait aProducer {
     val sentinel = "foobar125"
-    val kafkaProducer: KafkaProducer = KafkaProducer(brokerList = "localhost:9092")
+    val kafkaProducer: KafkaProducer = KafkaProducer()
     kafkaProducer.send(sentinel)
   }
 
