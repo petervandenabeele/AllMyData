@@ -14,13 +14,17 @@ object FactsInserter {
   def main(args: Array[String]): Unit = {
     println("Starting AllMyData FactsInserter.main")
     val filename = "/Users/peter_v/data/private/data/input.csv"
-    insertFromFile(filename = filename)
+    val topic = args match {
+      case Array() => "test_001"
+      case Array(t)  => t
+    }
+    insertFromFile(filename = filename, topic = topic)
   }
 
-  def insertFromFile(filename: String): Unit = {
+  def insertFromFile(filename: String, topic: String): Unit = {
     val file = scala.io.Source.fromFile(filename)
     val factIterator = reader(file)
-    val kafkaProducer = KafkaProducer()
+    val kafkaProducer = KafkaProducer(topic = topic)
     val factEncoder = new FactEncoder()
     factIterator.foreach(fact => {
       kafkaProducer.send(factEncoder.toBytes(fact), null)
