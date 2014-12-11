@@ -33,7 +33,7 @@ class FactsInserterSuite extends FunSuite {
 
     assert(fact.predicate === "atd:foo")
     assert(fact.objectType === "s")
-    assert(fact.objectValue === "bar")
+    assert(fact.objectValue === "bar and café")
   }
 
   test("one_fact.csv creates 3 facts for one resource") {
