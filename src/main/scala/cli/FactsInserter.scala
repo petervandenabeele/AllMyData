@@ -40,26 +40,41 @@ object FactsInserter {
 
     file.getLines().map[Fact](line => {
       val elements:Array[String] = line.split(",", 7)
+      val local_context_string = elements(0)
       val local_subject_string = elements(2)
       val predicate = elements(4)
       val objectType = elements(5)
       val objectValue = elements(6)
 
-      val local_id: Option[Int] = local_subject_string match {
+      val local_context_id: Option[Int] = local_context_string match {
         case "" => None
-        case _ => Some(local_subject_string.toInt)
+        case _ => Some(local_context_string.toInt)
       }
-      val subjectOption = local_id match {
+
+      val contextOption = local_context_id match {
         case None => None
         case Some(i) => subjects.get(i)
       }
+
+      val local_subject_id: Option[Int] = local_subject_string match {
+        case "" => None
+        case _ => Some(local_subject_string.toInt)
+      }
+
+      val subjectOption = local_subject_id match {
+        case None => None
+        case Some(i) => subjects.get(i)
+      }
+
       val fact = factFrom_CSV_Line(
         predicate = predicate,
         objectType = objectType,
         objectValue = objectValue,
+        contextOption = contextOption,
         subjectOption = subjectOption)
-      if (subjectOption.isEmpty && local_id.nonEmpty) {
-        subjects += (local_id.get -> fact.subject)
+
+      if (subjectOption.isEmpty && local_subject_id.nonEmpty) {
+        subjects += (local_subject_id.get -> fact.subject)
       }
       fact
     })
@@ -68,10 +83,17 @@ object FactsInserter {
   def factFrom_CSV_Line(predicate: ATD_Predicate,
                         objectType: ATD_ObjectType,
                         objectValue: ATD_ObjectValue,
+                        contextOption: Option[ATD_Context],
                         subjectOption: Option[ATD_Subject]) = {
+    val context = contextOption match {
+      case Some(c) => c
+      case None => ""
+    }
+
     subjectOption match {
       case Some(subject) =>
         Fact(
+          context = context,
           subject = subject,
           predicate = predicate,
           objectType = objectType,
@@ -79,6 +101,7 @@ object FactsInserter {
         )
       case None =>
         Fact(
+          context = context,
           predicate = predicate,
           objectType = objectType,
           objectValue = objectValue
