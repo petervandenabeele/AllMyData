@@ -17,12 +17,13 @@ class FactDecoder(props: VerifiableProperties = null) extends Decoder[Fact]{
 
   def fromBytes(bytes: Array[Byte]): Fact = {
     val string = new String(bytes, encoding)
-    val elements = string.split(",", 6)
+    val elements = string.split(",", 7)
     Fact(timeStamp = elements(0),
       uuid = elements(1),
-      subject = elements(2),
-      predicate = elements(3),
-      objectType = elements(4),
-      objectValue = elements(5))
+      context = elements(2),
+      subject = elements(3),
+      predicate = elements(4),
+      objectType = elements(5),
+      objectValue = elements(6))
   }
 }

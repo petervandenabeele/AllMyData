@@ -4,7 +4,6 @@
 
 package encoding
 
-import java.time.LocalDateTime
 import base.Fact
 import kafkaStreaming.KafkaProducer
 
@@ -17,16 +16,18 @@ class FactEncoderSuite extends FunSuite {
 
   trait testFooBar {
     val subject = "88301684-3859-4f70-8f90-2c7a90256268"
-    val fact1 =
-      Fact(subject = subject,
-        predicate = "atd:foo",
-        objectType = "s",
-        objectValue = "Bar")
-    val fact2 =
-      Fact(subject = subject,
-        predicate = "atd:bar",
-        objectType = "s",
-        objectValue = "Tux\nPing")
+    val context = "99412745-496a-4081-8f90-2c7a90256269"
+    val fact_1 = Fact(
+          subject = subject,
+          predicate = "atd:foo",
+          objectType = "s",
+          objectValue = "Bar")
+    val fact_2 = Fact(
+          context = context,
+          subject = subject,
+          predicate = "atd:bar",
+          objectType = "s",
+          objectValue = "Tux\nPing , , ")
   }
 
   test("FactEncoder can be instantiated") {
@@ -36,19 +37,14 @@ class FactEncoderSuite extends FunSuite {
   test("FactEncoder does encoding") {
     new testFooBar {
       val factEncoder = new FactEncoder()
-      val kafkaProducer = KafkaProducer()
-      val partition = null
-
-      val encoded = factEncoder.toBytes(fact1)
+      val encoded = factEncoder.toBytes(fact_1)
     }
   }
 
-  test("FactEncoder does encoding with newline in the string") {
+  test("FactEncoder does encoding with newline, comma, context") {
     new testFooBar {
       val factEncoder = new FactEncoder()
-      val kafkaProducer = KafkaProducer()
-
-      val endoced = factEncoder.toBytes(fact2)
+      val encoded = factEncoder.toBytes(fact_2)
     }
   }
 
@@ -56,7 +52,7 @@ class FactEncoderSuite extends FunSuite {
     new testFooBar {
       val factEncoder = new FactEncoder()
       val kafkaProducer = KafkaProducer()
-      kafkaProducer.send(factEncoder.toBytes(fact2), null)
+      kafkaProducer.send(factEncoder.toBytes(fact_2), null)
     }
   }
 }
