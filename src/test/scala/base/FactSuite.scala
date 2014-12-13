@@ -107,5 +107,13 @@ class FactSuite extends FunSuite {
       assert(timeStamp.size === 29)
     }
   }
+
+  test("Fact only accepts predicates from a list") {
+    intercept[IllegalArgumentException] {
+      Fact(predicate = "atd:foobar", // not valid
+        objectType = "s",
+        objectValue = "Bar")
+    }
+  }
 }
 
