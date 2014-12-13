@@ -77,11 +77,11 @@ class FactsInserterSuite extends FunSuite {
 
     assert(facts.size === 5)
 
-    assert(context_1.predicate === "atd:prov:source")
+    assert(context_1.predicate === "atd:context:source")
     assert(context_1.objectType === "s")
     assert(context_1.objectValue === "me")
 
-    assert(context_2.predicate === "atd:prov:ingress_time")
+    assert(context_2.predicate === "atd:context:ingress_time")
     assert(context_2.objectType === "s")
     assert(context_2.objectValue === "2014-12-12T22:13:00")
 
