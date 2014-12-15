@@ -18,7 +18,7 @@ case class Fact (timeStamp: ATD_TimeStamp = ZonedDateTime.now(ZoneId.of("UTC")).
                  objectType: ATD_ObjectType,
                  objectValue: ATD_ObjectValue) {
 
-  val filename = "/legal_predicates.csv"
+  val filename = "/predicates/legal_predicates.csv"
   val file = scala.io.Source.fromURL(getClass.getResource(filename))
   val legalPredicates: Set[String] =
     file.getLines().map(line => {
