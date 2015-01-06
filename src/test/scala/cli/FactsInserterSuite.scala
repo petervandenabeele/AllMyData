@@ -134,4 +134,31 @@ class FactsInserterSuite extends FunSuite {
     assert(fact_2.objectType === "s")
     assert(fact_2.objectValue === "foo")
   }
+
+  test("two_facts_with_csv_reference.csv links object first resource") {
+    val filename = "/two_facts_with_csv_reference.csv"
+    val file = scala.io.Source.fromURL(getClass.getResource(filename))
+    val factIterator = reader(file)
+    val facts: Array[Fact] = factIterator.toArray
+
+    val context_1 = facts(0)
+    val context_2 = facts(1)
+    val fact_1 = facts(2)
+    val fact_2 = facts(3)
+
+    assert(facts.size === 4)
+
+    val context_subject_1 = context_1.subject
+    val context_subject_2 = context_2.subject
+
+    assert(fact_1.context === context_subject_1)
+    assert(fact_1.predicate === "atd:foo")
+    assert(fact_1.objectType === "s")
+    assert(fact_1.objectValue === "bar")
+
+    assert(fact_2.context === context_subject_2)
+    assert(fact_2.predicate === "atd:bar")
+    assert(fact_2.objectType === "r")
+    assert(fact_2.objectValue === fact_1.subject)
+  }
 }

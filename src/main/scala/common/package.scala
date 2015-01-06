@@ -18,10 +18,10 @@ package object common {
 
 // ATD_ObjectType describes the type ObjectValue is one of:
 // s : string (most generic)
-// R : reference (to a number in the CSV input, translated to a uuid (u))
+// c : csv_reference (to a number in the CSV input, translated to a uuid (u))
 // t : time (date and/or time ISO, with up to 9 decimals for nanoseconds)
-// r : URI (and external URI, may include prefixes)
-// u : uuid (as UUID in 32 char or other formats)
+// u : URI (and external URI, may include prefixes)
+// r : reference (to the subject of a resource, e.g. as a UUID)
 // i : integer (can be signed)
 // d : decimal
 // f : float (arbitrary precision)

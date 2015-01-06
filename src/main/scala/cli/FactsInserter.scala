@@ -66,19 +66,23 @@ object FactsInserter {
         case Some(i) => subjects.get(i)
       }
 
-      val objectType = csvObjectType
-      val objectValue = csvObjectValue
+      val objectTypeValuePair =
+        if (csvObjectType == "c")
+          ("r", subjects.get(csvObjectValue.toInt).get)
+        else
+          (csvObjectType, csvObjectValue)
 
       val fact = factFrom_CSV_Line(
         predicate = predicate,
-        objectType = objectType,
-        objectValue = objectValue,
+        objectType = objectTypeValuePair._1,
+        objectValue = objectTypeValuePair._2,
         contextOption = contextOption,
         subjectOption = subjectOption)
 
       if (subjectOption.isEmpty && local_subject_id.nonEmpty) {
         subjects += (local_subject_id.get -> fact.subject)
       }
+
       fact
     })
   }
