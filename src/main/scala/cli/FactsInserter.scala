@@ -34,7 +34,7 @@ object FactsInserter {
   // reading from a CSV with structure (7 fields, last field no newlines)
   // local_context | context_uuid |
   // local_subject | subject_uuid |
-  // predicate | objestType | object Value
+  // predicate | objectType | objectValue
   def reader(file: BufferedSource): Iterator[Fact] = {
     var subjects = scala.collection.mutable.Map[Int, ATD_Subject]()
 
@@ -43,8 +43,8 @@ object FactsInserter {
       val local_context_string = elements(0)
       val local_subject_string = elements(2)
       val predicate = elements(4)
-      val objectType = elements(5)
-      val objectValue = elements(6)
+      val csvObjectType = elements(5)
+      val csvObjectValue = elements(6)
 
       val local_context_id: Option[Int] = local_context_string match {
         case "" => None
@@ -65,6 +65,9 @@ object FactsInserter {
         case None => None
         case Some(i) => subjects.get(i)
       }
+
+      val objectType = csvObjectType
+      val objectValue = csvObjectValue
 
       val fact = factFrom_CSV_Line(
         predicate = predicate,
