@@ -15,3 +15,13 @@ package object common {
 
   type FactStream = Stream[Fact]
 }
+
+// ATD_ObjectType describes the type ObjectValue is one of:
+// s : string (most generic)
+// R : reference (to a number in the CSV input, translated to a uuid (u))
+// t : time (date and/or time ISO, with up to 9 decimals for nanoseconds)
+// r : URI (and external URI, may include prefixes)
+// u : uuid (as UUID in 32 char or other formats)
+// i : integer (can be signed)
+// d : decimal
+// f : float (arbitrary precision)
