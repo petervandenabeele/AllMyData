@@ -13,7 +13,8 @@ package object common {
   type ATD_ObjectType = String
   type ATD_ObjectValue = String
 
-  type FactStream = Stream[Fact]
+  type FactWithStatus = (Fact, Option[String])
+  type FactIterator = Iterator[FactWithStatus]
 }
 
 // ATD_ObjectType describes the type ObjectValue is one of:

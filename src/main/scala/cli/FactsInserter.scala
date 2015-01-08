@@ -26,8 +26,9 @@ object FactsInserter {
     val factIterator = reader(file)
     val kafkaProducer = KafkaProducer(topic = topic)
     val factEncoder = new FactEncoder()
-    factIterator.foreach(fact => {
-      kafkaProducer.send(factEncoder.toBytes(fact), null)
+    factIterator.foreach(factWithStatus => {
+      val fact = factWithStatus._1
+      kafkaProducer.send (factEncoder.toBytes (fact), null)
     })
   }
 
@@ -35,10 +36,10 @@ object FactsInserter {
   // local_context | context_uuid |
   // local_subject | subject_uuid |
   // predicate | objectType | objectValue
-  def reader(file: BufferedSource): Iterator[Fact] = {
+  def reader(file: BufferedSource): FactIterator = {
     var subjects = scala.collection.mutable.Map[Int, ATD_Subject]()
 
-    file.getLines().map[Fact](line => {
+    file.getLines().map[(Fact, Option[String])] (line => {
       val elements:Array[String] = line.split(",", 7)
       val local_context_string = elements(0)
       val local_subject_string = elements(2)
@@ -89,8 +90,7 @@ object FactsInserter {
       if (subjectOption.isEmpty && local_subject_id.nonEmpty) {
         subjects += (local_subject_id.get -> fact.subject)
       }
-
-      fact
+      (fact, None)
     })
   }
 

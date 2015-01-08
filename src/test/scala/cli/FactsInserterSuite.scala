@@ -5,6 +5,7 @@
 package cli
 
 import base.Fact
+import common.{FactIterator, FactWithStatus}
 import org.scalatest.FunSuite
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
@@ -28,8 +29,9 @@ class FactsInserterSuite extends FunSuite {
   test("Object FactsInserter can read a simple CSV file") {
     val filename = "/simple_CSV_file.csv"
     val file = scala.io.Source.fromURL(getClass.getResource(filename))
-    val factIterator = reader(file)
-    val fact: Fact = factIterator.find(fact => true).get
+    val factIterator: FactIterator = reader(file)
+    val factWithStatus: FactWithStatus = factIterator.next()
+    val fact = factWithStatus._1
 
     assert(fact.predicate === "atd:foo")
     assert(fact.objectType === "s")
@@ -39,8 +41,8 @@ class FactsInserterSuite extends FunSuite {
   test("one_fact.csv creates 3 facts for one resource") {
     val filename = "/one_fact.csv"
     val file = scala.io.Source.fromURL(getClass.getResource(filename))
-    val factIterator = reader(file)
-    val facts: Array[Fact] = factIterator.toArray
+    val factIterator: FactIterator = reader(file)
+    val facts: Array[Fact] = factIterator.map(p => p._1).toArray
     val fact_1 = facts(0)
     val fact_2 = facts(1)
     val fact_3 = facts(2)
@@ -67,8 +69,8 @@ class FactsInserterSuite extends FunSuite {
   test("one_fact_with_context.csv creates 1 context and 3 facts") {
     val filename = "/one_fact_with_context.csv"
     val file = scala.io.Source.fromURL(getClass.getResource(filename))
-    val factIterator = reader(file)
-    val facts: Array[Fact] = factIterator.toArray
+    val factIterator: FactIterator = reader(file)
+    val facts: Array[Fact] = factIterator.map(p => p._1).toArray
     val context_1 = facts(0)
     val context_2 = facts(1)
     val fact_1 = facts(2)
@@ -111,8 +113,8 @@ class FactsInserterSuite extends FunSuite {
   test("two_facts_with_context.csv 2 contexts for 2 facts") {
     val filename = "/two_facts_with_context.csv"
     val file = scala.io.Source.fromURL(getClass.getResource(filename))
-    val factIterator = reader(file)
-    val facts: Array[Fact] = factIterator.toArray
+    val factIterator: FactIterator = reader(file)
+    val facts: Array[Fact] = factIterator.map(p => p._1).toArray
 
     val context_1 = facts(0)
     val context_2 = facts(1)
@@ -138,8 +140,8 @@ class FactsInserterSuite extends FunSuite {
   test("two_facts_with_csv_reference.csv links object first resource") {
     val filename = "/two_facts_with_csv_reference.csv"
     val file = scala.io.Source.fromURL(getClass.getResource(filename))
-    val factIterator = reader(file)
-    val facts: Array[Fact] = factIterator.toArray
+    val factIterator: FactIterator = reader(file)
+    val facts: Array[Fact] = factIterator.map(p => p._1).toArray
 
     val context_1 = facts(0)
     val context_2 = facts(1)
