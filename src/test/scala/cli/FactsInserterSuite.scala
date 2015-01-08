@@ -161,4 +161,13 @@ class FactsInserterSuite extends FunSuite {
     assert(fact_2.objectType === "r")
     assert(fact_2.objectValue === fact_1.subject)
   }
+
+  test("two_facts_with_invalid_csv_reference.csv raises Exception") {
+    val filename = "/two_facts_with_invalid_csv_reference.csv"
+    val file = scala.io.Source.fromURL(getClass.getResource(filename))
+
+    intercept[RuntimeException] {
+      reader(file).toArray
+    }
+  }
 }

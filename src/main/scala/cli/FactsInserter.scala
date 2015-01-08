@@ -67,8 +67,15 @@ object FactsInserter {
       }
 
       val objectTypeValuePair =
-        if (csvObjectType == "c")
-          ("r", subjects.get(csvObjectValue.toInt).get)
+        if (csvObjectType == "c") {
+          val ObjectValueOption = subjects.get(csvObjectValue.toInt)
+          val ObjectValue =
+            if(ObjectValueOption.isEmpty)
+              throw new RuntimeException(s"The csvObjectValue $csvObjectValue was not previously defined")
+            else
+              ObjectValueOption.get
+          ("r", ObjectValue)
+        }
         else
           (csvObjectType, csvObjectValue)
 
