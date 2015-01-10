@@ -164,8 +164,8 @@ class FactsInserterSuite extends FunSuite {
     assert(fact_2.objectValue === fact_1.subject)
   }
 
-  test("two_facts_with_invalid_csv_reference.csv results in a failure for the second fact") {
-    val filename = "/two_facts_with_invalid_csv_reference.csv"
+  test("three_facts_with_invalid_csv_reference.csv reports error and keeps reading after the invalid fact") {
+    val filename = "/three_facts_with_invalid_csv_reference.csv"
     val file = scala.io.Source.fromURL(getClass.getResource(filename))
 
     val factIterator: FactIterator = reader(file)
@@ -175,13 +175,20 @@ class FactsInserterSuite extends FunSuite {
     val context_1 = facts(0)
     val context_2 = facts(1)
     val fact_1 = facts(2)
+    val fact_3 = facts(3)
 
     val context_subject_1 = context_1.subject
+    val context_subject_2 = context_2.subject
 
     assert(fact_1.context === context_subject_1)
     assert(fact_1.predicate === "atd:foo")
     assert(fact_1.objectType === "s")
     assert(fact_1.objectValue === "bar")
+
+    assert(fact_3.context === context_subject_2)
+    assert(fact_3.predicate === "atd:bar")
+    assert(fact_3.objectType === "r")
+    assert(fact_3.objectValue === fact_1.subject)
 
     val errors: Array[String] = factsWithStatusses.filter(p => p._1.isEmpty).map(p => p._2.get)
 
