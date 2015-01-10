@@ -27,8 +27,9 @@ object FactsInserter {
     val kafkaProducer = KafkaProducer(topic = topic)
     val factEncoder = new FactEncoder()
     factIterator.foreach(factWithStatus => {
-      val fact = factWithStatus._1
-      kafkaProducer.send (factEncoder.toBytes (fact), null)
+      val factOption: Option[Fact] = factWithStatus._1
+      if (factOption.nonEmpty)
+        kafkaProducer.send (factEncoder.toBytes(factOption.get), null)
     })
   }
 
@@ -39,7 +40,7 @@ object FactsInserter {
   def reader(file: BufferedSource): FactIterator = {
     var subjects = scala.collection.mutable.Map[Int, ATD_Subject]()
 
-    file.getLines().map[(Fact, Option[String])] (line => {
+    file.getLines().map[FactWithStatus] (line => {
       val elements:Array[String] = line.split(",", 7)
       val local_context_string = elements(0)
       val local_subject_string = elements(2)
@@ -67,30 +68,37 @@ object FactsInserter {
         case Some(i) => subjects.get(i)
       }
 
-      val objectTypeValuePair =
+      val objectTypeValueTriple : (String, Option[String], Option[String]) =
         if (csvObjectType == "c") {
-          val ObjectValueOption = subjects.get(csvObjectValue.toInt)
-          val ObjectValue =
-            if(ObjectValueOption.isEmpty)
-              throw new RuntimeException(s"The csvObjectValue $csvObjectValue was not previously defined")
+          val objectValueOption = subjects.get(csvObjectValue.toInt)
+          val errorOption =
+            if (objectValueOption.nonEmpty)
+              None
             else
-              ObjectValueOption.get
-          ("r", ObjectValue)
+              Some(s"csvObjectValue $csvObjectValue could not be found")
+          ("r", objectValueOption, errorOption)
         }
         else
-          (csvObjectType, csvObjectValue)
+          (csvObjectType, Some(csvObjectValue), None)
 
-      val fact = factFrom_CSV_Line(
-        predicate = predicate,
-        objectType = objectTypeValuePair._1,
-        objectValue = objectTypeValuePair._2,
-        contextOption = contextOption,
-        subjectOption = subjectOption)
+      val factOption =
+        if (objectTypeValueTriple._2 == None)
+          None
+        else
+          Some(factFrom_CSV_Line(
+            predicate = predicate,
+            objectType = objectTypeValueTriple._1,
+            objectValue = objectTypeValueTriple._2.get,
+            contextOption = contextOption,
+            subjectOption = subjectOption))
 
-      if (subjectOption.isEmpty && local_subject_id.nonEmpty) {
-        subjects += (local_subject_id.get -> fact.subject)
+      if (subjectOption.isEmpty && local_subject_id.nonEmpty && factOption.nonEmpty) {
+        subjects += (local_subject_id.get -> factOption.get.subject)
       }
-      (fact, None)
+
+      val errorOption = objectTypeValueTriple._3
+
+      (factOption, errorOption)
     })
   }
 

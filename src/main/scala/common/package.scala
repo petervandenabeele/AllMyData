@@ -13,7 +13,7 @@ package object common {
   type ATD_ObjectType = String
   type ATD_ObjectValue = String
 
-  type FactWithStatus = (Fact, Option[String])
+  type FactWithStatus = (Option[Fact], Option[String])
   type FactIterator = Iterator[FactWithStatus]
 }
 

@@ -31,7 +31,7 @@ class FactsInserterSuite extends FunSuite {
     val file = scala.io.Source.fromURL(getClass.getResource(filename))
     val factIterator: FactIterator = reader(file)
     val factWithStatus: FactWithStatus = factIterator.next()
-    val fact = factWithStatus._1
+    val fact = factWithStatus._1.get
 
     assert(fact.predicate === "atd:foo")
     assert(fact.objectType === "s")
@@ -42,7 +42,7 @@ class FactsInserterSuite extends FunSuite {
     val filename = "/one_fact.csv"
     val file = scala.io.Source.fromURL(getClass.getResource(filename))
     val factIterator: FactIterator = reader(file)
-    val facts: Array[Fact] = factIterator.map(p => p._1).toArray
+    val facts: Array[Fact] = factIterator.map(p => p._1.get).toArray
     val fact_1 = facts(0)
     val fact_2 = facts(1)
     val fact_3 = facts(2)
@@ -70,7 +70,7 @@ class FactsInserterSuite extends FunSuite {
     val filename = "/one_fact_with_context.csv"
     val file = scala.io.Source.fromURL(getClass.getResource(filename))
     val factIterator: FactIterator = reader(file)
-    val facts: Array[Fact] = factIterator.map(p => p._1).toArray
+    val facts: Array[Fact] = factIterator.map(p => p._1.get).toArray
     val context_1 = facts(0)
     val context_2 = facts(1)
     val fact_1 = facts(2)
@@ -114,7 +114,7 @@ class FactsInserterSuite extends FunSuite {
     val filename = "/two_facts_with_context.csv"
     val file = scala.io.Source.fromURL(getClass.getResource(filename))
     val factIterator: FactIterator = reader(file)
-    val facts: Array[Fact] = factIterator.map(p => p._1).toArray
+    val facts: Array[Fact] = factIterator.map(p => p._1.get).toArray
 
     val context_1 = facts(0)
     val context_2 = facts(1)
@@ -141,7 +141,7 @@ class FactsInserterSuite extends FunSuite {
     val filename = "/two_facts_with_csv_reference.csv"
     val file = scala.io.Source.fromURL(getClass.getResource(filename))
     val factIterator: FactIterator = reader(file)
-    val facts: Array[Fact] = factIterator.map(p => p._1).toArray
+    val facts: Array[Fact] = factIterator.map(p => p._1.get).toArray
 
     val context_1 = facts(0)
     val context_2 = facts(1)
@@ -164,12 +164,31 @@ class FactsInserterSuite extends FunSuite {
     assert(fact_2.objectValue === fact_1.subject)
   }
 
-  test("two_facts_with_invalid_csv_reference.csv raises Exception") {
+  test("two_facts_with_invalid_csv_reference.csv results in a failure for the second fact") {
     val filename = "/two_facts_with_invalid_csv_reference.csv"
     val file = scala.io.Source.fromURL(getClass.getResource(filename))
 
-    intercept[RuntimeException] {
-      reader(file).toArray
-    }
+    val factIterator: FactIterator = reader(file)
+    val factsWithStatusses = factIterator.toArray
+    val facts: Array[Fact] = factsWithStatusses.filter(p => p._1.nonEmpty).map(p => p._1.get)
+
+    val context_1 = facts(0)
+    val context_2 = facts(1)
+    val fact_1 = facts(2)
+
+    val context_subject_1 = context_1.subject
+
+    assert(fact_1.context === context_subject_1)
+    assert(fact_1.predicate === "atd:foo")
+    assert(fact_1.objectType === "s")
+    assert(fact_1.objectValue === "bar")
+
+    val errors: Array[String] = factsWithStatusses.filter(p => p._1.isEmpty).map(p => p._2.get)
+
+    assert(errors.size === 1)
+
+    val error_1 = errors(0)
+
+    assert(error_1 === "csvObjectValue 15 could not be found")
   }
 }
