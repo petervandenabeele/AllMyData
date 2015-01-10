@@ -69,17 +69,19 @@ object FactsInserter {
       }
 
       val objectTypeValueTriple : (String, Option[String], Option[String]) =
-        if (csvObjectType == "c") {
-          val objectValueOption = subjects.get(csvObjectValue.toInt)
-          val errorOption =
-            if (objectValueOption.nonEmpty)
-              None
-            else
-              Some(s"csvObjectValue $csvObjectValue could not be found")
-          ("r", objectValueOption, errorOption)
+        csvObjectType match {
+          case "" => ("", None, None)
+          case "c" => {
+            val objectValueOption = subjects.get(csvObjectValue.toInt)
+            val errorOption =
+              if (objectValueOption.nonEmpty)
+                None
+              else
+                Some(s"csvObjectValue $csvObjectValue could not be found")
+            ("r", objectValueOption, errorOption)
+          }
+          case _ => (csvObjectType, Some(csvObjectValue), None)
         }
-        else
-          (csvObjectType, Some(csvObjectValue), None)
 
       val factOption =
         if (objectTypeValueTriple._2 == None)
@@ -99,7 +101,7 @@ object FactsInserter {
       val errorOption = objectTypeValueTriple._3
 
       (factOption, errorOption)
-    })
+    }).filter(factWithStatus => factWithStatus._1.nonEmpty || factWithStatus._2.nonEmpty)
   }
 
   def factFrom_CSV_Line(predicate: ATD_Predicate,

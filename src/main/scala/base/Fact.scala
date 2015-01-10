@@ -21,10 +21,7 @@ case class Fact (timeStamp: ATD_TimeStamp = ZonedDateTime.now(ZoneId.of("UTC")).
   val filename = "/predicates/legal_predicates.csv"
   val file = scala.io.Source.fromURL(getClass.getResource(filename))
   val legalPredicates: Set[String] =
-    file.getLines().map(line => {
-      val elements:Array[String] = line.split(",", 1)
-      elements(0)}
-    ).toSet
+    file.getLines().map(line => line.split(",", 1)(0)).toSet
 
   if(!legalPredicates.contains(predicate))
     throw new IllegalArgumentException(s"The predicate $predicate is not in list of legalPredicates")
