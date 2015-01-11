@@ -82,15 +82,12 @@ object CSV_Reader {
     }).filter(factWithStatus => factWithStatus._1.nonEmpty || factWithStatus._2.nonEmpty)
   }
 
-  def factFrom_CSV_Line(predicate: ATD_Predicate,
+  private def factFrom_CSV_Line(predicate: ATD_Predicate,
                         objectType: ATD_ObjectType,
                         objectValue: ATD_ObjectValue,
                         contextOption: Option[ATD_Context],
                         subjectOption: Option[ATD_Subject]) = {
-    val context = contextOption match {
-      case Some(c) => c
-      case None => ""
-    }
+    val context = contextOption.getOrElse("")
 
     subjectOption match {
       case Some(subject) =>
