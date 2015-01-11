@@ -27,9 +27,11 @@ object FactsInserter {
     val kafkaProducer = KafkaProducer(topic = topic)
     val factEncoder = new FactEncoder()
     factIterator.foreach(factWithStatus => {
-      val factOption: Option[Fact] = factWithStatus._1
+      val (factOption, errorOption) = factWithStatus
       if (factOption.nonEmpty)
-        kafkaProducer.send (factEncoder.toBytes(factOption.get), null)
+        kafkaProducer.send(factEncoder.toBytes(factOption.get), null)
+      if (errorOption.nonEmpty)
+        println(s"ERROR: In ${filename} : ${errorOption.get}")
     })
   }
 }

@@ -116,4 +116,3 @@ class FactSuite extends FunSuite {
     }
   }
 }
-
