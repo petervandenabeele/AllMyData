@@ -12,7 +12,8 @@ import kafkaStreaming.KafkaProducer
 object FactsInserter {
   def main(args: Array[String]): Unit = {
     println("Starting AllMyData FactsInserter.main")
-    val filename = "/Users/peter_v/data/private/data/input/input.csv"
+    val homeDir = System.getProperty("user.home")
+    val filename = homeDir + "/data/private/data/input/input.csv"
     val topic = args match {
       case Array() => "test_001"
       case Array(t)  => t
