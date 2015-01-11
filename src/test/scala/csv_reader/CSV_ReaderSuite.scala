@@ -2,31 +2,27 @@
  * Created by peter_v on 04/12/14.
  */
 
-package cli
+package csv_reader
 
+import CSV_Reader.reader
 import base.Fact
 import common.{FactIterator, FactWithStatus}
-import org.scalatest.FunSuite
+
 import org.junit.runner.RunWith
+import org.scalatest.FunSuite
 import org.scalatest.junit.JUnitRunner
 
-import cli.FactsInserter.reader
-
 @RunWith(classOf[JUnitRunner])
-class FactsInserterSuite extends FunSuite {
+class CSV_ReaderSuite extends FunSuite {
 
-  test("Object FactsInserter exists") {
-    val insterter = FactsInserter
-  }
-
-  test("Object FactsInserter can read an empty CSV file") {
+  test("Object CSV_Reader can read an empty CSV file") {
     val filename = "/empty_CSV_file.csv"
     val file = scala.io.Source.fromURL(getClass.getResource(filename))
     val factIterator = reader(file)
     assert(factIterator.isEmpty)
   }
 
-  test("Object FactsInserter can read a simple CSV file") {
+  test("Object CSV_Reader can read a simple CSV file") {
     val filename = "/simple_CSV_file.csv"
     val file = scala.io.Source.fromURL(getClass.getResource(filename))
     val factIterator: FactIterator = reader(file)
