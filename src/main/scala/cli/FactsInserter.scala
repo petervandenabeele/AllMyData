@@ -4,7 +4,6 @@
 
 package cli
 
-import base.Fact
 import encoding.FactEncoder
 import csv_reader.CSV_Reader.reader
 

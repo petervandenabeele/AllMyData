@@ -46,29 +46,17 @@ object CSV_Reader {
         case Some(i) => subjects.get(i)
       }
 
-      val objectTypeValueTriple : (String, Option[String], Option[String]) =
-        csvObjectType match {
-          case "" => ("", None, None)
-          case "c" => {
-            val objectValueOption = subjects.get(csvObjectValue.toInt)
-            val errorOption =
-              if (objectValueOption.nonEmpty)
-                None
-              else
-                Some(s"csvObjectValue $csvObjectValue could not be found")
-            ("r", objectValueOption, errorOption)
-          }
-          case _ => (csvObjectType, Some(csvObjectValue), None)
-        }
+      val (objectType, objectValueOption, errorOption) = objectTypeValueTriple(
+        csvObjectType, csvObjectValue, subjects)
 
       val factOption =
-        if (objectTypeValueTriple._2 == None)
-          None
+        if (objectValueOption == None)
+          None // error occurred in finding link to objectValue in this file
         else
           Some(factFrom_CSV_Line(
             predicate = predicate,
-            objectType = objectTypeValueTriple._1,
-            objectValue = objectTypeValueTriple._2.get,
+            objectType = objectType,
+            objectValue = objectValueOption.get,
             contextOption = contextOption,
             subjectOption = subjectOption))
 
@@ -76,11 +64,30 @@ object CSV_Reader {
         subjects += (local_subject_id.get -> factOption.get.subject)
       }
 
-      val errorOption = objectTypeValueTriple._3
-
       (factOption, errorOption)
     }).filter(factWithStatus => factWithStatus._1.nonEmpty || factWithStatus._2.nonEmpty)
   }
+
+  private def objectTypeValueTriple(
+    csvObjectType: String,
+    csvObjectValue: String,
+    subjects: scala.collection.mutable.Map[Int, ATD_Subject]):
+
+    (String, Option[String], Option[String]) =
+
+      csvObjectType match {
+        case "" => ("", None, None) // empty line
+        case "c" => { // objectValue is link to earlier entry in this file
+          val objectValueOption = subjects.get(csvObjectValue.toInt)
+          val errorOption =
+            if (objectValueOption.nonEmpty)
+              None
+            else
+              Some(s"csvObjectValue $csvObjectValue could not be found")
+          ("r", objectValueOption, errorOption)
+        }
+        case _ => (csvObjectType, Some(csvObjectValue), None)
+      }
 
   private def factFrom_CSV_Line(predicate: ATD_Predicate,
                         objectType: ATD_ObjectType,
