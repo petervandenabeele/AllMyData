@@ -20,28 +20,28 @@ object CSV_Reader {
 
     file.getLines().map[FactWithStatus] (line => {
       val elements:Array[String] = line.split(",", 7)
-      val local_context_string = elements(0)
-      val local_subject_string = elements(2)
+      val localContextString = elements(0)
+      val localSubjectString = elements(2)
       val predicate = elements(4)
       val csvObjectType = elements(5)
       val csvObjectValue = elements(6)
 
-      val local_context_id: Option[Int] = local_context_string match {
+      val localContextId: Option[Int] = localContextString match {
         case "" => None
-        case _ => Some(local_context_string.toInt)
+        case _ => Some(localContextString.toInt)
       }
 
-      val contextOption = local_context_id match {
+      val contextOption = localContextId match {
         case None => None
         case Some(i) => subjects.get(i)
       }
 
-      val local_subject_id: Option[Int] = local_subject_string match {
+      val localSubjectId: Option[Int] = localSubjectString match {
         case "" => None
-        case _ => Some(local_subject_string.toInt)
+        case _ => Some(localSubjectString.toInt)
       }
 
-      val subjectOption = local_subject_id match {
+      val subjectOption = localSubjectId match {
         case None => None
         case Some(i) => subjects.get(i)
       }
@@ -60,8 +60,8 @@ object CSV_Reader {
             contextOption = contextOption,
             subjectOption = subjectOption))
 
-      if (subjectOption.isEmpty && local_subject_id.nonEmpty && factOption.nonEmpty) {
-        subjects += (local_subject_id.get -> factOption.get.subject)
+      if (subjectOption.isEmpty && localSubjectId.nonEmpty && factOption.nonEmpty) {
+        subjects += (localSubjectId.get -> factOption.get.subject)
       }
 
       (factOption, errorOption)
