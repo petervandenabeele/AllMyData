@@ -11,11 +11,14 @@ import scala.io.BufferedSource
 
 object CSV_Reader {
 
+  type SubjectsMap = scala.collection.mutable.Map[Int, ATD_Subject]
+
   // reading from a CSV with structure (7 fields, last field no newlines)
   // local_context | context_uuid |
   // local_subject | subject_uuid |
   // predicate | objectType | objectValue
   def reader(file: BufferedSource): FactIterator = {
+    // SubjectsMap() fails here
     var subjects = scala.collection.mutable.Map[Int, ATD_Subject]()
 
     file.getLines().map[FactWithStatus] (line => {
@@ -26,52 +29,48 @@ object CSV_Reader {
       val csvObjectType = elements(5)
       val csvObjectValue = elements(6)
 
-      val localContextId: Option[Int] = localContextString match {
-        case "" => None
-        case _ => Some(localContextString.toInt)
-      }
-
-      val contextOption = localContextId match {
-        case None => None
-        case Some(i) => subjects.get(i)
-      }
-
-      val localSubjectId: Option[Int] = localSubjectString match {
-        case "" => None
-        case _ => Some(localSubjectString.toInt)
-      }
-
-      val subjectOption = localSubjectId match {
-        case None => None
-        case Some(i) => subjects.get(i)
-      }
+      val (_, contextOption) = getSubjectFromCache(localContextString, subjects)
+      val (subjectIdOption, subjectOption) = getSubjectFromCache(localSubjectString, subjects)
 
       val (objectType, objectValueOption, errorOption) = objectTypeValueTriple(
         csvObjectType, csvObjectValue, subjects)
 
-      val factOption =
-        if (objectValueOption == None)
-          None // error occurred in finding link to objectValue in this file
-        else
-          Some(factFrom_CSV_Line(
-            predicate = predicate,
-            objectType = objectType,
-            objectValue = objectValueOption.get,
-            contextOption = contextOption,
-            subjectOption = subjectOption))
 
-      if (subjectOption.isEmpty && localSubjectId.nonEmpty && factOption.nonEmpty) {
-        subjects += (localSubjectId.get -> factOption.get.subject)
+      if (objectValueOption == None)
+        // error occurred in finding link to objectValue in this file
+        (None, errorOption)
+      else {
+        val fact = factFrom_CSV_Line(
+          predicate = predicate,
+          objectType = objectType,
+          objectValue = objectValueOption.get,
+          contextOption = contextOption,
+          subjectOption = subjectOption)
+
+        if (subjectOption.isEmpty && subjectIdOption.nonEmpty) {
+          subjects += (subjectIdOption.get -> fact.subject)
+        }
+        (Some(fact), None)
       }
-
-      (factOption, errorOption)
     }).filter(factWithStatus => factWithStatus._1.nonEmpty || factWithStatus._2.nonEmpty)
+  }
+
+  private def getSubjectFromCache(csvReference: String, subjects: SubjectsMap):(Option[Int], Option[ATD_Subject]) = {
+    val subjectIdOption: Option[Int] = csvReference match {
+      case "" => None
+      case s => Some(s.toInt)
+    }
+    val subjectOption = subjectIdOption match {
+      case None => None
+      case Some(i) => subjects.get(i)
+    }
+    (subjectIdOption, subjectOption)
   }
 
   private def objectTypeValueTriple(
     csvObjectType: String,
     csvObjectValue: String,
-    subjects: scala.collection.mutable.Map[Int, ATD_Subject]):
+    subjects: SubjectsMap):
 
     (String, Option[String], Option[String]) =
 
