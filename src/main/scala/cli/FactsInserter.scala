@@ -5,7 +5,7 @@
 package cli
 
 import encoding.FactEncoder
-import csv_reader.CSV_Reader.reader
+import csv.CSV_FactReader.reader
 
 import kafkaStreaming.KafkaProducer
 

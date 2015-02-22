@@ -2,9 +2,9 @@
  * Created by peter_v on 04/12/14.
  */
 
-package csv_reader
+package csv
 
-import CSV_Reader.reader
+import CSV_FactReader.reader
 import base.Fact
 import common.{FactIterator, FactWithStatus}
 
@@ -13,7 +13,7 @@ import org.scalatest.FunSuite
 import org.scalatest.junit.JUnitRunner
 
 @RunWith(classOf[JUnitRunner])
-class CSV_ReaderSuite extends FunSuite {
+class CSV_EventReaderSuite extends FunSuite {
 
   test("Object CSV_Reader can read an empty CSV file") {
     val filename = "/empty_CSV_file.csv"

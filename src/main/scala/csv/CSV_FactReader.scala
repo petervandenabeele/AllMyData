@@ -2,14 +2,14 @@
  * Created by peter_v on 11/01/15.
  */
 
-package csv_reader
+package csv
 
 import base.Fact
 import common._
 
 import scala.io.BufferedSource
 
-object CSV_Reader {
+object CSV_FactReader {
 
   // reading from a CSV with structure (7 fields, last field no newlines)
   // local_context | context_uuid |
