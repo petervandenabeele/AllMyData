@@ -2,7 +2,7 @@
   * Created by peter_v on 21/11/14.
  */
 
-import base.Fact
+import base.{Fact,Resource,Event}
 
 package object common {
   type ATD_TimeStamp = String
@@ -14,7 +14,9 @@ package object common {
   type ATD_ObjectValue = String
 
   type FactWithStatus = (Option[Fact], Option[String])
+  type EventByResource = (Option[(Resource, Event)], Option[String])
   type FactIterator = Iterator[FactWithStatus]
+  type EventByResourceIterator = Iterator[EventByResource]
 }
 
 // ATD_ObjectType describes the type ObjectValue is one of:
