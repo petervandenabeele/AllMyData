@@ -15,7 +15,7 @@ class ResourceSuite extends FunSuite {
     val resource = Resource()
   }
 
-  test("Event can be created without the default arguments") {
+  test("Resource can be created without the default arguments") {
     new testResource {
       assert(resource == Resource())
     }
