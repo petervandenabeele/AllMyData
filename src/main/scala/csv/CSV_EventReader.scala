@@ -13,13 +13,10 @@ object CSV_EventReader {
 
   def eventByResourceReader(file: BufferedSource): EventByResourceIterator = {
     val potential_headers = file.getLines().take(1)
-    if (potential_headers.hasNext) {
-      val headers = potential_headers.next
-      file.getLines().drop(1).map[EventByResource](line => {
-        (Some(Resource(), Event()), None)
-      })
-    } else {
-      Iterator.empty
-    }
+    if (! potential_headers.hasNext) return Iterator.empty
+    val headers = potential_headers.next
+    file.getLines().drop(1).map[EventByResource](line => {
+      (Some(Resource(), Event()), None)
+    })
   }
 }
