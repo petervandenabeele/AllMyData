@@ -18,4 +18,11 @@ class CSV_EventReaderSuite extends FunSuite {
     val eventByResourceIterator = eventByResourceReader(file)
     assert(eventByResourceIterator.isEmpty)
   }
+
+  test("Object CSV_EventReader can read a CSV file with a header line") {
+    val filename = "/event_csv/header.csv"
+    val file = scala.io.Source.fromURL(getClass.getResource(filename))
+    val eventByResourceIterator = eventByResourceReader(file)
+    assert(eventByResourceIterator.isEmpty)
+  }
 }
