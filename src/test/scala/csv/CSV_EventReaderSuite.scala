@@ -5,6 +5,7 @@
 package csv
 
 import base.EventByResource
+import common._
 import csv.CSV_EventReader.eventByResourceReader
 import org.junit.runner.RunWith
 import org.scalatest.FunSuite
@@ -13,32 +14,26 @@ import org.scalatest.junit.JUnitRunner
 @RunWith(classOf[JUnitRunner])
 class CSV_EventReaderSuite extends FunSuite {
 
-  test("Object CSV_EventReader can read an empty CSV file") {
-    val filename = "/empty_CSV_file.csv"
+  def eventByResourceIterator(filename: String): EventByResourceIterator = {
     val file = scala.io.Source.fromURL(getClass.getResource(filename))
-    val eventByResourceIterator = eventByResourceReader(file)
-    assert(eventByResourceIterator.isEmpty)
+    eventByResourceReader(file)
+  }
+
+  test("Object CSV_EventReader can read an empty CSV file") {
+    assert(eventByResourceIterator("/empty_CSV_file.csv").isEmpty)
   }
 
   test("Object CSV_EventReader can read a CSV file with a header line") {
-    val filename = "/event_csv/header.csv"
-    val file = scala.io.Source.fromURL(getClass.getResource(filename))
-    val eventByResourceIterator = eventByResourceReader(file)
-    assert(eventByResourceIterator.isEmpty)
+    assert(eventByResourceIterator("/event_csv/header.csv").isEmpty)
   }
 
   test("Object CSV_EventReader can read a CSV file with 1 data line") {
-    val filename = "/event_csv/one_data_line.csv"
-    val file = scala.io.Source.fromURL(getClass.getResource(filename))
-    val eventByResourceIterator = eventByResourceReader(file)
-    assertResult(1)(eventByResourceIterator.size)
+    assertResult(1)(eventByResourceIterator("/event_csv/one_data_line.csv").size)
   }
 
   test("Object CSV_EventReader returns Resource and Event with 1 PredicateObject") {
-    val filename = "/event_csv/one_data_line.csv"
-    val file = scala.io.Source.fromURL(getClass.getResource(filename))
-    val eventByResourceIterator = eventByResourceReader(file)
-    val eventByResource: EventByResource = eventByResourceIterator.next()
+    val eventByResource: EventByResource =
+      eventByResourceIterator("/event_csv/one_data_line.csv").next()
     assertResult(36)(eventByResource.resource.get.subject.size)
     assertResult(1)(eventByResource.event.get.pos.size)
   }
