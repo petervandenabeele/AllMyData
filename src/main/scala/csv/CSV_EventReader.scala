@@ -4,7 +4,7 @@
 
 package csv
 
-import base.{Event, Resource}
+import base.{Event, Resource, EventByResource}
 import common._
 
 import scala.io.BufferedSource
@@ -16,7 +16,12 @@ object CSV_EventReader {
     if (! potential_headers.hasNext) return Iterator.empty
     val headers = potential_headers.next
     file.getLines().map[EventByResource](line => {
-      (Some(Resource(), Event()), None)
+
+      val resource = Some(Resource())
+      val event = Some(Event())
+
+      EventByResource(resource = resource,
+                      event = event)
     })
   }
 }

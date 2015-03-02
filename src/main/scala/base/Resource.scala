@@ -4,4 +4,6 @@
 
 package base
 
-case class Resource ()
+import common.{ATD_Subject,newSubject}
+
+case class Resource (subject: ATD_Subject = newSubject)

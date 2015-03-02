@@ -2,7 +2,9 @@
   * Created by peter_v on 21/11/14.
  */
 
-import base.{Fact,Resource,Event}
+import java.util.UUID
+
+import base.{Fact,EventByResource}
 
 package object common {
   type ATD_TimeStamp = String
@@ -14,9 +16,10 @@ package object common {
   type ATD_ObjectValue = String
 
   type FactWithStatus = (Option[Fact], Option[String])
-  type EventByResource = (Option[(Resource, Event)], Option[String])
   type FactIterator = Iterator[FactWithStatus]
   type EventByResourceIterator = Iterator[EventByResource]
+
+  def newSubject = UUID.randomUUID().toString
 }
 
 // ATD_ObjectType describes the type ObjectValue is one of:

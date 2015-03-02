@@ -4,6 +4,7 @@
 
 package csv
 
+import base.EventByResource
 import csv.CSV_EventReader.eventByResourceReader
 import org.junit.runner.RunWith
 import org.scalatest.FunSuite
@@ -31,5 +32,13 @@ class CSV_EventReaderSuite extends FunSuite {
     val file = scala.io.Source.fromURL(getClass.getResource(filename))
     val eventByResourceIterator = eventByResourceReader(file)
     assertResult(1)(eventByResourceIterator.size)
+  }
+
+  test("Object CSV_EventReader returns Resource and Event") {
+    val filename = "/event_csv/one_data_line.csv"
+    val file = scala.io.Source.fromURL(getClass.getResource(filename))
+    val eventByResourceIterator = eventByResourceReader(file)
+    val eventByResource: EventByResource = eventByResourceIterator.next()
+    assertResult(36)(eventByResource.resource.get.subject.size)
   }
 }
