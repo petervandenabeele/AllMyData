@@ -4,4 +4,4 @@
 
 package base
 
-case class Event (pos: List[PredicateObject] = Nil)
+case class Event (pos: Seq[PredicateObject] = Nil)

@@ -12,13 +12,20 @@ import scala.io.BufferedSource
 object CSV_EventReader {
 
   def eventByResourceReader(file: BufferedSource): EventByResourceIterator = {
-    val potential_headers = file.getLines().take(1)
-    if (! potential_headers.hasNext) return Iterator.empty
-    val headers = potential_headers.next
-    file.getLines().map[EventByResource](line => {
+    val potential_header = file.getLines().take(1)
+    if (! potential_header.hasNext) return Iterator.empty
+    val header = potential_header.next()
+    val headers = header.split(",")
 
+    file.getLines().map[EventByResource](line => {
       val resource = Some(Resource())
-      val event = Some(Event(List(PredicateObject())))
+
+      val objectValues = line.split(",")
+      val predicateObjects = headers.zip(objectValues).
+        map { case (predicate, objectValue) =>
+          PredicateObject(predicate = predicate, objectValue = objectValue )
+        }
+      val event = Some(Event(predicateObjects))
 
       EventByResource(resource = resource,
                       event = event)

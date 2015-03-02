@@ -4,7 +4,7 @@
 
 package csv
 
-import base.EventByResource
+import base.{PredicateObject, EventByResource}
 import common._
 import csv.CSV_EventReader.eventByResourceReader
 import org.junit.runner.RunWith
@@ -31,10 +31,22 @@ class CSV_EventReaderSuite extends FunSuite {
     assertResult(1)(eventByResourceIterator("/event_csv/one_data_line.csv").size)
   }
 
-  test("Object CSV_EventReader returns Resource and Event with 1 PredicateObject") {
+  test("Object CSV_EventReader returns Resource and Event with 3 PredicateObjects") {
     val eventByResource: EventByResource =
       eventByResourceIterator("/event_csv/one_data_line.csv").next()
     assertResult(36)(eventByResource.resource.get.subject.size)
-    assertResult(1)(eventByResource.event.get.pos.size)
+    assertResult(3)(eventByResource.event.get.pos.size)
+  }
+
+  test("Object CSV_EventReader returns Event with detailed PredicateObjects") {
+    val event = eventByResourceIterator("/event_csv/one_data_line.csv").next().event.get
+    val predicateObject: PredicateObject = event.pos.head
+    assertResult("schema:givenName")(predicateObject.predicate)
+    assertResult("s")(predicateObject.objectType)
+    assertResult("Peter")(predicateObject.objectValue)
+    val nextPredicateObject: PredicateObject = event.pos.tail.head
+    assertResult("schema:familyName")(nextPredicateObject.predicate)
+    assertResult("s")(nextPredicateObject.objectType)
+    assertResult("Vandenabeele")(nextPredicateObject.objectValue)
   }
 }
