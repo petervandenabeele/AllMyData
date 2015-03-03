@@ -24,9 +24,10 @@ object CSV_EventReader {
       val resource = Some(Resource())
 
       val objectValues = line.split(",")
-      val predicateObjects = headers.zip(objectValues).
-        map { case (predicate, objectValue) =>
+      val predicateObjects = headers.zip(objectTypes).zip(objectValues).
+        map { case ((predicate, objectType), objectValue) =>
           PredicateObject(predicate = predicate,
+                          objectType = objectType,
                           objectValue = objectValue )
         }
       val event = Some(Event(predicateObjects))

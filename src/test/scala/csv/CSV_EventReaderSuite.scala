@@ -104,4 +104,26 @@ class CSV_EventReaderSuite extends FunSuite {
     assertResult("s")(predicateObject_22.objectType)
     assertResult("p@dk.org")(predicateObject_22.objectValue)
   }
+
+  test("Object CSV_EventReader reads the objectTypes") {
+    val iterator: EventByResourceIterator = eventByResourceIterator("/event_csv/with_object_type.csv")
+    val eventByResource_0: EventByResource = iterator.next()
+    assert(!iterator.hasNext)
+
+    val resource_0 = eventByResource_0.resource.get
+    assertResult(36)(resource_0.subject.size)
+    val predicateObject_0 = eventByResource_0.event.get.pos.head
+    assertResult("schema:name")(predicateObject_0.predicate)
+    assertResult("s")(predicateObject_0.objectType)
+    assertResult("JrubyConf.eu 2013")(predicateObject_0.objectValue)
+
+    val predicateObject_1 = eventByResource_0.event.get.pos.tail.head
+    assertResult("schema:startDate")(predicateObject_1.predicate)
+    assertResult("t")(predicateObject_1.objectType)
+    assertResult("2013-08-14")(predicateObject_1.objectValue)
+    val predicateObject_2 = eventByResource_0.event.get.pos.tail.tail.head
+    assertResult("schema:endDate")(predicateObject_2.predicate)
+    assertResult("t")(predicateObject_2.objectType)
+    assertResult("2013-08-15")(predicateObject_2.objectValue)
+  }
 }
