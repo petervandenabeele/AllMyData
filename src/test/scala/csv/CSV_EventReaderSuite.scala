@@ -32,14 +32,16 @@ class CSV_EventReaderSuite extends FunSuite {
   }
 
   test("Object CSV_EventReader returns Resource and Event with 3 PredicateObjects") {
-    val eventByResource: EventByResource =
-      eventByResourceIterator("/event_csv/one_data_line.csv").next()
-    assertResult(36)(eventByResource.resource.get.subject.size)
-    assertResult(3)(eventByResource.event.get.pos.size)
+    val iterator: EventByResourceIterator = eventByResourceIterator("/event_csv/one_data_line.csv")
+    val eventByResource_0: EventByResource = iterator.next()
+    assertResult(36)(eventByResource_0.resource.get.subject.size)
+    assertResult(3)(eventByResource_0.event.get.pos.size)
   }
 
   test("Object CSV_EventReader returns Event with detailed PredicateObjects") {
-    val event = eventByResourceIterator("/event_csv/one_data_line.csv").next().event.get
+    val iterator: EventByResourceIterator = eventByResourceIterator("/event_csv/one_data_line.csv")
+    val eventByResource_0: EventByResource = iterator.next()
+    val event = eventByResource_0.event.get
     val predicateObject: PredicateObject = event.pos.head
     assertResult("schema:givenName")(predicateObject.predicate)
     assertResult("s")(predicateObject.objectType)
@@ -48,5 +50,58 @@ class CSV_EventReaderSuite extends FunSuite {
     assertResult("schema:familyName")(nextPredicateObject.predicate)
     assertResult("s")(nextPredicateObject.objectType)
     assertResult("Vandenabeele")(nextPredicateObject.objectValue)
+  }
+
+  test("Object CSV_EventReader returns more Events with detailed PredicateObjects") {
+    val iterator: EventByResourceIterator = eventByResourceIterator("/event_csv/three_data_lines.csv")
+    val eventByResource_0: EventByResource = iterator.next()
+    val eventByResource_1: EventByResource = iterator.next()
+    val eventByResource_2: EventByResource = iterator.next()
+    assert(! iterator.hasNext)
+
+    val resource_0 = eventByResource_0.resource.get
+    assertResult(36)(resource_0.subject.size)
+    val predicateObject_0 = eventByResource_0.event.get.pos.head
+    assertResult("schema:givenName")(predicateObject_0.predicate)
+    assertResult("s")(predicateObject_0.objectType)
+    assertResult("Peter")(predicateObject_0.objectValue)
+    val predicateObject_1 = eventByResource_0.event.get.pos.tail.head
+    assertResult("schema:familyName")(predicateObject_1.predicate)
+    assertResult("s")(predicateObject_1.objectType)
+    assertResult("Vandenabeele")(predicateObject_1.objectValue)
+    val predicateObject_2 = eventByResource_0.event.get.pos.tail.tail.head
+    assertResult("schema:email")(predicateObject_2.predicate)
+    assertResult("s")(predicateObject_2.objectType)
+    assertResult("p@v.net")(predicateObject_2.objectValue)
+
+    val resource_1 = eventByResource_1.resource.get
+    assertResult(36)(resource_1.subject.size)
+    val predicateObject_10 = eventByResource_1.event.get.pos.head
+    assertResult("schema:givenName")(predicateObject_10.predicate)
+    assertResult("s")(predicateObject_10.objectType)
+    assertResult("Jan")(predicateObject_10.objectValue)
+    val predicateObject_11 = eventByResource_1.event.get.pos.tail.head
+    assertResult("schema:familyName")(predicateObject_11.predicate)
+    assertResult("s")(predicateObject_11.objectType)
+    assertResult("De Lange")(predicateObject_11.objectValue)
+    val predicateObject_12 = eventByResource_1.event.get.pos.tail.tail.head
+    assertResult("schema:email")(predicateObject_12.predicate)
+    assertResult("s")(predicateObject_12.objectType)
+    assertResult("j@dl.com")(predicateObject_12.objectValue)
+
+    val resource_2 = eventByResource_2.resource.get
+    assertResult(36)(resource_2.subject.size)
+    val predicateObject_20 = eventByResource_2.event.get.pos.head
+    assertResult("schema:givenName")(predicateObject_20.predicate)
+    assertResult("s")(predicateObject_20.objectType)
+    assertResult("Piet")(predicateObject_20.objectValue)
+    val predicateObject_21 = eventByResource_2.event.get.pos.tail.head
+    assertResult("schema:familyName")(predicateObject_21.predicate)
+    assertResult("s")(predicateObject_21.objectType)
+    assertResult("De Korte")(predicateObject_21.objectValue)
+    val predicateObject_22 = eventByResource_2.event.get.pos.tail.tail.head
+    assertResult("schema:email")(predicateObject_22.predicate)
+    assertResult("s")(predicateObject_22.objectType)
+    assertResult("p@dk.org")(predicateObject_22.objectValue)
   }
 }
