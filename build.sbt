@@ -18,3 +18,5 @@ libraryDependencies ++= Seq(
 libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.1" % "test"
 
 libraryDependencies += "junit" % "junit" % "4.10" % "test"
+
+libraryDependencies += "com.typesafe.slick" %% "slick" % "2.1.0"
