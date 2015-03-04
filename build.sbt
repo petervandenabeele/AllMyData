@@ -20,3 +20,5 @@ libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.1" % "test"
 libraryDependencies += "junit" % "junit" % "4.10" % "test"
 
 libraryDependencies += "com.typesafe.slick" %% "slick" % "2.1.0"
+
+libraryDependencies += "com.h2database" % "h2" % "1.4.185"
