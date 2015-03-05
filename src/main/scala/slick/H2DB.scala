@@ -4,6 +4,8 @@
 
 package slick
 
+import base.Fact
+
 import scala.slick.driver.H2Driver.simple._
 
 object H2DB {
@@ -25,4 +27,6 @@ object H2DB {
     }
   }
 
+  def insert_fact(fact: Fact): Unit = {
+  }
 }
