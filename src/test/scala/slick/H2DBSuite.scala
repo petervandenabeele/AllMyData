@@ -12,6 +12,7 @@ import org.scalatest.junit.JUnitRunner
 class H2DBSuite extends FunSuite {
 
   test("Slick + H2DB works") {
-    H2DB.q
+    assertResult(List((101, "foo is bar"),
+                      (102, "ping is tux")))(H2DB.q)
   }
 }
