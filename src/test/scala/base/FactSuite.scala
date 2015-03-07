@@ -103,8 +103,8 @@ class FactSuite extends FunSuite {
 
   test("Fact has an optional context and default is an empty string") {
     new testFoo {
-      val timeStamp: ATD_TimeStamp = fact.timeStamp
-      assert(timeStamp.size === 29)
+      val context: ATD_Context = fact.context
+      assert(context.size === 0)
     }
   }
 
