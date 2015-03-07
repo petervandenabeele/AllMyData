@@ -13,7 +13,9 @@ object FactsInserter {
   def main(args: Array[String]): Unit = {
     println("Starting AllMyData FactsInserter.main")
     val homeDir = System.getProperty("user.home")
-    val filename = homeDir + "/data/private/data/input/input.csv"
+    val filename = homeDir + "/data/private/data/mnt/input/input.csv"
+    print("Reading from: ")
+    println(filename)
     val topic = args match {
       case Array() => "test_001"
       case Array(t)  => t
