@@ -34,7 +34,7 @@ class CSV_EventReaderSuite extends FunSuite {
   test("Object CSV_EventReader returns Resource and Event with 3 PredicateObjects") {
     val iterator: EventByResourceIterator = eventByResourceIterator("/event_csv/one_data_line.csv")
     val eventByResource_0: EventByResource = iterator.next()
-    assertResult(36)(eventByResource_0.resource.get.subject.size)
+    assertResult(36)(eventByResource_0.resource.get.subject.toString.size)
     assertResult(3)(eventByResource_0.event.get.pos.size)
   }
 
@@ -60,7 +60,7 @@ class CSV_EventReaderSuite extends FunSuite {
     assert(! iterator.hasNext)
 
     val resource_0 = eventByResource_0.resource.get
-    assertResult(36)(resource_0.subject.size)
+    assertResult(36)(resource_0.subject.toString.size)
     val predicateObject_0 = eventByResource_0.event.get.pos.head
     assertResult("schema:givenName")(predicateObject_0.predicate)
     assertResult("s")(predicateObject_0.objectType)
@@ -75,7 +75,7 @@ class CSV_EventReaderSuite extends FunSuite {
     assertResult("p@v.net")(predicateObject_2.objectValue)
 
     val resource_1 = eventByResource_1.resource.get
-    assertResult(36)(resource_1.subject.size)
+    assertResult(36)(resource_1.subject.toString.size)
     val predicateObject_10 = eventByResource_1.event.get.pos.head
     assertResult("schema:givenName")(predicateObject_10.predicate)
     assertResult("s")(predicateObject_10.objectType)
@@ -90,7 +90,7 @@ class CSV_EventReaderSuite extends FunSuite {
     assertResult("j@dl.com")(predicateObject_12.objectValue)
 
     val resource_2 = eventByResource_2.resource.get
-    assertResult(36)(resource_2.subject.size)
+    assertResult(36)(resource_2.subject.toString.size)
     val predicateObject_20 = eventByResource_2.event.get.pos.head
     assertResult("schema:givenName")(predicateObject_20.predicate)
     assertResult("s")(predicateObject_20.objectType)
@@ -111,7 +111,7 @@ class CSV_EventReaderSuite extends FunSuite {
     assert(!iterator.hasNext)
 
     val resource_0 = eventByResource_0.resource.get
-    assertResult(36)(resource_0.subject.size)
+    assertResult(36)(resource_0.subject.toString.size)
     val predicateObject_0 = eventByResource_0.event.get.pos.head
     assertResult("schema:name")(predicateObject_0.predicate)
     assertResult("s")(predicateObject_0.objectType)

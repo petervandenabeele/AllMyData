@@ -4,6 +4,8 @@
 
 package csv
 
+import java.io.Serializable
+
 import base.Fact
 import common._
 
@@ -27,6 +29,10 @@ object CSV_FactReader {
       val csvObjectValue = elements(6)
 
       val (_, contextOption) = getSubjectFromCache(localContextString, subjects)
+      val contextOptionString: Option[String] = contextOption match {
+        case None => None
+        case Some(subject) => Some(subject.toString)
+      }
       val (subjectIdOption, subjectOption) = getSubjectFromCache(localSubjectString, subjects)
 
       val (objectType, objectValueOption, errorOption) = objectTypeValueTriple(
@@ -40,8 +46,8 @@ object CSV_FactReader {
         val fact = factFrom_CSV_Line(
           predicate = predicate,
           objectType = objectType,
-          objectValue = objectValueOption.get,
-          contextOption = contextOption,
+          objectValue = objectValueOption.get.toString,
+          contextOption = contextOptionString,
           subjectOption = subjectOption)
 
         if (subjectOption.isEmpty && subjectIdOption.nonEmpty) {
@@ -71,11 +77,14 @@ object CSV_FactReader {
     csvObjectType: String,
     csvObjectValue: String,
     subjects: SubjectsMap)
-  :(String, Option[String], Option[String]) = {
+  :(ATD_ObjectType, Option[ATD_ObjectValue], Option[String]) = {
     csvObjectType match {
       case "" => ("", None, None) // empty line
       case "c" => // objectValue is link to earlier entry in this file
-        val objectValueOption = subjects.get(csvObjectValue.toInt)
+        val objectValueOption = subjects.get(csvObjectValue.toInt) match {
+          case None => None
+          case Some(x: ATD_Subject) => Some(x.toString)
+        }
         val errorOption =
           if (objectValueOption.nonEmpty)
             None

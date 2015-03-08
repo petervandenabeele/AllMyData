@@ -4,9 +4,9 @@
 
 package slick
 
+
 import base.Fact
 
-import java.util.UUID
 import scala.slick.driver.H2Driver.simple._
 
 object H2DB {
@@ -39,7 +39,7 @@ object H2DB {
         fact.timeStamp,
         fact.uuid,
         fact.context,
-        fact.subject,
+        fact.subject.toString,
         fact.predicate,
         fact.objectType,
         fact.objectValue)

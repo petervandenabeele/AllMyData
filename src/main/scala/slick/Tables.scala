@@ -23,11 +23,13 @@ class FactsInDB(tag: Tag) extends Table[(String, String, String, String, String,
   def timeStamp: Column[String] = column[String]("FACT_TIMESTAMP", O.PrimaryKey)
   def uuid: Column[String] = column[String]("FACT_UUID")
   def context: Column[String] = column[String]("FACT_CONTEXT")
-  def subject: Column[String] = column[String]("FACT_SUBJECT")
+//  def subject: Column[UUID] = column[UUID]("FACT_SUBJECT")
   def predicate: Column[String] = column[String]("FACT_PREDICATE")
+  def subject: Column[String] = column[String]("FACT_SUBJECT")
   def objectType: Column[String] = column[String]("FACT_OBJECT_TYPE")
   def objectValue: Column[String] = column[String]("FACT_OBJECT_VALUE")
 
+//  def * : ProvenShape[(String, String, String, UUID, String, String, String)] = {
   def * : ProvenShape[(String, String, String, String, String, String, String)] = {
     (timeStamp, uuid, context, subject, predicate, objectType, objectValue)
   }

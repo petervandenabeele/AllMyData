@@ -10,7 +10,7 @@ package object common {
   type ATD_TimeStamp = String
   type ATD_Uuid = String
   type ATD_Context = String
-  type ATD_Subject = String
+  type ATD_Subject = UUID
   type ATD_Predicate = String
   type ATD_ObjectType = String
   type ATD_ObjectValue = String
@@ -19,7 +19,8 @@ package object common {
   type FactIterator = Iterator[FactWithStatus]
   type EventByResourceIterator = Iterator[EventByResource]
 
-  def newSubject = UUID.randomUUID().toString
+  def newUUID() = UUID.randomUUID()
+  def newSubject() = newUUID().toString
 }
 
 // ATD_ObjectType describes the type ObjectValue is one of:

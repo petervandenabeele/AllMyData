@@ -32,32 +32,34 @@ class FactSuite extends FunSuite {
     }
   }
 
-  test("Fact has an object_type attribute") {
+  test("Fact has an objectType attribute") {
     new testFoo {
       val objectType: ATD_ObjectType = fact.objectType
       assert(objectType === "s")
     }
   }
 
-  test("Fact has an object attribute") {
+  test("Fact has an objectValue attribute") {
     new testFoo {
       val objectValue: ATD_ObjectValue = fact.objectValue
       assert(objectValue === "Bar")
     }
   }
 
-  test("Fact has an optional subject") {
+  test("Fact has a UUID subject") {
     new testFoo {
-      val factWithSubject = fact.copy(subject = "abcd-1234")
+      val testSubject = newUUID()
+      val testSubjectString = testSubject.toString
+      val factWithSubject = fact.copy(subject = testSubject)
       val subject: ATD_Subject = factWithSubject.subject
-      assert(subject === "abcd-1234")
+      assert(subject === testSubject)
     }
   }
 
-  test("Fact has an optional subject and default is a UUID") {
+  test("Fact has a default arg for subject and default is a UUID") {
     new testFoo {
       val subject: ATD_Subject = fact.subject
-      assert(subject.size === 36)
+      assert(subject.toString.size === 36)
     }
   }
 

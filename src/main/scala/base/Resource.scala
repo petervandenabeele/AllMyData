@@ -4,6 +4,6 @@
 
 package base
 
-import common.{ATD_Subject,newSubject}
+import common.{ATD_Subject,newUUID}
 
-case class Resource (subject: ATD_Subject = newSubject)
+case class Resource (subject: ATD_Subject = newUUID())

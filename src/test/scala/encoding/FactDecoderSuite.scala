@@ -5,6 +5,7 @@
 package encoding
 
 import java.time.LocalDateTime
+import java.util.UUID
 
 import base.Fact
 import kafkaStreaming.KafkaProducer
@@ -16,7 +17,7 @@ import org.scalatest.junit.JUnitRunner
 class FactDecoderSuite extends FunSuite {
 
   trait testFooBar {
-    val subject = "88301684-3859-4f70-8f90-2c7a90256268"
+    val subject = UUID.fromString("88301684-3859-4f70-8f90-2c7a90256268")
     val context = "99412745-496a-4081-8f90-2c7a90256269"
     val fact_1 = Fact(
       subject = subject,

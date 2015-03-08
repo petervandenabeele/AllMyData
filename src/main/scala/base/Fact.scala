@@ -13,7 +13,7 @@ import common._
 case class Fact (timeStamp: ATD_TimeStamp = ZonedDateTime.now(ZoneId.of("UTC")).toString,
                  uuid: ATD_Uuid = UUID.randomUUID().toString,
                  context: ATD_Context = "",
-                 subject: ATD_Subject = UUID.randomUUID().toString,
+                 subject: ATD_Subject = newUUID(),
                  predicate: ATD_Predicate,
                  objectType: ATD_ObjectType,
                  objectValue: ATD_ObjectValue) {

@@ -4,6 +4,8 @@
 
 package csv
 
+import java.util.UUID
+
 import CSV_FactReader.reader
 import base.Fact
 import common.{FactIterator, FactWithStatus}
@@ -86,17 +88,17 @@ class CSV_FactReaderSuite extends FunSuite {
     val context_subject = context_1.subject
     assert(context_2.subject === context_subject)
 
-    assert(fact_1.context === context_subject)
+    assert(UUID.fromString(fact_1.context) === context_subject)
     assert(fact_1.predicate === "atd:foo")
     assert(fact_1.objectType === "s")
     assert(fact_1.objectValue === "bar")
 
-    assert(fact_2.context === context_subject)
+    assert(UUID.fromString(fact_2.context) === context_subject)
     assert(fact_2.predicate === "atd:tux")
     assert(fact_2.objectType === "s")
     assert(fact_2.objectValue === "ping")
 
-    assert(fact_3.context === context_subject)
+    assert(UUID.fromString(fact_3.context) === context_subject)
     assert(fact_3.predicate === "atd:ping")
     assert(fact_3.objectType === "s")
     assert(fact_3.objectValue === "pong")
@@ -122,12 +124,12 @@ class CSV_FactReaderSuite extends FunSuite {
     val context_subject_1 = context_1.subject
     val context_subject_2 = context_2.subject
 
-    assert(fact_1.context === context_subject_1)
+    assert(UUID.fromString(fact_1.context) === context_subject_1)
     assert(fact_1.predicate === "atd:foo")
     assert(fact_1.objectType === "s")
     assert(fact_1.objectValue === "bar")
 
-    assert(fact_2.context === context_subject_2)
+    assert(UUID.fromString(fact_2.context) === context_subject_2)
     assert(fact_2.predicate === "atd:bar")
     assert(fact_2.objectType === "s")
     assert(fact_2.objectValue === "foo")
@@ -149,15 +151,15 @@ class CSV_FactReaderSuite extends FunSuite {
     val context_subject_1 = context_1.subject
     val context_subject_2 = context_2.subject
 
-    assert(fact_1.context === context_subject_1)
+    assert(UUID.fromString(fact_1.context) === context_subject_1)
     assert(fact_1.predicate === "atd:foo")
     assert(fact_1.objectType === "s")
     assert(fact_1.objectValue === "bar")
 
-    assert(fact_2.context === context_subject_2)
+    assert(UUID.fromString(fact_2.context) === context_subject_2)
     assert(fact_2.predicate === "atd:bar")
     assert(fact_2.objectType === "r")
-    assert(fact_2.objectValue === fact_1.subject)
+    assert(UUID.fromString(fact_2.objectValue) === fact_1.subject)
   }
 
   test("three_facts_with_invalid_csv_reference.csv reports error and keeps reading after the invalid fact") {
@@ -176,15 +178,15 @@ class CSV_FactReaderSuite extends FunSuite {
     val context_subject_1 = context_1.subject
     val context_subject_2 = context_2.subject
 
-    assert(fact_1.context === context_subject_1)
+    assert(UUID.fromString(fact_1.context) === context_subject_1)
     assert(fact_1.predicate === "atd:foo")
     assert(fact_1.objectType === "s")
     assert(fact_1.objectValue === "bar")
 
-    assert(fact_3.context === context_subject_2)
+    assert(UUID.fromString(fact_3.context) === context_subject_2)
     assert(fact_3.predicate === "atd:bar")
     assert(fact_3.objectType === "r")
-    assert(fact_3.objectValue === fact_1.subject)
+    assert(UUID.fromString(fact_3.objectValue) === fact_1.subject)
 
     val errors: Array[String] = factsWithStatusses.filter(p => p._1.isEmpty).map(p => p._2.get)
 
@@ -211,14 +213,14 @@ class CSV_FactReaderSuite extends FunSuite {
     val context_subject_1 = context_1.subject
     val context_subject_2 = context_2.subject
 
-    assert(fact_1.context === context_subject_1)
+    assert(UUID.fromString(fact_1.context) === context_subject_1)
     assert(fact_1.predicate === "atd:foo")
     assert(fact_1.objectType === "s")
     assert(fact_1.objectValue === "bar")
 
-    assert(fact_2.context === context_subject_2)
+    assert(UUID.fromString(fact_2.context) === context_subject_2)
     assert(fact_2.predicate === "atd:bar")
     assert(fact_2.objectType === "r")
-    assert(fact_2.objectValue === fact_1.subject)
+    assert(UUID.fromString(fact_2.objectValue) === fact_1.subject)
   }
 }

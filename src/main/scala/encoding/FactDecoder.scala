@@ -4,6 +4,8 @@
 
 package encoding
 
+import java.util.UUID
+
 import base.Fact
 import kafka.serializer.Decoder
 import kafka.utils.VerifiableProperties
@@ -21,7 +23,7 @@ class FactDecoder(props: VerifiableProperties = null) extends Decoder[Fact]{
     Fact(timeStamp = elements(0),
       uuid = elements(1),
       context = elements(2),
-      subject = elements(3),
+      subject = UUID.fromString(elements(3)),
       predicate = elements(4),
       objectType = elements(5),
       objectValue = elements(6))
