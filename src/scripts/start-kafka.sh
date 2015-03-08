@@ -12,13 +12,13 @@ echo "Starting Zookeeper"
 cat config/zookeeper.properties
 bin/zookeeper-server-start.sh -daemon config/zookeeper.properties
 
-sleep 4
+sleep 8
 
 echo "Starting Kafka"
 cat config/server.properties
 bin/kafka-server-start.sh -daemon config/server.properties
 
-sleep 4
+sleep 8
 
 echo "Starting consumer on ATD_test"
 bin/kafka-console-consumer.sh --zookeeper trusty64:2181 --topic ATD_test --from-beginning
