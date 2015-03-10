@@ -4,8 +4,6 @@
 
 package base
 
-import java.util.UUID
-
 import common._
 import org.scalatest.FunSuite
 import org.junit.runner.RunWith

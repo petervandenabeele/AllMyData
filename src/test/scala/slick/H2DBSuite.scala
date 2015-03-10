@@ -23,8 +23,9 @@ class H2DBSuite extends FunSuite {
 
   test("Slick + H2DB works") {
     new testFoo {
-      assertResult(List((101, "foo is bar"),
-        (102, "ping is tux")))(H2DB.foo(db))
+      assertResult(List(
+        (101, "foo is bar"),
+        (102, "ping is tux"))) (H2DB.foo(db))
     }
   }
 
@@ -42,5 +43,4 @@ class H2DBSuite extends FunSuite {
       }
     }
   }
-
 }

@@ -6,6 +6,7 @@ package slick
 
 import base.Fact
 
+import java.util.UUID
 import scala.slick.driver.H2Driver.simple._
 
 object H2DB {
@@ -29,7 +30,6 @@ object H2DB {
 
   def insert_fact(db: Database, fact: Fact): List[(String, String, String, String, String, String, String)] = {
     val facts: TableQuery[FactsInDB] = TableQuery[FactsInDB]
-
     db.withSession { implicit session =>
       // Create the schema by combining the DDLs for the Suppliers and Coffees
       // tables using the query interfaces
