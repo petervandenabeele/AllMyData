@@ -28,11 +28,7 @@ object CSV_FactReader {
       val csvObjectType = elements(5)
       val csvObjectValue = elements(6)
 
-      val (_, contextOption) = getSubjectFromCache(localContextString, subjects)
-      val contextOptionString: Option[String] = contextOption match {
-        case None => None
-        case Some(subject) => Some(subject.toString)
-      }
+      val (_, context) = getSubjectFromCache(localContextString, subjects)
       val (subjectIdOption, subjectOption) = getSubjectFromCache(localSubjectString, subjects)
 
       val (objectType, objectValueOption, errorOption) = objectTypeValueTriple(
@@ -47,7 +43,7 @@ object CSV_FactReader {
           predicate = predicate,
           objectType = objectType,
           objectValue = objectValueOption.get.toString,
-          contextOption = contextOptionString,
+          context = context,
           subjectOption = subjectOption)
 
         if (subjectOption.isEmpty && subjectIdOption.nonEmpty) {
@@ -98,11 +94,9 @@ object CSV_FactReader {
   private def factFrom_CSV_Line(predicate: ATD_Predicate,
                         objectType: ATD_ObjectType,
                         objectValue: ATD_ObjectValue,
-                        contextOption: Option[ATD_Context],
+                        context: ATD_Context,
                         subjectOption: Option[ATD_Subject])
   :Fact = {
-    val context = contextOption.getOrElse("")
-
     subjectOption match {
       case Some(subject) =>
         Fact(

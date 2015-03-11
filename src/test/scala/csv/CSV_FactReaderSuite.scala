@@ -85,20 +85,20 @@ class CSV_FactReaderSuite extends FunSuite {
     assert(context_2.objectType === "s")
     assert(context_2.objectValue === "2014-12-12T22:13:00")
 
-    val context_subject = context_1.subject
-    assert(context_2.subject === context_subject)
+    val expected_context = Some(context_1.subject)
+    assert(Some(context_2.subject) === expected_context)
 
-    assert(UUID.fromString(fact_1.context) === context_subject)
+    assert(fact_1.context === expected_context)
     assert(fact_1.predicate === "atd:foo")
     assert(fact_1.objectType === "s")
     assert(fact_1.objectValue === "bar")
 
-    assert(UUID.fromString(fact_2.context) === context_subject)
+    assert(fact_2.context === expected_context)
     assert(fact_2.predicate === "atd:tux")
     assert(fact_2.objectType === "s")
     assert(fact_2.objectValue === "ping")
 
-    assert(UUID.fromString(fact_3.context) === context_subject)
+    assert(fact_3.context === expected_context)
     assert(fact_3.predicate === "atd:ping")
     assert(fact_3.objectType === "s")
     assert(fact_3.objectValue === "pong")
@@ -121,15 +121,15 @@ class CSV_FactReaderSuite extends FunSuite {
 
     assert(facts.size === 4)
 
-    val context_subject_1 = context_1.subject
-    val context_subject_2 = context_2.subject
+    val expected_context_1 = Some(context_1.subject)
+    val expected_context_2 = Some(context_2.subject)
 
-    assert(UUID.fromString(fact_1.context) === context_subject_1)
+    assert(fact_1.context === expected_context_1)
     assert(fact_1.predicate === "atd:foo")
     assert(fact_1.objectType === "s")
     assert(fact_1.objectValue === "bar")
 
-    assert(UUID.fromString(fact_2.context) === context_subject_2)
+    assert(fact_2.context === expected_context_2)
     assert(fact_2.predicate === "atd:bar")
     assert(fact_2.objectType === "s")
     assert(fact_2.objectValue === "foo")
@@ -148,15 +148,15 @@ class CSV_FactReaderSuite extends FunSuite {
 
     assert(facts.size === 4)
 
-    val context_subject_1 = context_1.subject
-    val context_subject_2 = context_2.subject
+    val expected_context_1 = Some(context_1.subject)
+    val expected_context_2 = Some(context_2.subject)
 
-    assert(UUID.fromString(fact_1.context) === context_subject_1)
+    assert(fact_1.context === expected_context_1)
     assert(fact_1.predicate === "atd:foo")
     assert(fact_1.objectType === "s")
     assert(fact_1.objectValue === "bar")
 
-    assert(UUID.fromString(fact_2.context) === context_subject_2)
+    assert(fact_2.context === expected_context_2)
     assert(fact_2.predicate === "atd:bar")
     assert(fact_2.objectType === "r")
     assert(UUID.fromString(fact_2.objectValue) === fact_1.subject)
@@ -175,15 +175,15 @@ class CSV_FactReaderSuite extends FunSuite {
     val fact_1 = facts(2)
     val fact_3 = facts(3)
 
-    val context_subject_1 = context_1.subject
-    val context_subject_2 = context_2.subject
+    val expected_context_1 = Some(context_1.subject)
+    val expected_context_2 = Some(context_2.subject)
 
-    assert(UUID.fromString(fact_1.context) === context_subject_1)
+    assert(fact_1.context === expected_context_1)
     assert(fact_1.predicate === "atd:foo")
     assert(fact_1.objectType === "s")
     assert(fact_1.objectValue === "bar")
 
-    assert(UUID.fromString(fact_3.context) === context_subject_2)
+    assert(fact_3.context === expected_context_2)
     assert(fact_3.predicate === "atd:bar")
     assert(fact_3.objectType === "r")
     assert(UUID.fromString(fact_3.objectValue) === fact_1.subject)
@@ -210,15 +210,15 @@ class CSV_FactReaderSuite extends FunSuite {
 
     assert(facts.size === 4)
 
-    val context_subject_1 = context_1.subject
-    val context_subject_2 = context_2.subject
+    val expected_context_1 = Some(context_1.subject)
+    val expected_context_2 = Some(context_2.subject)
 
-    assert(UUID.fromString(fact_1.context) === context_subject_1)
+    assert(fact_1.context === expected_context_1)
     assert(fact_1.predicate === "atd:foo")
     assert(fact_1.objectType === "s")
     assert(fact_1.objectValue === "bar")
 
-    assert(UUID.fromString(fact_2.context) === context_subject_2)
+    assert(fact_2.context === expected_context_2)
     assert(fact_2.predicate === "atd:bar")
     assert(fact_2.objectType === "r")
     assert(UUID.fromString(fact_2.objectValue) === fact_1.subject)

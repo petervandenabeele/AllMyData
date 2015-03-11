@@ -9,7 +9,7 @@ import base.{Fact,EventByResource}
 package object common {
   type ATD_TimeStamp = String
   type ATD_Uuid = String
-  type ATD_Context = String
+  type ATD_Context = Option[UUID]
   type ATD_Subject = UUID
   type ATD_Predicate = String
   type ATD_ObjectType = String

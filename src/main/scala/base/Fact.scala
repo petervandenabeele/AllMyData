@@ -12,7 +12,7 @@ import common._
 // TODO Fix the timestamp to have more digits and/or be monotonic
 case class Fact (timeStamp: ATD_TimeStamp = ZonedDateTime.now(ZoneId.of("UTC")).toString,
                  uuid: ATD_Uuid = UUID.randomUUID().toString,
-                 context: ATD_Context = "",
+                 context: ATD_Context = None,
                  subject: ATD_Subject = newUUID(),
                  predicate: ATD_Predicate,
                  objectType: ATD_ObjectType,
@@ -25,4 +25,19 @@ case class Fact (timeStamp: ATD_TimeStamp = ZonedDateTime.now(ZoneId.of("UTC")).
 
   if(!legalPredicates.contains(predicate))
     throw new IllegalArgumentException(s"The predicate $predicate is not in list of legalPredicates")
+
+  override def toString(): String = {
+    List(
+      timeStamp,
+      uuid,
+      context match {
+        case None => ""
+        case Some(uuid: UUID) => uuid.toString
+      },
+      subject.toString,
+      predicate,
+      objectType,
+      objectValue
+    ).mkString(",")
+  }
 }

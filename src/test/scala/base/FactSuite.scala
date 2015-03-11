@@ -95,16 +95,16 @@ class FactSuite extends FunSuite {
 
   test("Fact has an optional context") {
     new testFoo {
-      val factWithContext = fact.copy(context = newSubject)
+      val factWithContext = fact.copy(context = Some(newUUID))
       val context: ATD_Context = factWithContext.context
-      assert(context.size === 36)
+      assert(context.get.toString.size === 36)
     }
   }
 
   test("Fact has an optional context and default is an empty string") {
     new testFoo {
       val context: ATD_Context = fact.context
-      assert(context.size === 0)
+      assert(context == None)
     }
   }
 

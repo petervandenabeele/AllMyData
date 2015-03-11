@@ -30,7 +30,7 @@ object H2DB {
     }
   }
 
-  def insert_fact(db: Database, fact: Fact): List[(String, String, String, UUID, String, String, String)] = {
+  def insert_fact(db: Database, fact: Fact): List[(String, String, Option[UUID], UUID, String, String, String)] = {
     val facts: TableQuery[FactsInDB] = TableQuery[FactsInDB]
     db.withSession { implicit session =>
       // Create the schema by combining the DDLs for the Suppliers and Coffees
