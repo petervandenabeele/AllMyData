@@ -37,10 +37,11 @@ object H2DB {
       // tables using the query interfaces
       (facts.ddl).create
 
+      // TODO context.getValue
       val factInDB = (
         fact.timeStamp,
         fact.uuid,
-        fact.context,
+        fact.context.context,
         fact.subject,
         fact.predicate,
         fact.objectType,

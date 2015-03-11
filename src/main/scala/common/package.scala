@@ -4,12 +4,12 @@
 
 import java.util.UUID
 
-import base.{Fact,EventByResource}
+import base.{Fact,Context,EventByResource}
 
 package object common {
   type ATD_TimeStamp = String
   type ATD_Uuid = String
-  type ATD_Context = Option[UUID]
+  type ATD_Context = Context
   type ATD_Subject = UUID
   type ATD_Predicate = String
   type ATD_ObjectType = String

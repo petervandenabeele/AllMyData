@@ -6,7 +6,7 @@ package encoding
 
 import java.util.UUID
 
-import base.Fact
+import base.{Context, Fact}
 import kafkaStreaming.KafkaProducer
 
 import org.junit.runner.RunWith
@@ -18,7 +18,7 @@ class FactEncoderSuite extends FunSuite {
 
   trait testFooBar {
     val subject = UUID.fromString("88301684-3859-4f70-8f90-2c7a90256268")
-    val context = Some(UUID.fromString("99412745-496a-4081-8f90-2c7a90256269"))
+    val context = Context(Some(UUID.fromString("99412745-496a-4081-8f90-2c7a90256269")))
     val fact_1 = Fact(
           subject = subject,
           predicate = "atd:foo",

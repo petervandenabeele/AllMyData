@@ -4,9 +4,7 @@
 
 package csv
 
-import java.io.Serializable
-
-import base.Fact
+import base.{Context, Fact}
 import common._
 
 import scala.io.BufferedSource
@@ -43,7 +41,7 @@ object CSV_FactReader {
           predicate = predicate,
           objectType = objectType,
           objectValue = objectValueOption.get.toString,
-          context = context,
+          context = Context(context),
           subjectOption = subjectOption)
 
         if (subjectOption.isEmpty && subjectIdOption.nonEmpty) {

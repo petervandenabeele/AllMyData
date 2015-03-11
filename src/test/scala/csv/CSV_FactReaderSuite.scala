@@ -7,7 +7,7 @@ package csv
 import java.util.UUID
 
 import CSV_FactReader.reader
-import base.Fact
+import base.{Context, Fact}
 import common.{FactIterator, FactWithStatus}
 
 import org.junit.runner.RunWith
@@ -85,8 +85,8 @@ class CSV_FactReaderSuite extends FunSuite {
     assert(context_2.objectType === "s")
     assert(context_2.objectValue === "2014-12-12T22:13:00")
 
-    val expected_context = Some(context_1.subject)
-    assert(Some(context_2.subject) === expected_context)
+    val expected_context = Context(Some(context_1.subject))
+    assert(Context(Some(context_2.subject)) === expected_context)
 
     assert(fact_1.context === expected_context)
     assert(fact_1.predicate === "atd:foo")
@@ -121,8 +121,8 @@ class CSV_FactReaderSuite extends FunSuite {
 
     assert(facts.size === 4)
 
-    val expected_context_1 = Some(context_1.subject)
-    val expected_context_2 = Some(context_2.subject)
+    val expected_context_1 = Context(Some(context_1.subject))
+    val expected_context_2 = Context(Some(context_2.subject))
 
     assert(fact_1.context === expected_context_1)
     assert(fact_1.predicate === "atd:foo")
@@ -148,8 +148,9 @@ class CSV_FactReaderSuite extends FunSuite {
 
     assert(facts.size === 4)
 
-    val expected_context_1 = Some(context_1.subject)
-    val expected_context_2 = Some(context_2.subject)
+    val expected_context_1 = Context(Some(context_1.subject))
+    val expected_context_2 = Context(Some(context_2.subject))
+
 
     assert(fact_1.context === expected_context_1)
     assert(fact_1.predicate === "atd:foo")
@@ -175,8 +176,8 @@ class CSV_FactReaderSuite extends FunSuite {
     val fact_1 = facts(2)
     val fact_3 = facts(3)
 
-    val expected_context_1 = Some(context_1.subject)
-    val expected_context_2 = Some(context_2.subject)
+    val expected_context_1 = Context(Some(context_1.subject))
+    val expected_context_2 = Context(Some(context_2.subject))
 
     assert(fact_1.context === expected_context_1)
     assert(fact_1.predicate === "atd:foo")
@@ -210,8 +211,8 @@ class CSV_FactReaderSuite extends FunSuite {
 
     assert(facts.size === 4)
 
-    val expected_context_1 = Some(context_1.subject)
-    val expected_context_2 = Some(context_2.subject)
+    val expected_context_1 = Context(Some(context_1.subject))
+    val expected_context_2 = Context(Some(context_2.subject))
 
     assert(fact_1.context === expected_context_1)
     assert(fact_1.predicate === "atd:foo")
