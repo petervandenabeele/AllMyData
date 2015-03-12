@@ -92,7 +92,7 @@ object CSV_FactReader {
   private def factFrom_CSV_Line(predicate: ATD_Predicate,
                         objectType: ATD_ObjectType,
                         objectValue: ATD_ObjectValue,
-                        context: ATD_Context,
+                        context: Context,
                         subjectOption: Option[ATD_Subject])
   :Fact = {
     subjectOption match {

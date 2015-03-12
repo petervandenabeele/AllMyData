@@ -4,7 +4,7 @@
 
 package base
 
-import java.util.UUID
+import common._
 
 import org.junit.runner.RunWith
 import org.scalatest.FunSuite
@@ -15,7 +15,7 @@ class ContextSuite extends FunSuite {
 
   trait testContexts {
     val contextNone = Context(None)
-    val contextSome = Context(Some(UUID.randomUUID()))
+    val contextSome = Context(Some(newUUID()))
   }
 
   test("Context None prints a empty string") {
@@ -30,13 +30,13 @@ class ContextSuite extends FunSuite {
     }
   }
 
-  test("Context#fromString with empty string") {
+  test("Context(\"\") with empty string") {
     new testContexts {
       assertResult(contextNone)(Context(""))
     }
   }
 
-  test("Context#fromString with UUID string") {
+  test("Context(abcd...) with UUID string") {
     new testContexts {
       assertResult(contextSome)(Context(contextSome.toString()))
     }

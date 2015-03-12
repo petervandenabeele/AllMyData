@@ -12,7 +12,7 @@ import common._
 // TODO Fix the timestamp to have more digits and/or be monotonic
 case class Fact (timeStamp: ATD_TimeStamp = ZonedDateTime.now(ZoneId.of("UTC")).toString,
                  uuid: ATD_Uuid = UUID.randomUUID().toString,
-                 context: ATD_Context = Context(None),
+                 context: Context = Context(None),
                  subject: ATD_Subject = newUUID(),
                  predicate: ATD_Predicate,
                  objectType: ATD_ObjectType,

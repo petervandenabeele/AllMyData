@@ -85,20 +85,21 @@ class CSV_FactReaderSuite extends FunSuite {
     assert(context_2.objectType === "s")
     assert(context_2.objectValue === "2014-12-12T22:13:00")
 
-    val expected_context = Context(Some(context_1.subject))
-    assert(Context(Some(context_2.subject)) === expected_context)
+    val expected_context_1 = Context(Some(context_1.subject))
+    val expected_context_2 = Context(Some(context_2.subject))
+    assert(expected_context_2 === expected_context_1)
 
-    assert(fact_1.context === expected_context)
+    assert(fact_1.context === expected_context_1)
     assert(fact_1.predicate === "atd:foo")
     assert(fact_1.objectType === "s")
     assert(fact_1.objectValue === "bar")
 
-    assert(fact_2.context === expected_context)
+    assert(fact_2.context === expected_context_1)
     assert(fact_2.predicate === "atd:tux")
     assert(fact_2.objectType === "s")
     assert(fact_2.objectValue === "ping")
 
-    assert(fact_3.context === expected_context)
+    assert(fact_3.context === expected_context_1)
     assert(fact_3.predicate === "atd:ping")
     assert(fact_3.objectType === "s")
     assert(fact_3.objectValue === "pong")
