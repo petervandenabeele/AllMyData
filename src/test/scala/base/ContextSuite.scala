@@ -29,4 +29,16 @@ class ContextSuite extends FunSuite {
       assertResult(36)(contextSome.toString().size)
     }
   }
+
+  test("Context#fromString with empty string") {
+    new testContexts {
+      assertResult(contextNone)(Context(""))
+    }
+  }
+
+  test("Context#fromString with UUID string") {
+    new testContexts {
+      assertResult(contextSome)(Context(contextSome.toString()))
+    }
+  }
 }
