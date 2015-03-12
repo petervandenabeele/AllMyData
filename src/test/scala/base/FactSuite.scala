@@ -65,7 +65,7 @@ class FactSuite extends FunSuite {
 
   test("Fact has an optional uuid") {
     new testFoo {
-      val factWithUuid = fact.copy(uuid = newSubject)
+      val factWithUuid = fact.copy(uuid = newUUID().toString)
       val uuid: ATD_Uuid = factWithUuid.uuid
       assert(uuid.size === 36)
     }
