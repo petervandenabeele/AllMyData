@@ -12,7 +12,7 @@ import kafkaStreaming.KafkaProducer
 object FactsInserter {
   def main(args: Array[String]): Unit = {
     println("Starting AllMyData FactsInserter.main")
-    val defaultFilename = "input.csv"
+    val defaultFilename = "facts.csv"
     val defaultTopic = "test_001"
     val (filename, topic) = args match {
       case Array() => (defaultFilename, defaultTopic)
@@ -24,11 +24,11 @@ object FactsInserter {
     print("Reading from: ")
     println(fullFilename)
 
-    insertFromFile(filename = fullFilename, topic = topic)
+    insertFactsFromFile(fullFilename = fullFilename, topic = topic)
   }
 
-  private def insertFromFile(filename: String, topic: String): Unit = {
-    val file = scala.io.Source.fromFile(filename)
+  private def insertFactsFromFile(fullFilename: String, topic: String): Unit = {
+    val file = scala.io.Source.fromFile(fullFilename)
     val factIterator = reader(file)
     val kafkaProducer = KafkaProducer(topic = topic)
     val factEncoder = new FactEncoder()
@@ -37,7 +37,7 @@ object FactsInserter {
       if (factOption.nonEmpty)
         kafkaProducer.send(factEncoder.toBytes(factOption.get), null)
       if (errorOption.nonEmpty)
-        println(s"ERROR: In ${filename} : ${errorOption.get}")
+        println(s"ERROR: In ${fullFilename} : ${errorOption.get}")
     })
   }
 }

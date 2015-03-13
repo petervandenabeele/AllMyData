@@ -21,7 +21,7 @@ object CSV_EventReader {
     val objectTypes = objectTypesLine.split(",")
 
     file.getLines().map[EventByResource](line => {
-      val resource = Some(Resource())
+      val resourceOption = Some(Resource())
 
       val objectValues = line.split(",")
       val predicateObjects = headers.zip(objectTypes).zip(objectValues).
@@ -30,10 +30,10 @@ object CSV_EventReader {
                           objectType = objectType,
                           objectValue = objectValue )
         }
-      val event = Some(Event(predicateObjects))
+      val eventOption = Some(Event(predicateObjects))
 
-      EventByResource(resource = resource,
-                      event = event)
+      EventByResource(resource = resourceOption,
+                      event = eventOption)
     })
   }
 }
