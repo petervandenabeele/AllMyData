@@ -15,14 +15,26 @@ object H2DB {
 
   def makeDb: Database = Database.forURL("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1", driver = "org.h2.Driver")
 
-  def foo(db: Database): List[(Int, String)] = {
-    val foos: TableQuery[Foos] = TableQuery[Foos]
+  val foos: TableQuery[Foos] = TableQuery[Foos]
 
+  def makeFoosTable(db: Database): Unit = {
+    db.withSession { implicit session =>
+      (foos.ddl).create
+    }
+  }
+
+  val facts: TableQuery[FactsInDB] = TableQuery[FactsInDB]
+
+  def makeFactsTable(db: Database): Unit = {
     db.withSession { implicit session =>
       // Create the schema by combining the DDLs for the Suppliers and Coffees
       // tables using the query interfaces
-      (foos.ddl).create
+      (facts.ddl).create
+    }
+  }
 
+  def foo(db: Database): List[(Int, String)] = {
+    db.withSession { implicit session =>
       foos +=(101, "foo is bar")
       foos +=(102, "ping is tux")
 
@@ -31,12 +43,7 @@ object H2DB {
   }
 
   def insert_fact(db: Database, fact: Fact): List[(String, String, Option[UUID], UUID, String, String, String)] = {
-    val facts: TableQuery[FactsInDB] = TableQuery[FactsInDB]
     db.withSession { implicit session =>
-      // Create the schema by combining the DDLs for the Suppliers and Coffees
-      // tables using the query interfaces
-      (facts.ddl).create
-
       // TODO context.getValue
       val factInDB = (
         fact.timeStamp,
@@ -53,10 +60,10 @@ object H2DB {
     }
   }
 
-  def read_facts(db: Database): List[(String)] = { //, String, String, String, String, String, String)] = {
-    val facts: TableQuery[FactsInDB] = TableQuery[FactsInDB]
+  def read_facts(db: Database):  List[(String, String, Option[UUID], UUID, String, String, String)] = {
 
-    val query = for (fact <- facts) yield fact.timeStamp
+    val query = for (fact <- facts) yield fact
+
     val result = db.withSession {
       implicit session => {
         query.list
