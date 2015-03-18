@@ -31,7 +31,7 @@ case class Fact (timeStamp: ATD_TimeStamp = ZonedDateTime.now(ZoneId.of("UTC")).
       timeStamp,
       uuid,
       context,
-      subject.toString,
+      subject,
       predicate,
       objectType,
       objectValue

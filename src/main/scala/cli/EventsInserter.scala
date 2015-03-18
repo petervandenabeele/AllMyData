@@ -5,6 +5,7 @@
 package cli
 
 import base.{EventByResource, Fact, Event, Resource}
+import common._
 import csv.CSV_EventReader.eventByResourceReader
 import encoding.FactEncoder
 import kafkaStreaming.KafkaProducer
@@ -43,12 +44,14 @@ object EventsInserter {
     })
   }
 
-  private def factsFromEventByResource(eventByResource: EventByResource): List[Fact] = {
-    List(
+  private def factsFromEventByResource(eventByResource: EventByResource): Seq[Fact] = {
+    val resource = eventByResource.resource.get
+    eventByResource.event.get.pos.map ( predicateObject =>
       Fact(
-        predicate = "atd:persona:firstName",
-        objectType = "s",
-        objectValue = "bar"
+        subject = resource.subject,
+        predicate = predicateObject.predicate,
+        objectType = predicateObject.objectType,
+        objectValue = predicateObject.objectValue
       )
     )
   }
