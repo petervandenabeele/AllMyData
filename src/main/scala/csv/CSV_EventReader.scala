@@ -15,25 +15,24 @@ object CSV_EventReader {
     val potential_header = file.getLines()
     if (! potential_header.hasNext) return Iterator.empty
     val header = potential_header.next()
-    val headers = header.split(",")
+    val predicates = header.split(",")
 
     val objectTypesLine = potential_header.next()
     val objectTypes = objectTypesLine.split(",")
 
     file.getLines().map[EventByResource](line => {
-      val resourceOption = Some(Resource())
-
       val objectValues = line.split(",")
-      val predicateObjects = headers.zip(objectTypes).zip(objectValues).
+      val predicateObjects =
+        predicates.
+        zip(objectTypes).
+        zip(objectValues).
         map { case ((predicate, objectType), objectValue) =>
           PredicateObject(predicate = predicate,
                           objectType = objectType,
-                          objectValue = objectValue )
+                          objectValue = objectValue)
         }
-      val eventOption = Some(Event(predicateObjects))
-
-      EventByResource(resource = resourceOption,
-                      event = eventOption)
+      EventByResource(resource = Some(Resource()),
+                      event = Some(Event(predicateObjects)))
     })
   }
 }
