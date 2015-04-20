@@ -14,12 +14,13 @@ import org.scalatest.junit.JUnitRunner
 @RunWith(classOf[JUnitRunner])
 class JSON_EventReaderSuite extends FunSuite {
 
-  def eventByResourceIterator(filename: String): EventByResourceIterator = {
-    val file = scala.io.Source.fromURL(getClass.getResource(filename))
-    eventByResourceReader(file)
+  def eventByResourceIterator(schemaName: String, fileName: String): EventByResourceIterator = {
+    val schema = scala.io.Source.fromURL(getClass.getResource(schemaName))
+    val file = scala.io.Source.fromURL(getClass.getResource(fileName))
+    eventByResourceReader(schema, file)
   }
 
   test("Object CSV_EventReader can read an empty CSV file") {
-    assert(eventByResourceIterator("/empty_JSON_file.json").isEmpty)
+    assert(eventByResourceIterator("/event_json/schema1.json","/empty_JSON_file.json").isEmpty)
   }
 }

@@ -11,7 +11,7 @@ import scala.io.BufferedSource
 
 object JSON_EventReader {
 
-  def eventByResourceReader(file: BufferedSource): EventByResourceIterator = {
+  def eventByResourceReader(schema: BufferedSource, file: BufferedSource): EventByResourceIterator = {
     return Iterator.empty
   }
 }
