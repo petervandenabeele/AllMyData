@@ -22,3 +22,5 @@ libraryDependencies += "junit" % "junit" % "4.12" % "test"
 libraryDependencies += "com.typesafe.slick" %% "slick" % "2.1.0"
 
 libraryDependencies += "com.h2database" % "h2" % "1.4.186"
+
+libraryDependencies += "org.json4s" %% "json4s-native" % "3.2.10"

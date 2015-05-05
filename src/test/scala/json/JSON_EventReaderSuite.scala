@@ -1,6 +1,6 @@
 /**
- * Created by peter_v on 17/04/15.
- */
+*  Created by peter_v on 04/05/15.
+*/
 
 package json
 
@@ -20,7 +20,20 @@ class JSON_EventReaderSuite extends FunSuite {
     eventByResourceReader(schema, file)
   }
 
-  test("Object CSV_EventReader can read an empty CSV file") {
+  test("Object CSV_EventReader can read an empty JSON file") {
     assert(eventByResourceIterator("/event_json/schema1.json","/empty_JSON_file.json").isEmpty)
+  }
+
+  test("Object JSON_EventReader can read the first entry of a JSON file") {
+    val iterator: EventByResourceIterator = eventByResourceIterator("/event_json/schema1.json", "/event_json/foo_bar.json")
+
+    val eventByResource_0: EventByResource = iterator.next()
+
+    val resource_0 = eventByResource_0.resource.get
+    assertResult(36)(resource_0.subject.toString.length)
+    val predicateObject_0 = eventByResource_0.event.get.pos.head
+    assertResult("atd:foo")(predicateObject_0.predicate)
+    assertResult("s")(predicateObject_0.objectType)
+    assertResult("bar")(predicateObject_0.objectValue)
   }
 }

@@ -17,7 +17,7 @@ class EventByResourceSuite extends FunSuite {
 
   }
 
-  test("EventByResource can be created with explicit arguments") {
+  test("EventByResource can be created without explicit arguments") {
     new testEventByResource {
       println(eventByResource)
     }
