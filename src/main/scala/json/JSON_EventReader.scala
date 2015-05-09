@@ -6,6 +6,7 @@ package json
 
 import base.{PredicateObject, Event, Resource, EventByResource}
 import common._
+import org.json4s.JsonAST.JValue
 
 import scala.io.BufferedSource
 
@@ -42,25 +43,21 @@ object JSON_EventReader {
         // new resource, not trying to find existing
         resource = Some(Resource()),
         event = Some(Event(rawPos.map {
-          case (rawPredicate, JString(objectValue)) =>
-            val predicate: String = (schemaJson \ rawPredicate \ "predicate").values.toString
-            val objectType: String = (schemaJson \ rawPredicate \ "objectType").values.toString
-            PredicateObject(
-              predicate = predicate,
-              objectType = objectType,
-              objectValue = objectValue
-            )
-          case (rawPredicate, JInt(objectValue)) =>
-            val predicate: String = (schemaJson \ rawPredicate \ "predicate").values.toString
-            val objectType: String = (schemaJson \ rawPredicate \ "objectType").values.toString
-            PredicateObject(
-              predicate = predicate,
-              objectType = objectType,
-              objectValue = objectValue.toString()
-            )
-          case _ => PredicateObject() // Empty PredicateObject
+          case (rawPredicate, JString(objectValue)) => makePredicateObject(schemaJson, rawPredicate, objectValue)
+          case (rawPredicate, JInt(objectValue)) => makePredicateObject(schemaJson, rawPredicate, objectValue.toString())
+          case _ => PredicateObject(predicate = "atd:error", objectType = "s", objectValue = "Found unsupported JSON type (only string and int)")
         }))
       )
     }.toIterator
+  }
+
+  private def makePredicateObject(schemaJson: JValue, rawPredicate: String, objectValueString: String): PredicateObject = {
+    val predicate: String = (schemaJson \ rawPredicate \ "predicate").values.toString
+    val objectType: String = (schemaJson \ rawPredicate \ "objectType").values.toString
+    PredicateObject(
+      predicate = predicate,
+      objectType = objectType,
+      objectValue = objectValueString
+    )
   }
 }
