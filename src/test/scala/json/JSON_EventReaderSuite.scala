@@ -72,4 +72,39 @@ class JSON_EventReaderSuite extends FunSuite {
     assertResult("s")(predicateObject_1.objectType)
     assertResult("bar")(predicateObject_1.objectValue)
   }
+
+  test("Object JSON_EventReader can two events in a JSON file") {
+    val iterator: EventByResourceIterator = eventByResourceIterator("/event_json/schema1.json", "/event_json/foo_bar.json")
+
+    val eventByResource_0: EventByResource = iterator.next()
+
+    val resource_0 = eventByResource_0.resource.get
+    assertResult(36)(resource_0.subject.toString.length)
+
+    val predicateObject_00 = eventByResource_0.event.get.pos.head
+    assertResult("atd:foo")(predicateObject_00.predicate)
+    assertResult("s")(predicateObject_00.objectType)
+    assertResult("bar")(predicateObject_00.objectValue)
+
+    val predicateObject_01 = eventByResource_0.event.get.pos.tail.head
+    assertResult("atd:bar")(predicateObject_01.predicate)
+    assertResult("s")(predicateObject_01.objectType)
+    assertResult("ping")(predicateObject_01.objectValue)
+
+
+    val eventByResource_1: EventByResource = iterator.next()
+
+    val resource_1 = eventByResource_1.resource.get
+    assertResult(36)(resource_1.subject.toString.length)
+
+    val predicateObject_10 = eventByResource_1.event.get.pos.head
+    assertResult("atd:foo")(predicateObject_10.predicate)
+    assertResult("s")(predicateObject_10.objectType)
+    assertResult("tux")(predicateObject_10.objectValue)
+
+    val predicateObject_11 = eventByResource_1.event.get.pos.tail.head
+    assertResult("atd:bar")(predicateObject_11.predicate)
+    assertResult("s")(predicateObject_11.objectType)
+    assertResult("pong")(predicateObject_11.objectValue)
+  }
 }
