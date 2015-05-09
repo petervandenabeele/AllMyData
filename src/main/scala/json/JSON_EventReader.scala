@@ -42,27 +42,18 @@ object JSON_EventReader {
       "bar" -> Map[String, String]("predicate" -> "atd:bar", "objectType" -> "s")
     )
 
-    topList.get.map(entry => {
-      val rawPos = entry match {
-        case JObject(list) => list
-      }
-
-      val predicateObjects = rawPos.map {
-        case (rawPredicate, rawObjectValue) =>
-          val objectValue = rawObjectValue match {
-            case JString(s) => s
-            case _ => ""
-          }
-          PredicateObject(
-            predicate = schema(rawPredicate)("predicate"),
-            objectType = schema(rawPredicate)("objectType"),
-            objectValue = objectValue)
-      }
-
+    topList.get.map { case JObject(rawPos) =>
       EventByResource(
+        // new resource, not trying to find existing
         resource = Some(Resource()),
-        event = Some(Event(predicateObjects))
+        event = Some(Event(rawPos.map {
+          case (rawPredicate, JString(objectValue)) =>
+            PredicateObject(
+              predicate = schema(rawPredicate)("predicate"),
+              objectType = schema(rawPredicate)("objectType"),
+              objectValue = objectValue)
+        }))
       )
-    }).toIterator
+    }.toIterator
   }
 }
