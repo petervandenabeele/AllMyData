@@ -47,22 +47,19 @@ object JSON_EventReader {
         case JObject(list) => list
       }
 
-      val rawPredicates: Seq[String] = rawPos.map(rawPo => rawPo._1)
-      val objectValues: Seq[String] =  rawPos.map(rawPo => rawPo._2 match {
-        case JString(s) => s
-        case _ => ""
-      })
+      val predicateObjects = rawPos.map {
+        case (rawPredicate, rawObjectValue) =>
+          val predicate = schema(rawPredicate)("predicate")
+          val objectType = schema(rawPredicate)("objectType")
+          val objectValue = rawObjectValue match {
+            case JString(s) => s
+            case _ => ""
+          }
+          PredicateObject(predicate = predicate,
+            objectType = objectType,
+            objectValue = objectValue)
+      }
 
-      val predicateObjects =
-        rawPredicates.
-          zip(objectValues).
-          map { case (rawPredicate, objectValue) =>
-            val predicate = schema(rawPredicate)("predicate")
-            val objectType = schema(rawPredicate)("objectType")
-            PredicateObject(predicate = predicate,
-              objectType = objectType,
-              objectValue = objectValue)
-        }
       EventByResource(resource = Some(Resource()),
         event = Some(Event(predicateObjects)))
     }).toIterator
