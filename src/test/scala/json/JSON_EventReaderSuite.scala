@@ -107,4 +107,39 @@ class JSON_EventReaderSuite extends FunSuite {
     assertResult("s")(predicateObject_11.objectType)
     assertResult("pong")(predicateObject_11.objectValue)
   }
+
+  test("Object JSON_EventReader can read an Int and write an \"i\" objectType") {
+    val iterator: EventByResourceIterator = eventByResourceIterator("/event_json/schema1.json", "/event_json/foo_bar_int.json")
+
+    val eventByResource_0: EventByResource = iterator.next()
+
+    val resource_0 = eventByResource_0.resource.get
+    assertResult(36)(resource_0.subject.toString.length)
+
+    val predicateObject_00 = eventByResource_0.event.get.pos.head
+    assertResult("my:city")(predicateObject_00.predicate)
+    assertResult("s")(predicateObject_00.objectType)
+    assertResult("London")(predicateObject_00.objectValue)
+
+    val predicateObject_01 = eventByResource_0.event.get.pos.tail.head
+    assertResult("my:bars")(predicateObject_01.predicate)
+    assertResult("i")(predicateObject_01.objectType)
+    assertResult("442")(predicateObject_01.objectValue)
+
+
+    val eventByResource_1: EventByResource = iterator.next()
+
+    val resource_1 = eventByResource_1.resource.get
+    assertResult(36)(resource_1.subject.toString.length)
+
+    val predicateObject_10 = eventByResource_1.event.get.pos.head
+    assertResult("my:city")(predicateObject_10.predicate)
+    assertResult("s")(predicateObject_10.objectType)
+    assertResult("SFO")(predicateObject_10.objectValue)
+
+    val predicateObject_11 = eventByResource_1.event.get.pos.tail.head
+    assertResult("my:bars")(predicateObject_11.predicate)
+    assertResult("i")(predicateObject_11.objectType)
+    assertResult("537")(predicateObject_11.objectValue)
+  }
 }

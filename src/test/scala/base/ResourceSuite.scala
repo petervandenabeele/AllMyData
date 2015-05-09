@@ -17,7 +17,7 @@ class ResourceSuite extends FunSuite {
 
   test("Resource can be created without explicits") {
     new testResource {
-      println(resource)
+      assert(1 == 1)
     }
   }
 }

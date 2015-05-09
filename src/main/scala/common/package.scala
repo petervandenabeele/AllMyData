@@ -29,4 +29,4 @@ package object common {
 // r : reference (to the subject of a resource, e.g. as a UUID)
 // i : integer (can be signed)
 // d : decimal
-// f : float (arbitrary precision)
+// f : float (arbitrary precision, so could be "double" in practice)

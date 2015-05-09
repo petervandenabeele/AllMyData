@@ -39,7 +39,9 @@ object JSON_EventReader {
 
     val schema = Map[String, Map[String,String]](
       "foo" -> Map[String, String]("predicate" -> "atd:foo", "objectType" -> "s"),
-      "bar" -> Map[String, String]("predicate" -> "atd:bar", "objectType" -> "s")
+      "bar" -> Map[String, String]("predicate" -> "atd:bar", "objectType" -> "s"),
+      "city" -> Map[String, String]("predicate" -> "my:city", "objectType" -> "s"),
+      "bars" -> Map[String, String]("predicate" -> "my:bars", "objectType" -> "i")
     )
 
     topList.get.map { case JObject(rawPos) =>
@@ -52,6 +54,12 @@ object JSON_EventReader {
               predicate = schema(rawPredicate)("predicate"),
               objectType = schema(rawPredicate)("objectType"),
               objectValue = objectValue)
+          case (rawPredicate, JInt(objectValue)) =>
+            PredicateObject(
+              predicate = schema(rawPredicate)("predicate"),
+              objectType = schema(rawPredicate)("objectType"),
+              objectValue = objectValue.toString())
+          case _ => PredicateObject() // Empty PredicateObject
         }))
       )
     }.toIterator
