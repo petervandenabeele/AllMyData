@@ -1,0 +1,10 @@
+[
+  {
+    "bar": "ping",
+    "foo": "bar"
+  },
+  {
+    "foo": "tux",
+    "bar": "pong"
+  }
+]

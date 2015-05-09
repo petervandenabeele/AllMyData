@@ -37,7 +37,7 @@ class JSON_EventReaderSuite extends FunSuite {
     assertResult("bar")(predicateObject_0.objectValue)
   }
 
-  test("Object JSON_EventReader can read two facts in one entry of a JSON file") {
+  test("Object JSON_EventReader can read two entries in one event of a JSON file") {
     val iterator: EventByResourceIterator = eventByResourceIterator("/event_json/schema1.json", "/event_json/foo_bar.json")
 
     val eventByResource_0: EventByResource = iterator.next()
@@ -53,5 +53,23 @@ class JSON_EventReaderSuite extends FunSuite {
     assertResult("atd:bar")(predicateObject_1.predicate)
     assertResult("s")(predicateObject_1.objectType)
     assertResult("ping")(predicateObject_1.objectValue)
+  }
+
+  test("Object JSON_EventReader can read two entries when in other order in JSON file") {
+    val iterator: EventByResourceIterator = eventByResourceIterator("/event_json/schema1.json", "/event_json/bar_foo.json")
+
+    val eventByResource_0: EventByResource = iterator.next()
+
+    val resource_0 = eventByResource_0.resource.get
+    assertResult(36)(resource_0.subject.toString.length)
+    val predicateObject_0 = eventByResource_0.event.get.pos.head
+    assertResult("atd:bar")(predicateObject_0.predicate)
+    assertResult("s")(predicateObject_0.objectType)
+    assertResult("ping")(predicateObject_0.objectValue)
+
+    val predicateObject_1 = eventByResource_0.event.get.pos.tail.head
+    assertResult("atd:foo")(predicateObject_1.predicate)
+    assertResult("s")(predicateObject_1.objectType)
+    assertResult("bar")(predicateObject_1.objectValue)
   }
 }
