@@ -49,19 +49,20 @@ object JSON_EventReader {
 
       val predicateObjects = rawPos.map {
         case (rawPredicate, rawObjectValue) =>
-          val predicate = schema(rawPredicate)("predicate")
-          val objectType = schema(rawPredicate)("objectType")
           val objectValue = rawObjectValue match {
             case JString(s) => s
             case _ => ""
           }
-          PredicateObject(predicate = predicate,
-            objectType = objectType,
+          PredicateObject(
+            predicate = schema(rawPredicate)("predicate"),
+            objectType = schema(rawPredicate)("objectType"),
             objectValue = objectValue)
       }
 
-      EventByResource(resource = Some(Resource()),
-        event = Some(Event(predicateObjects)))
+      EventByResource(
+        resource = Some(Resource()),
+        event = Some(Event(predicateObjects))
+      )
     }).toIterator
   }
 }
