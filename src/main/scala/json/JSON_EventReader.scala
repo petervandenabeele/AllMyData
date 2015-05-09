@@ -18,7 +18,6 @@ object JSON_EventReader {
     // parse the schema first
     val schemaString = schemaFile.mkString
     val schemaJson = parse(schemaString)
-    println(schemaJson)
 
     // parse the core json
     // FIXME : proper streaming
@@ -38,21 +37,31 @@ object JSON_EventReader {
       case JString(_) => None
     }
 
-    // println(topList.get)
-
-    val predicates = List("atd:foo", "atd:bar")
-    val objectTypes = List("s", "s")
+    val schema = Map[String, Map[String,String]](
+      "foo" -> Map[String, String]("predicate" -> "atd:foo", "objectType" -> "s"),
+      "bar" -> Map[String, String]("predicate" -> "atd:bar", "objectType" -> "s")
+    )
 
     topList.get.map(entry => {
-      val objectValues = List("bar")
+      val rawPos = entry match {
+        case JObject(list) => list
+      }
+
+      val rawPredicates: Seq[String] = rawPos.map(rawPo => rawPo._1)
+      val objectValues: Seq[String] =  rawPos.map(rawPo => rawPo._2 match {
+        case JString(s) => s
+        case _ => ""
+      })
+
       val predicateObjects =
-        predicates.
-          zip(objectTypes).
+        rawPredicates.
           zip(objectValues).
-          map { case ((predicate, objectType), objectValue) =>
-          PredicateObject(predicate = predicate,
-            objectType = objectType,
-            objectValue = objectValue)
+          map { case (rawPredicate, objectValue) =>
+            val predicate = schema(rawPredicate)("predicate")
+            val objectType = schema(rawPredicate)("objectType")
+            PredicateObject(predicate = predicate,
+              objectType = objectType,
+              objectValue = objectValue)
         }
       EventByResource(resource = Some(Resource()),
         event = Some(Event(predicateObjects)))
