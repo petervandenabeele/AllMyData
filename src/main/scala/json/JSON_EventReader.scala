@@ -37,28 +37,27 @@ object JSON_EventReader {
       case JString(_) => None
     }
 
-    val schema = Map[String, Map[String,String]](
-      "foo" -> Map[String, String]("predicate" -> "atd:foo", "objectType" -> "s"),
-      "bar" -> Map[String, String]("predicate" -> "atd:bar", "objectType" -> "s"),
-      "city" -> Map[String, String]("predicate" -> "my:city", "objectType" -> "s"),
-      "bars" -> Map[String, String]("predicate" -> "my:bars", "objectType" -> "i")
-    )
-
     topList.get.map { case JObject(rawPos) =>
       EventByResource(
         // new resource, not trying to find existing
         resource = Some(Resource()),
         event = Some(Event(rawPos.map {
           case (rawPredicate, JString(objectValue)) =>
+            val predicate: String = (schemaJson \ rawPredicate \ "predicate").values.toString
+            val objectType: String = (schemaJson \ rawPredicate \ "objectType").values.toString
             PredicateObject(
-              predicate = schema(rawPredicate)("predicate"),
-              objectType = schema(rawPredicate)("objectType"),
-              objectValue = objectValue)
+              predicate = predicate,
+              objectType = objectType,
+              objectValue = objectValue
+            )
           case (rawPredicate, JInt(objectValue)) =>
+            val predicate: String = (schemaJson \ rawPredicate \ "predicate").values.toString
+            val objectType: String = (schemaJson \ rawPredicate \ "objectType").values.toString
             PredicateObject(
-              predicate = schema(rawPredicate)("predicate"),
-              objectType = schema(rawPredicate)("objectType"),
-              objectValue = objectValue.toString())
+              predicate = predicate,
+              objectType = objectType,
+              objectValue = objectValue.toString()
+            )
           case _ => PredicateObject() // Empty PredicateObject
         }))
       )
