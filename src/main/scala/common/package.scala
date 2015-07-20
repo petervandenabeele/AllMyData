@@ -19,6 +19,7 @@ package object common {
   type EventByResourceIterator = Iterator[EventByResource]
 
   def newUUID() = UUID.randomUUID()
+  val separator = ";"
 }
 
 // ATD_ObjectType describes the type ObjectValue is one of:

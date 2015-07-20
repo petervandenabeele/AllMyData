@@ -35,6 +35,6 @@ case class Fact (timeStamp: ATD_TimeStamp = ZonedDateTime.now(ZoneId.of("UTC")).
       predicate,
       objectType,
       objectValue
-    ).mkString(",")
+    ).mkString(separator)
   }
 }

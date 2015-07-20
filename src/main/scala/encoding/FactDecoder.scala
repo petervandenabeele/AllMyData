@@ -6,6 +6,7 @@ package encoding
 
 import java.util.UUID
 
+import common.separator
 import base.{Context, Fact}
 import kafka.serializer.Decoder
 import kafka.utils.VerifiableProperties
@@ -19,7 +20,7 @@ class FactDecoder(props: VerifiableProperties = null) extends Decoder[Fact]{
 
   def fromBytes(bytes: Array[Byte]): Fact = {
     val string = new String(bytes, encoding)
-    val elements = string.split(",", 7)
+    val elements = string.split(separator, 7)
     val context = Context(elements(2))
 
     Fact(timeStamp = elements(0),

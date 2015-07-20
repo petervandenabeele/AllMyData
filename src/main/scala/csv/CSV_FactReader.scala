@@ -19,7 +19,7 @@ object CSV_FactReader {
     var subjects = scala.collection.mutable.Map[Int, ATD_Subject]()
 
     file.getLines().map[FactWithStatus] (line => {
-      val elements:Array[String] = line.split(",", 7)
+      val elements:Array[String] = line.split(separator, 7)
       val localContextString = elements(0)
       val localSubjectString = elements(2)
       val predicate = elements(4)

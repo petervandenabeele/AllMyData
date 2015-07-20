@@ -1,5 +1,5 @@
-,,1,,atd:context:source,s,me
-,,1,,atd:context:ingress_time,s,2014-12-12T22:13:00
-1,,2,,atd:foo,s,bar
-1,,2,,atd:tux,s,ping
-1,,2,,atd:ping,s,pong
+;;1;;atd:context:source;s;me
+;;1;;atd:context:ingress_time;s;2014-12-12T22:13:00
+1;;2;;atd:foo;s;bar
+1;;2;;atd:tux;s;ping
+1;;2;;atd:ping;s;pong

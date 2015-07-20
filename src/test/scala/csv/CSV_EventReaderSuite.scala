@@ -35,6 +35,7 @@ class CSV_EventReaderSuite extends FunSuite {
     val iterator: EventByResourceIterator = eventByResourceIterator("/event_csv/one_data_line.csv")
     val eventByResource_0: EventByResource = iterator.next()
     assertResult(36)(eventByResource_0.resource.get.subject.toString.length)
+    println(eventByResource_0.event.get.pos)
     assertResult(3)(eventByResource_0.event.get.pos.size)
   }
 

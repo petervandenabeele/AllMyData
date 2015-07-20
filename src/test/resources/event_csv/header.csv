@@ -1,2 +1,2 @@
-schema:givenName,schema:familyName,schema:email
-s,s,s
+schema:givenName;schema:familyName;schema:email
+s;s;s

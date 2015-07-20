@@ -45,7 +45,7 @@ class CSV_FactReaderSuite extends FunSuite {
     val fact_2 = facts(1)
     val fact_3 = facts(2)
 
-    assert(facts.size === 3)
+    assert(facts.length === 3)
 
     assert(fact_1.predicate === "atd:foo")
     assert(fact_1.objectType === "s")
@@ -75,7 +75,7 @@ class CSV_FactReaderSuite extends FunSuite {
     val fact_2 = facts(3)
     val fact_3 = facts(4)
 
-    assert(facts.size === 5)
+    assert(facts.length === 5)
 
     assert(context_1.predicate === "atd:context:source")
     assert(context_1.objectType === "s")
@@ -120,7 +120,7 @@ class CSV_FactReaderSuite extends FunSuite {
     val fact_1 = facts(2)
     val fact_2 = facts(3)
 
-    assert(facts.size === 4)
+    assert(facts.length === 4)
 
     val expected_context_1 = Context(Some(context_1.subject))
     val expected_context_2 = Context(Some(context_2.subject))
@@ -147,7 +147,7 @@ class CSV_FactReaderSuite extends FunSuite {
     val fact_1 = facts(2)
     val fact_2 = facts(3)
 
-    assert(facts.size === 4)
+    assert(facts.length === 4)
 
     val expected_context_1 = Context(Some(context_1.subject))
     val expected_context_2 = Context(Some(context_2.subject))
@@ -192,7 +192,7 @@ class CSV_FactReaderSuite extends FunSuite {
 
     val errors: Array[String] = factsWithStatusses.filter(p => p._1.isEmpty).map(p => p._2.get)
 
-    assert(errors.size === 1)
+    assert(errors.length === 1)
 
     val error_1 = errors(0)
 
@@ -210,7 +210,7 @@ class CSV_FactReaderSuite extends FunSuite {
     val fact_1 = facts(2)
     val fact_2 = facts(3)
 
-    assert(facts.size === 4)
+    assert(facts.length === 4)
 
     val expected_context_1 = Context(Some(context_1.subject))
     val expected_context_2 = Context(Some(context_2.subject))
@@ -224,5 +224,17 @@ class CSV_FactReaderSuite extends FunSuite {
     assert(fact_2.predicate === "atd:bar")
     assert(fact_2.objectType === "r")
     assert(UUID.fromString(fact_2.objectValue) === fact_1.subject)
+  }
+
+  test("Object CSV_FactReader can read a simple CSV file with a ; delimiter and , in data") {
+    val filename = "/fact_csv/simple_CSV_file_with_semicolon_delimiter.csv"
+    val file = scala.io.Source.fromURL(getClass.getResource(filename))
+    val factIterator: FactIterator = reader(file)
+    val factWithStatus: FactWithStatus = factIterator.next()
+    val fact = factWithStatus._1.get
+
+    assert(fact.predicate === "atd:foo")
+    assert(fact.objectType === "s")
+    assert(fact.objectValue === "bar, dance and café")
   }
 }

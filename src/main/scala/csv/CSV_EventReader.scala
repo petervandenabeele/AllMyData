@@ -15,13 +15,13 @@ object CSV_EventReader {
     val potential_header = file.getLines()
     if (! potential_header.hasNext) return Iterator.empty
     val header = potential_header.next()
-    val predicates = header.split(",")
+    val predicates = header.split(separator)
 
     val objectTypesLine = potential_header.next()
-    val objectTypes = objectTypesLine.split(",")
+    val objectTypes = objectTypesLine.split(separator)
 
     file.getLines().map[EventByResource](line => {
-      val objectValues = line.split(",")
+      val objectValues = line.split(separator)
       val predicateObjects =
         predicates.
         zip(objectTypes).
