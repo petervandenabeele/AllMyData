@@ -33,7 +33,7 @@ object CSV_FactReader {
         csvObjectType, csvObjectValue, subjects)
 
 
-      if (objectValueOption == None)
+      if (objectValueOption.isEmpty)
         // error occurred in finding link to objectValue in this file
         (None, errorOption)
       else {
