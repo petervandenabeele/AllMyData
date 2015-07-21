@@ -5,6 +5,7 @@ atd:ping
 atd:pong
 atd:tux
 atd:context:source
+atd:context:processor
 atd:context:ingress_time
 atd:context:visibility
 atd:context:encryption

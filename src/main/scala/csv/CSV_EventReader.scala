@@ -26,6 +26,7 @@ object CSV_EventReader {
         predicates.
         zip(objectTypes).
         zip(objectValues).
+        filter(p_ot_ov => ! p_ot_ov._2.isEmpty). // drop tuples with empty objectValues
         map { case ((predicate, objectType), objectValue) =>
           PredicateObject(predicate = predicate,
                           objectType = objectType,

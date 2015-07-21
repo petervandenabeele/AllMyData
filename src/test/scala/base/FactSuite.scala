@@ -115,4 +115,12 @@ class FactSuite extends FunSuite {
         objectValue = "Bar")
     }
   }
+
+  test("Fact cannot have empty objectValue") {
+    intercept[IllegalArgumentException] {
+      Fact(predicate = "atd:foo", // not valid
+        objectType = "s",
+        objectValue = "")
+    }
+  }
 }
