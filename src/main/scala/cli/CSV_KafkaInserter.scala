@@ -1,35 +1,35 @@
 /**
- * Created by peter_v on 04/12/14.
+ * Created by peter_v on 08/23/15.
  */
 
 package cli
 
+import csv.CSV_KafkaReader.reader
 import encoding.FactEncoder
-import csv.CSV_FactReader.reader
-
 import kafkaStreaming.KafkaProducer
 
-object KafkaCSVInserter {
+object CSV_KafkaInserter {
+  // TODO : DRY this with other inserters
   def main(args: Array[String]): Unit = {
-    println("Starting AllMyData FactsInserter.main")
-    val defaultFilename = "facts.csv"
-    val defaultTopic = "test_001"
+    println("Starting AllMyData CSV_KafkaInserter.main")
+    val defaultFilename = "kafkaFacts.csv"
+    val defaultTopic = "out_001"
     val (filename, topic) = args match {
       case Array() => (defaultFilename, defaultTopic)
       case Array(f)  => (f, defaultTopic)
       case Array(f,t)  => (f,t)
     }
     val homeDir = System.getProperty("user.home")
-    val fullFilename = homeDir + "/data/private/data/mnt/input/" + filename
+    val fullFilename = homeDir + "/data/private/data/mnt/facts/" + filename
 
     print("Reading from: ")
     println(fullFilename)
     println(s"topic is $topic")
 
-    insertFactsFromFile(fullFilename = fullFilename, topic = topic)
+    insertFactsFromCSV_KafkaFile(fullFilename = fullFilename, topic = topic)
   }
 
-  private def insertFactsFromFile(fullFilename: String, topic: String): Unit = {
+  private def insertFactsFromCSV_KafkaFile(fullFilename: String, topic: String): Unit = {
     val file = scala.io.Source.fromFile(fullFilename)
     val factIterator = reader(file)
     val kafkaProducer = KafkaProducer(topic = topic)
