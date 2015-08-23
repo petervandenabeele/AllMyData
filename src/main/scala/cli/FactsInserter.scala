@@ -21,8 +21,10 @@ object FactsInserter {
     }
     val homeDir = System.getProperty("user.home")
     val fullFilename = homeDir + "/data/private/data/mnt/input/" + filename
+
     print("Reading from: ")
     println(fullFilename)
+    println(s"topic is $topic")
 
     insertFactsFromFile(fullFilename = fullFilename, topic = topic)
   }
@@ -37,7 +39,7 @@ object FactsInserter {
       if (factOption.nonEmpty)
         kafkaProducer.send(factEncoder.toBytes(factOption.get), null)
       if (errorOption.nonEmpty)
-        println(s"ERROR: In ${fullFilename} : ${errorOption.get}")
+        println(s"ERROR: In $fullFilename : ${errorOption.get}")
     })
   }
 }
