@@ -7,8 +7,9 @@ package slick
 import java.time.{ZoneId, ZonedDateTime}
 import java.util.UUID
 
+import slick.lifted.ProvenShape
+
 import scala.slick.driver.H2Driver.simple._
-import scala.slick.lifted.ProvenShape
 
 class Foos(tag: Tag) extends Table[(Int, String)](tag, "FOOS") {
   // This is the primary key column:
