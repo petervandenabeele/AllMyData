@@ -30,7 +30,7 @@ object EventsInserter {
     println(s"topic is $topic")
     println(s"context is $contextFacts")
 
-    insertEventsFromFile(fullFilename, topic, contextFacts)
+    insertEventsFromFile(fullFilename = fullFilename, topic = topic, contextFacts = contextFacts)
   }
 
   private val contextFacts: Seq[Fact] = {

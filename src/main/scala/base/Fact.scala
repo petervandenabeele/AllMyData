@@ -29,7 +29,7 @@ case class Fact (timeStamp: ATD_TimeStamp = ZonedDateTime.now(ZoneId.of("UTC")).
   if(objectValue.isEmpty)
     throw new IllegalArgumentException(s"The objectValue for new Fact with predicate $predicate is empty")
 
-  override def toString(): String = {
+  override def toString: String = {
     List(
       timeStamp,
       uuid,
