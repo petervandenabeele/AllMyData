@@ -7,18 +7,15 @@ package cli
 import java.time.{ZoneId, ZonedDateTime}
 
 import base._
-import common._
 import csv.CSV_EventReader.eventByResourceReader
 
+/** WIP: Read events from an infacts file and write them to a facts file **/
 object EventsInserter {
+
   def main(args: Array[String]): Unit = {
     println("Starting AllMyData EventsInserter.main")
-    val filename = args match {
-      case Array(f)  => f
-      case _  => throw new RuntimeException("provide a filename to read from")
-    }
-    val homeDir = System.getProperty("user.home")
-    val fullFilename = homeDir + "/pp/facts/data/" + filename
+    val filename = Util.getFileName(args)
+    val fullFilename = Util.getFullFilename(filename)
 
     print("Reading from: ")
     println(fullFilename)
@@ -27,6 +24,7 @@ object EventsInserter {
     insertEventsFromFile(fullFilename = fullFilename, contextFacts = contextFacts)
   }
 
+  /** Static contextFacts (still needed ??) **/
   private val contextFacts: Seq[Fact] = {
 
     val predicateObjects = List(
@@ -41,7 +39,10 @@ object EventsInserter {
         objectValue = ZonedDateTime.now(ZoneId.of("UTC")).toString),
       PredicateObject(predicate = "amd:context:visibility",
         objectType = "s",
-        objectValue = "professional") // public | private | professional
+        objectValue = "professional"), // public | private | professional
+      PredicateObject(predicate = "amd:context:encryption",
+        objectType = "s",
+        objectValue = "encrypted") // public | private | professional
     )
 
     val ebr = EventByResource(resource = Some(Resource()),
@@ -49,11 +50,12 @@ object EventsInserter {
     factsFromEventByResource(ebr, Context(""))
   }
 
-
+  /** Read the actual facts and insert them in output file **/
   private def insertEventsFromFile(fullFilename: String, contextFacts: Seq[Fact]): Unit = {
     val file = scala.io.Source.fromFile(fullFilename)
     val eventByResourceIterator = eventByResourceReader(file)
     val context: Context = Context(contextFacts.head.subject.toString)
+
     contextFacts.foreach(fact =>
       println(fact.toString)
     )
@@ -68,6 +70,7 @@ object EventsInserter {
     })
   }
 
+  /** Produce Facts from an EventByResource (move to EventByResource ??) **/
   private def factsFromEventByResource(eventByResource: EventByResource, context: Context): Seq[Fact] = {
     val resource = eventByResource.resource.get
     eventByResource.event.get.pos.map ( predicateObject =>
