@@ -9,12 +9,18 @@ import common._
 
 import scala.io.BufferedSource
 
+/** Reads InFacts from a CSV
+  *
+  * Format is (statically defined):
+  * no header line
+  * local_context | context_uuid | local_subject | subject_uuid | predicate | objectType | objectValue
+  *
+  * There is a local correlation between local_context entries and reused in later facts
+  * and local_subject reused in later local_subject and object fields
+  * (see tests for examples e.g. two_facts_with_csv_reference.csv)
+  */
 object CSV_FactReader {
 
-  // reading from a CSV with structure (7 fields, last field no newlines)
-  // local_context | context_uuid |
-  // local_subject | subject_uuid |
-  // predicate | objectType | objectValue
   def reader(file: BufferedSource): FactIterator = {
     var subjects = scala.collection.mutable.Map[Int, ATD_Subject]()
 
