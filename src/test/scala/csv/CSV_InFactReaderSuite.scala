@@ -15,7 +15,7 @@ import org.scalatest.FunSuite
 import org.scalatest.junit.JUnitRunner
 
 @RunWith(classOf[JUnitRunner])
-class CSV_FactReaderSuite extends FunSuite {
+class CSV_InFactReaderSuite extends FunSuite {
 
   test("Object CSV_InFactReader can read an empty CSV file") {
     val filename = "/empty_CSV_file.csv"
@@ -25,7 +25,7 @@ class CSV_FactReaderSuite extends FunSuite {
   }
 
   test("Object CSV_InFactReader can read a simple CSV file") {
-    val filename = "/fact_csv/simple_CSV_file.csv"
+    val filename = "/in_fact_csv/simple_CSV_file.csv"
     val file = scala.io.Source.fromURL(getClass.getResource(filename))
     val factIterator: FactIterator = reader(file)
     val factWithStatus: FactWithStatus = factIterator.next()
@@ -36,8 +36,8 @@ class CSV_FactReaderSuite extends FunSuite {
     assert(fact.objectValue === "bar and café")
   }
 
-  test("one_fact.csv creates 3 facts for one resource") {
-    val filename = "/fact_csv/one_fact.csv"
+  test("one_in_fact.csv creates 3 facts for one resource") {
+    val filename = "/in_fact_csv/one_in_fact.csv"
     val file = scala.io.Source.fromURL(getClass.getResource(filename))
     val factIterator: FactIterator = reader(file)
     val facts: Array[Fact] = factIterator.map(p => p._1.get).toArray
@@ -64,8 +64,8 @@ class CSV_FactReaderSuite extends FunSuite {
     assert(fact_3.subject === resource_subject)
   }
 
-  test("one_fact_with_context.csv creates 1 context and 3 facts") {
-    val filename = "/fact_csv/one_fact_with_context.csv"
+  test("one_in_fact_with_context.csv creates 1 context and 3 facts") {
+    val filename = "/in_fact_csv/one_in_fact_with_context.csv"
     val file = scala.io.Source.fromURL(getClass.getResource(filename))
     val factIterator: FactIterator = reader(file)
     val facts: Array[Fact] = factIterator.map(p => p._1.get).toArray
@@ -109,8 +109,8 @@ class CSV_FactReaderSuite extends FunSuite {
     assert(fact_3.subject === resource_subject)
   }
 
-  test("two_facts_with_context.csv 2 contexts for 2 facts") {
-    val filename = "/fact_csv/two_facts_with_context.csv"
+  test("two_in_facts_with_context.csv 2 contexts for 2 facts") {
+    val filename = "/in_fact_csv/two_in_facts_with_context.csv"
     val file = scala.io.Source.fromURL(getClass.getResource(filename))
     val factIterator: FactIterator = reader(file)
     val facts: Array[Fact] = factIterator.map(p => p._1.get).toArray
@@ -136,8 +136,8 @@ class CSV_FactReaderSuite extends FunSuite {
     assert(fact_2.objectValue === "foo")
   }
 
-  test("two_facts_with_csv_reference.csv links object first resource") {
-    val filename = "/fact_csv/two_facts_with_csv_reference.csv"
+  test("two_in_facts_with_csv_reference.csv links object first resource") {
+    val filename = "/in_fact_csv/two_in_facts_with_csv_reference.csv"
     val file = scala.io.Source.fromURL(getClass.getResource(filename))
     val factIterator: FactIterator = reader(file)
     val facts: Array[Fact] = factIterator.map(p => p._1.get).toArray
@@ -164,8 +164,8 @@ class CSV_FactReaderSuite extends FunSuite {
     assert(UUID.fromString(fact_2.objectValue) === fact_1.subject)
   }
 
-  test("three_facts_with_invalid_csv_reference.csv reports error and keeps reading after the invalid fact") {
-    val filename = "/fact_csv/three_facts_with_invalid_csv_reference.csv"
+  test("three_in_facts_with_invalid_csv_reference.csv reports error and keeps reading after the invalid fact") {
+    val filename = "/in_fact_csv/three_in_facts_with_invalid_csv_reference.csv"
     val file = scala.io.Source.fromURL(getClass.getResource(filename))
 
     val factIterator: FactIterator = reader(file)
@@ -199,8 +199,8 @@ class CSV_FactReaderSuite extends FunSuite {
     assert(error_1 === "csvObjectValue 15 could not be found")
   }
 
-  test("two_facts_with_empty_line_and_csv_reference.csv ignores blank lines") {
-    val filename = "/fact_csv/two_facts_with_empty_line_and_csv_reference.csv"
+  test("two_in_facts_with_empty_line_and_csv_reference.csv ignores blank lines") {
+    val filename = "/in_fact_csv/two_in_facts_with_empty_line_and_csv_reference.csv"
     val file = scala.io.Source.fromURL(getClass.getResource(filename))
     val factIterator: FactIterator = reader(file)
     val facts: Array[Fact] = factIterator.map(p => p._1.get).toArray
@@ -227,7 +227,7 @@ class CSV_FactReaderSuite extends FunSuite {
   }
 
   test("Object CSV_InFactReader can read a simple CSV file with a ; delimiter and , in data") {
-    val filename = "/fact_csv/simple_CSV_file_with_semicolon_delimiter.csv"
+    val filename = "/in_fact_csv/simple_CSV_file_with_semicolon_delimiter.csv"
     val file = scala.io.Source.fromURL(getClass.getResource(filename))
     val factIterator: FactIterator = reader(file)
     val factWithStatus: FactWithStatus = factIterator.next()

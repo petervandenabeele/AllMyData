@@ -24,7 +24,7 @@ object CSV_InFactReader {
   def reader(file: BufferedSource): FactIterator = {
     var subjects = scala.collection.mutable.Map[Int, ATD_Subject]()
 
-    file.getLines().map[FactWithStatus] (line => {
+    file.getLines().filterNot(x => x.isEmpty).map[FactWithStatus] (line => {
       val elements:Array[String] = line.split(separator, 7)
       val localContextString = elements(0)
       val localSubjectString = elements(2)
