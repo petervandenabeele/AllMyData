@@ -45,8 +45,8 @@ class H2DBSuite extends FunSuite {
   test("Slick + H2DB works and CREATES TABLE FOOS and FACTS") {
     new testFoo {
       val setup = DBIO.seq(
-        // Create the tables, including primary and foreign keys
-        (H2DB.foos.schema ++ H2DB.facts.schema).create,
+        // Create the foos tables
+        H2DB.foos.schema.create,
 
         // Insert some foos
         H2DB.foos +=(101, "foo is bar"),
@@ -55,8 +55,8 @@ class H2DBSuite extends FunSuite {
 
       val setupFuture = db.run(setup)
       setupFuture.onComplete {
-        case Success(()) => println(s"test 1: success creating the tables")
-        case Failure(t) => println(s"test 1: failure $t")
+        case Success(()) => // println(s"test 1: success creating the tables")
+        case Failure(t) => // do nothing, will be trapped by Await
       }
       Await.result(setupFuture, 1000.millis)
     }
@@ -66,6 +66,9 @@ class H2DBSuite extends FunSuite {
     new testFoo {
       // TODO context.getValue
       val setup = DBIO.seq(
+        // Create the facts table
+        H2DB.facts.schema.create,
+
         // Insert a fact
         H2DB.facts += factTuple(fact)
       )
@@ -73,8 +76,8 @@ class H2DBSuite extends FunSuite {
       val setupFuture = db.run(setup)
 
       setupFuture.onComplete {
-        case Success(()) => println(s"test 2: success inserting a tuple")
-        case Failure(t) => println(s"test 2: failure $t")
+        case Success(()) => // println(s"test 2: success inserting a tuple")
+        case Failure(t) => // do nothing, will be trapped by Await
       }
       Await.result(setupFuture, 1000.millis)
     }
@@ -94,7 +97,7 @@ class H2DBSuite extends FunSuite {
             predicate,
             objectType,
             objectValue) => {
-            println(s"test 3A: asserting accuracy of the tuple")
+            // println(s"test 3A: asserting accuracy of the tuple")
             assertResult(29)(timeStamp.toString.length)
             assertResult(36)(uuid.toString.length)
             assertResult(None)(context)
@@ -108,14 +111,11 @@ class H2DBSuite extends FunSuite {
       })
 
       testResult.onComplete {
-        case Failure(t) => {
-          println(s"test 3: failure $t")
-          throw new Exception(t.toString)
-        }
         case Success(completedResults) => {
-          println(s"test 3B: success reading tuples $completedResults")
+          // println(s"test 3B: success reading tuples $completedResults")
           assertResult(1){ completedResults.length }
         }
+        case Failure(t) => // do nothing, will be trapped by Await
       }
 
       Await.result(testResult, 1000.millis)
@@ -144,21 +144,18 @@ class H2DBSuite extends FunSuite {
             predicate,
             objectType,
             objectValue) => {
-            println(s"test 4A: objectValue is $objectValue")
+            // println(s"test 4A: objectValue is $objectValue")
             objectValue
           }
         }.sorted.mkString(",")
       })
 
       testResult.onComplete {
-        case Failure(t) => {
-          println(s"test 4: failure $t")
-          throw new Exception(t.toString)
-        }
         case Success(completedResults) => {
-          println(s"test 4B: success reading objectValues $completedResults")
+          // println(s"test 4B: success reading objectValues $completedResults")
           assertResult("Bar,Foo") { completedResults }
         }
+        case Failure(t) => // do nothing, will be trapped by Await
       }
 
       Await.result(testResult, 1000.millis)
