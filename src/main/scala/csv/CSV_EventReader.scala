@@ -9,14 +9,22 @@ import common._
 
 import scala.io.BufferedSource
 
+/** Reads events from a CSV file
+  *
+  * Format is:
+  * First line: list of predicates (e.g. "atd:foo:name;atd:bar:size")
+  * Second line: list of objectTypes (e.g. "s,i")
+  * Next lines: per line, all values for the predicates for one new resource
+  */
+
 object CSV_EventReader {
 
   def eventByResourceReader(file: BufferedSource): EventByResourceIterator = {
     val potential_header = file.getLines()
     if (! potential_header.hasNext) return Iterator.empty
-    val header = potential_header.next()
-    val predicates = header.split(separator)
 
+    val predicatesLine = potential_header.next()
+    val predicates = predicatesLine.split(separator)
     val objectTypesLine = potential_header.next()
     val objectTypes = objectTypesLine.split(separator)
 

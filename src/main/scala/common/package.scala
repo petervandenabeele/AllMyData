@@ -14,7 +14,7 @@ package object common {
   type ATD_ObjectType = String // see list of object types below
   type ATD_ObjectValue = String
 
-  type FactWithStatus = (Option[Fact], Option[String])
+  type FactWithStatus = (Option[Fact], Option[String]) // optional Fact and optional Error message
   type FactIterator = Iterator[FactWithStatus]
   type EventByResourceIterator = Iterator[EventByResource]
 
