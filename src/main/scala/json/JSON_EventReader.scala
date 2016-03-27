@@ -32,6 +32,7 @@ object JSON_EventReader {
       case JBool(_) => None
       case JDecimal(_) => None
       case JDouble(_) => None
+      case JLong(_) => None
       case JInt(_) => None
       case JNothing => None
       case JNull => None

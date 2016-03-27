@@ -20,11 +20,11 @@ case class Fact (timeStamp: ATD_TimeStamp = ZonedDateTime.now(ZoneId.of("UTC")).
 
   val filename = "/predicates/valid_predicates.csv"
   val file = scala.io.Source.fromURL(getClass.getResource(filename))
-  val legalPredicates: Set[String] =
-    file.getLines().map(line => line.split(",", 1)(0)).toSet
+  val validPredicates: Set[String] =
+    file.getLines().map(line => line.split(";", 1)(0)).toSet
 
-  if(!legalPredicates.contains(predicate))
-    throw new IllegalArgumentException(s"The predicate $predicate is not in list of legalPredicates")
+  if(!validPredicates.contains(predicate))
+    throw new IllegalArgumentException(s"The predicate $predicate is not in list of validPredicates")
 
   if(objectValue.isEmpty)
     throw new IllegalArgumentException(s"The objectValue for new Fact with predicate $predicate is empty")
@@ -41,3 +41,10 @@ case class Fact (timeStamp: ATD_TimeStamp = ZonedDateTime.now(ZoneId.of("UTC")).
     ).mkString(separator)
   }
 }
+
+
+
+
+//val homeDir = System.getProperty("user.home")
+//val filename = homeDir + "/pp/facts/metadata/valid_predicates.csv"
+//val file = scala.io.Source.fromURL(filename)

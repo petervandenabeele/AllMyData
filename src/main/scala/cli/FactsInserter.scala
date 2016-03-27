@@ -4,10 +4,7 @@
 
 package cli
 
-import encoding.FactEncoder
 import csv.CSV_FactReader.reader
-
-import kafkaStreaming.KafkaProducer
 
 object FactsInserter {
   def main(args: Array[String]): Unit = {
@@ -32,12 +29,10 @@ object FactsInserter {
   private def insertFactsFromFile(fullFilename: String, topic: String): Unit = {
     val file = scala.io.Source.fromFile(fullFilename)
     val factIterator = reader(file)
-    val kafkaProducer = KafkaProducer(topic = topic)
-    val factEncoder = new FactEncoder()
     factIterator.foreach(factWithStatus => {
       val (factOption, errorOption) = factWithStatus
       if (factOption.nonEmpty)
-        kafkaProducer.send(factEncoder.toBytes(factOption.get), null)
+        println(factOption.get)
       if (errorOption.nonEmpty)
         println(s"ERROR: In $fullFilename : ${errorOption.get}")
     })

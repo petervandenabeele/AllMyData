@@ -9,39 +9,33 @@ import java.time.{ZoneId, ZonedDateTime}
 import base._
 import common._
 import csv.CSV_EventReader.eventByResourceReader
-import encoding.FactEncoder
-import kafkaStreaming.KafkaProducer
 
 object EventsInserter {
   def main(args: Array[String]): Unit = {
     println("Starting AllMyData EventsInserter.main")
-    val defaultFilename = "events.csv"
-    val defaultTopic = "test_001"
-    val (filename, topic) = args match {
-      case Array() => (defaultFilename, defaultTopic)
-      case Array(f)  => (f, defaultTopic)
-      case Array(f,t)  => (f,t)
+    val filename = args match {
+      case Array(f)  => f
+      case _  => throw new RuntimeException("provide a filename to read from")
     }
     val homeDir = System.getProperty("user.home")
-    val fullFilename = homeDir + "/data/private/data/mnt/input/" + filename
+    val fullFilename = homeDir + "/pp/facts/data/" + filename
 
     print("Reading from: ")
     println(fullFilename)
-    println(s"topic is $topic")
     println(s"context is $contextFacts")
 
-    insertEventsFromFile(fullFilename = fullFilename, topic = topic, contextFacts = contextFacts)
+    insertEventsFromFile(fullFilename = fullFilename, contextFacts = contextFacts)
   }
 
   private val contextFacts: Seq[Fact] = {
 
     val predicateObjects = List(
-      PredicateObject(predicate = "atd:context:source",
-        objectType = "s",
-        objectValue = "Data source"), // replace this
-      PredicateObject(predicate = "atd:context:processor",
+      PredicateObject(predicate = "amd:context:source",
         objectType = "s",
         objectValue = "@peter_v"), // replace this
+      PredicateObject(predicate = "amd:context:processor",
+        objectType = "s",
+        objectValue = "vim"), // replace this
       PredicateObject(predicate = "atd:context:ingress_time",
         objectType = "t",
         objectValue = ZonedDateTime.now(ZoneId.of("UTC")).toString),
@@ -55,19 +49,18 @@ object EventsInserter {
     factsFromEventByResource(ebr, Context(""))
   }
 
-  private def insertEventsFromFile(fullFilename: String, topic: String, contextFacts: Seq[Fact]): Unit = {
+
+  private def insertEventsFromFile(fullFilename: String, contextFacts: Seq[Fact]): Unit = {
     val file = scala.io.Source.fromFile(fullFilename)
     val eventByResourceIterator = eventByResourceReader(file)
-    val kafkaProducer = KafkaProducer(topic = topic)
-    val factEncoder = new FactEncoder()
     val context: Context = Context(contextFacts.head.subject.toString)
     contextFacts.foreach(fact =>
-      kafkaProducer.send(factEncoder.toBytes(fact), null)
+      println(fact.toString)
     )
     eventByResourceIterator.foreach(eventByResource => {
       if (eventByResource.resource.nonEmpty) {
         factsFromEventByResource(eventByResource, context).foreach(fact =>
-          kafkaProducer.send(factEncoder.toBytes(fact), null)
+          println(fact.toString)
         )
       }
       if (eventByResource.error.nonEmpty)
