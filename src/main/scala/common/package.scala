@@ -11,7 +11,7 @@ package object common {
   type ATD_Uuid = String
   type ATD_Subject = UUID
   type ATD_Predicate = String
-  type ATD_ObjectType = String
+  type ATD_ObjectType = String // see list of object types below
   type ATD_ObjectValue = String
 
   type FactWithStatus = (Option[Fact], Option[String])
@@ -24,10 +24,10 @@ package object common {
 
 // ATD_ObjectType describes the type ObjectValue is one of:
 // s : string (most generic)
-// c : csv_reference (to a number in the CSV input, translated to a uuid (u))
+// c : csv_reference (to a number in the CSV input, translated to a reference (r))
 // t : time (date and/or time ISO, with up to 9 decimals for nanoseconds)
 // u : URI (and external URI, may include prefixes)
 // r : reference (to the subject of a resource, e.g. as a UUID)
 // i : integer (can be signed)
-// d : decimal
+// d : decimal (arbitrary precision, correct "decimal" behaviour)
 // f : float (arbitrary precision, so could be "double" in practice)
