@@ -49,6 +49,5 @@ object Fact {
       scala.io.Source.fromFile(Util.getFullFilename("valid_predicates.csv","metadata"))
 
   val validPredicates: Set[String] =
-    file.getLines().map(line => line.split(separator, 2)(0)).toSet
-  println(validPredicates)
+    file.getLines().filterNot(x => x.isEmpty).map(line => line.split(separator, 2)(0)).toSet
 }
