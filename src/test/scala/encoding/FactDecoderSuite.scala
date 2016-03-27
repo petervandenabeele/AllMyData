@@ -20,13 +20,13 @@ class FactDecoderSuite extends FunSuite {
 //    val context = Context("99412745-496a-4081-8f90-2c7a90256269")
 //    val fact_1 = Fact(
 //      subject = subject,
-//      predicate = "atd:foo",
+//      predicate = "amd:foo",
 //      objectType = "s",
 //      objectValue = "Bar")
 //    val fact_2 = Fact(
 //      context = context,
 //      subject = subject,
-//      predicate = "atd:bar",
+//      predicate = "amd:bar",
 //      objectType = "s",
 //      objectValue = "Tux\nPing,\\ , \n , , ,")
 //    val factEncoder = new FactEncoder()

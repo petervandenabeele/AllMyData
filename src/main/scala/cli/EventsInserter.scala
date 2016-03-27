@@ -36,10 +36,10 @@ object EventsInserter {
       PredicateObject(predicate = "amd:context:processor",
         objectType = "s",
         objectValue = "vim"), // replace this
-      PredicateObject(predicate = "atd:context:ingress_time",
+      PredicateObject(predicate = "amd:context:ingress_time",
         objectType = "t",
         objectValue = ZonedDateTime.now(ZoneId.of("UTC")).toString),
-      PredicateObject(predicate = "atd:context:visibility",
+      PredicateObject(predicate = "amd:context:visibility",
         objectType = "s",
         objectValue = "professional") // public | private | professional
     )

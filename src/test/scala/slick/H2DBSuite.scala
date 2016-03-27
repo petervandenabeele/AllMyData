@@ -23,12 +23,12 @@ class H2DBSuite extends FunSuite {
   trait testFoo {
     val db = H2DB.makeDb
     val fact =
-      Fact(predicate = "atd:foo",
+      Fact(predicate = "amd:foo",
         objectType = "s",
         objectValue = "Bar")
     val factWithContext =
       Fact(context = Context(newUUID().toString),
-        predicate = "atd:foo",
+        predicate = "amd:foo",
         objectType = "s",
         objectValue = "Foo")
     def factTuple(fact: Fact) = (
@@ -102,7 +102,7 @@ class H2DBSuite extends FunSuite {
             assertResult(36)(uuid.toString.length)
             assertResult(None)(context)
             assertResult(36)(subject.toString.length)
-            assertResult("atd:foo")(predicate.toString)
+            assertResult("amd:foo")(predicate.toString)
             assertResult("s")(objectType.toString)
             assertResult("Bar")(objectValue.toString)
           }

@@ -1,4 +1,4 @@
 {
-  "foo" : {"predicate":"atd:foo","objectType":"s"},
-  "bar" : {"predicate":"atd:bar","objectType":"s"}
+  "foo" : {"predicate":"amd:foo","objectType":"s"},
+  "bar" : {"predicate":"amd:bar","objectType":"s"}
 }

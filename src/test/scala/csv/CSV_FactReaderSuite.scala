@@ -31,7 +31,7 @@ class CSV_FactReaderSuite extends FunSuite {
     val factWithStatus: FactWithStatus = factIterator.next()
     val fact = factWithStatus._1.get
 
-    assert(fact.predicate === "atd:foo")
+    assert(fact.predicate === "amd:foo")
     assert(fact.objectType === "s")
     assert(fact.objectValue === "bar and café")
   }
@@ -47,15 +47,15 @@ class CSV_FactReaderSuite extends FunSuite {
 
     assert(facts.length === 3)
 
-    assert(fact_1.predicate === "atd:foo")
+    assert(fact_1.predicate === "amd:foo")
     assert(fact_1.objectType === "s")
     assert(fact_1.objectValue === "bar")
 
-    assert(fact_2.predicate === "atd:tux")
+    assert(fact_2.predicate === "amd:tux")
     assert(fact_2.objectType === "s")
     assert(fact_2.objectValue === "ping")
 
-    assert(fact_3.predicate === "atd:ping")
+    assert(fact_3.predicate === "amd:ping")
     assert(fact_3.objectType === "s")
     assert(fact_3.objectValue === "pong")
 
@@ -77,11 +77,11 @@ class CSV_FactReaderSuite extends FunSuite {
 
     assert(facts.length === 5)
 
-    assert(context_1.predicate === "atd:context:source")
+    assert(context_1.predicate === "amd:context:source")
     assert(context_1.objectType === "s")
     assert(context_1.objectValue === "me")
 
-    assert(context_2.predicate === "atd:context:ingress_time")
+    assert(context_2.predicate === "amd:context:ingress_time")
     assert(context_2.objectType === "s")
     assert(context_2.objectValue === "2014-12-12T22:13:00")
 
@@ -90,17 +90,17 @@ class CSV_FactReaderSuite extends FunSuite {
     assert(expected_context_2 === expected_context_1)
 
     assert(fact_1.context === expected_context_1)
-    assert(fact_1.predicate === "atd:foo")
+    assert(fact_1.predicate === "amd:foo")
     assert(fact_1.objectType === "s")
     assert(fact_1.objectValue === "bar")
 
     assert(fact_2.context === expected_context_1)
-    assert(fact_2.predicate === "atd:tux")
+    assert(fact_2.predicate === "amd:tux")
     assert(fact_2.objectType === "s")
     assert(fact_2.objectValue === "ping")
 
     assert(fact_3.context === expected_context_1)
-    assert(fact_3.predicate === "atd:ping")
+    assert(fact_3.predicate === "amd:ping")
     assert(fact_3.objectType === "s")
     assert(fact_3.objectValue === "pong")
 
@@ -126,12 +126,12 @@ class CSV_FactReaderSuite extends FunSuite {
     val expected_context_2 = Context(Some(context_2.subject))
 
     assert(fact_1.context === expected_context_1)
-    assert(fact_1.predicate === "atd:foo")
+    assert(fact_1.predicate === "amd:foo")
     assert(fact_1.objectType === "s")
     assert(fact_1.objectValue === "bar")
 
     assert(fact_2.context === expected_context_2)
-    assert(fact_2.predicate === "atd:bar")
+    assert(fact_2.predicate === "amd:bar")
     assert(fact_2.objectType === "s")
     assert(fact_2.objectValue === "foo")
   }
@@ -154,12 +154,12 @@ class CSV_FactReaderSuite extends FunSuite {
 
 
     assert(fact_1.context === expected_context_1)
-    assert(fact_1.predicate === "atd:foo")
+    assert(fact_1.predicate === "amd:foo")
     assert(fact_1.objectType === "s")
     assert(fact_1.objectValue === "bar")
 
     assert(fact_2.context === expected_context_2)
-    assert(fact_2.predicate === "atd:bar")
+    assert(fact_2.predicate === "amd:bar")
     assert(fact_2.objectType === "r")
     assert(UUID.fromString(fact_2.objectValue) === fact_1.subject)
   }
@@ -181,12 +181,12 @@ class CSV_FactReaderSuite extends FunSuite {
     val expected_context_2 = Context(Some(context_2.subject))
 
     assert(fact_1.context === expected_context_1)
-    assert(fact_1.predicate === "atd:foo")
+    assert(fact_1.predicate === "amd:foo")
     assert(fact_1.objectType === "s")
     assert(fact_1.objectValue === "bar")
 
     assert(fact_3.context === expected_context_2)
-    assert(fact_3.predicate === "atd:bar")
+    assert(fact_3.predicate === "amd:bar")
     assert(fact_3.objectType === "r")
     assert(UUID.fromString(fact_3.objectValue) === fact_1.subject)
 
@@ -216,12 +216,12 @@ class CSV_FactReaderSuite extends FunSuite {
     val expected_context_2 = Context(Some(context_2.subject))
 
     assert(fact_1.context === expected_context_1)
-    assert(fact_1.predicate === "atd:foo")
+    assert(fact_1.predicate === "amd:foo")
     assert(fact_1.objectType === "s")
     assert(fact_1.objectValue === "bar")
 
     assert(fact_2.context === expected_context_2)
-    assert(fact_2.predicate === "atd:bar")
+    assert(fact_2.predicate === "amd:bar")
     assert(fact_2.objectType === "r")
     assert(UUID.fromString(fact_2.objectValue) === fact_1.subject)
   }
@@ -233,7 +233,7 @@ class CSV_FactReaderSuite extends FunSuite {
     val factWithStatus: FactWithStatus = factIterator.next()
     val fact = factWithStatus._1.get
 
-    assert(fact.predicate === "atd:foo")
+    assert(fact.predicate === "amd:foo")
     assert(fact.objectType === "s")
     assert(fact.objectValue === "bar, dance and café")
   }

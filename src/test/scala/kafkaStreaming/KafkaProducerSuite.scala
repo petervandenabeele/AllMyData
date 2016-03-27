@@ -14,11 +14,11 @@ class KafkaProducerSuite extends FunSuite {
 
 //  trait testFooBar {
 //    val fact1 =
-//      Fact(predicate = "atd:foo",
+//      Fact(predicate = "amd:foo",
 //           objectType = "s",
 //           objectValue = "Bar")
 //    val fact2 =
-//      Fact(predicate = "atd:tux",
+//      Fact(predicate = "amd:tux",
 //           objectType = "s",
 //           objectValue = "Ping")
 //  }

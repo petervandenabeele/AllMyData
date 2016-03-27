@@ -46,7 +46,7 @@ object JSON_EventReader {
         event = Some(Event(rawPos.map {
           case (rawPredicate, JString(objectValue)) => makePredicateObject(schemaJson, rawPredicate, objectValue)
           case (rawPredicate, JInt(objectValue)) => makePredicateObject(schemaJson, rawPredicate, objectValue.toString())
-          case _ => PredicateObject(predicate = "atd:error", objectType = "s", objectValue = "Found unsupported JSON type (only string and int)")
+          case _ => PredicateObject(predicate = "amd:error", objectType = "s", objectValue = "Found unsupported JSON type (only string and int)")
         }))
       )
     }.toIterator

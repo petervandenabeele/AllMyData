@@ -14,7 +14,7 @@ class FactSuite extends FunSuite {
 
   trait testFoo {
     val fact =
-      Fact(predicate = "atd:foo",
+      Fact(predicate = "amd:foo",
            objectType = "s",
            objectValue = "Bar")
   }
@@ -28,7 +28,7 @@ class FactSuite extends FunSuite {
   test("Fact has a predicate attribute") {
     new testFoo {
       val predicate: ATD_Predicate = fact.predicate
-      assert(predicate === "atd:foo")
+      assert(predicate === "amd:foo")
     }
   }
 
@@ -110,7 +110,7 @@ class FactSuite extends FunSuite {
 
   test("Fact only accepts predicates from a list") {
     intercept[IllegalArgumentException] {
-      Fact(predicate = "atd:foobar", // not valid
+      Fact(predicate = "amd:foobar", // not valid
         objectType = "s",
         objectValue = "Bar")
     }
@@ -118,7 +118,7 @@ class FactSuite extends FunSuite {
 
   test("Fact cannot have empty objectValue") {
     intercept[IllegalArgumentException] {
-      Fact(predicate = "atd:foo", // not valid
+      Fact(predicate = "amd:foo", // not valid
         objectType = "s",
         objectValue = "")
     }

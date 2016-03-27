@@ -33,7 +33,7 @@ class CSV_KafkaReaderSuite extends FunSuite {
 //    assert(fact_1.uuid.toString.startsWith("3d83fa7e"))
 //    assert(fact_1.context == Context(None))
 //    assert(fact_1.subject.toString.startsWith("973a7688"))
-//    assert(fact_1.predicate === "atd:foo")
+//    assert(fact_1.predicate === "amd:foo")
 //    assert(fact_1.objectType === "s")
 //    assert(fact_1.objectValue === "Foo")
 //
@@ -42,7 +42,7 @@ class CSV_KafkaReaderSuite extends FunSuite {
 //    assert(fact_2.uuid.toString.startsWith("c0994ce6"))
 //    assert(fact_2.context == Context(fact_1.subject.toString))
 //    assert(fact_2.subject.toString.startsWith("5458822b"))
-//    assert(fact_2.predicate === "atd:bar")
+//    assert(fact_2.predicate === "amd:bar")
 //    assert(fact_2.objectType === "s")
 //    assert(fact_2.objectValue === "Bar")
 //  }
