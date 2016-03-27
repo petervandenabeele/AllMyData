@@ -1,4 +1,10 @@
 {
-  "foo" : {"predicate":"amd:foo","objectType":"s"},
-  "bar" : {"predicate":"amd:bar","objectType":"s"}
+  "foo": {
+    "predicate": "amd:foo",
+    "objectType": "s"
+  },
+  "bar": {
+    "predicate": "amd:bar",
+    "objectType": "s"
+  }
 }

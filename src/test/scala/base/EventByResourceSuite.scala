@@ -1,6 +1,6 @@
 /**
-*Created by peter_v on 22/02/15.
-*/
+  * Created by peter_v on 22/02/15.
+  */
 
 package base
 
@@ -13,7 +13,7 @@ class EventByResourceSuite extends FunSuite {
 
   trait testEventByResource {
     val eventByResource = EventByResource(resource = None,
-                                          event = None)
+      event = None)
   }
 
   test("EventByResource can be created without explicit arguments") {

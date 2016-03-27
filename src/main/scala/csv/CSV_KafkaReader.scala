@@ -1,6 +1,6 @@
 /**
- * Created by peter_v on 08/23/15.
- */
+  * Created by peter_v on 08/23/15.
+  */
 
 package csv
 
@@ -22,7 +22,7 @@ object CSV_KafkaReader {
   // objectType
   // objectValue
   def reader(file: BufferedSource): FactIterator = {
-    file.getLines().map[FactWithStatus] (line => {
+    file.getLines().map[FactWithStatus](line => {
       val elements: Array[String] = line.split(separator, 7)
       val timeStamp = elements(0)
       val uuid = elements(1)

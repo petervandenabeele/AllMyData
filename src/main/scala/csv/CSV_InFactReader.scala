@@ -1,6 +1,6 @@
 /**
- * Created by peter_v on 11/01/15.
- */
+  * Created by peter_v on 11/01/15.
+  */
 
 package csv
 
@@ -24,8 +24,8 @@ object CSV_InFactReader {
   def reader(file: BufferedSource): FactIterator = {
     var subjects = scala.collection.mutable.Map[Int, ATD_Subject]()
 
-    file.getLines().filterNot(x => x.isEmpty).map[FactWithStatus] (line => {
-      val elements:Array[String] = line.split(separator, 7)
+    file.getLines().filterNot(x => x.isEmpty).map[FactWithStatus](line => {
+      val elements: Array[String] = line.split(separator, 7)
       val localContextString = elements(0)
       val localSubjectString = elements(2)
       val predicate = elements(4)
@@ -40,7 +40,7 @@ object CSV_InFactReader {
 
 
       if (objectValueOption.isEmpty)
-        // error occurred in finding link to objectValue in this file
+      // error occurred in finding link to objectValue in this file
         (None, errorOption)
       else {
         val fact = factFrom_CSV_Line(
@@ -61,7 +61,7 @@ object CSV_InFactReader {
   private type SubjectsMap = scala.collection.mutable.Map[Int, ATD_Subject]
 
   private def getSubjectFromCache(csvReference: String, subjects: SubjectsMap)
-  :(Option[Int], Option[ATD_Subject]) = {
+  : (Option[Int], Option[ATD_Subject]) = {
     val subjectIdOption: Option[Int] = csvReference match {
       case "" => None
       case s => Some(s.toInt)
@@ -74,10 +74,10 @@ object CSV_InFactReader {
   }
 
   private def objectTypeValueTriple(
-    csvObjectType: String,
-    csvObjectValue: String,
-    subjects: SubjectsMap)
-  :(ATD_ObjectType, Option[ATD_ObjectValue], Option[String]) = {
+                                     csvObjectType: String,
+                                     csvObjectValue: String,
+                                     subjects: SubjectsMap)
+  : (ATD_ObjectType, Option[ATD_ObjectValue], Option[String]) = {
     csvObjectType match {
       case "" => ("", None, None) // empty line
       case "c" => // objectValue is link to earlier entry in this file
@@ -96,10 +96,10 @@ object CSV_InFactReader {
   }
 
   private def factFrom_CSV_Line(predicate: ATD_Predicate,
-                        objectType: ATD_ObjectType,
-                        objectValue: ATD_ObjectValue,
-                        context: Context,
-                        subjectOption: Option[ATD_Subject]): Fact = {
+                                objectType: ATD_ObjectType,
+                                objectValue: ATD_ObjectValue,
+                                context: Context,
+                                subjectOption: Option[ATD_Subject]): Fact = {
     subjectOption match {
       case Some(subject) =>
         Fact(

@@ -1,6 +1,6 @@
 /**
-*  Created by peter_v on 22/02/15.
-*/
+  * Created by peter_v on 22/02/15.
+  */
 
 package csv
 
@@ -65,7 +65,7 @@ class CSV_EventReaderSuite extends FunSuite {
     val eventByResource_0: EventByResource = iterator.next()
     val eventByResource_1: EventByResource = iterator.next()
     val eventByResource_2: EventByResource = iterator.next()
-    assert(! iterator.hasNext)
+    assert(!iterator.hasNext)
 
     val resource_0 = eventByResource_0.resource.get
     assertResult(36)(resource_0.subject.toString.length)

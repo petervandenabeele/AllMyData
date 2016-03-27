@@ -1,6 +1,6 @@
 /**
- * Created by peter_v on 04/03/15.
- */
+  * Created by peter_v on 04/03/15.
+  */
 
 package slick
 
@@ -17,22 +17,22 @@ object H2DB {
 
   val foos = TableQuery[Foos]
 
-//  def makeFoosTable(db: Database): Unit = {
-//    db.withSession { implicit session =>
-//      (foos.ddl).create
-//    }
-//  }
-//
+  //  def makeFoosTable(db: Database): Unit = {
+  //    db.withSession { implicit session =>
+  //      (foos.ddl).create
+  //    }
+  //  }
+  //
   val facts = TableQuery[FactsInDB]
 
-//  def makeFactsTable(db: Database): Unit = {
-//    db.withSession { implicit session =>
-//      // Create the schema by combining the DDLs for the Suppliers and Coffees
-//      // tables using the query interfaces
-//      (facts.ddl).create
-//    }
-//  }
-//
+  //  def makeFactsTable(db: Database): Unit = {
+  //    db.withSession { implicit session =>
+  //      // Create the schema by combining the DDLs for the Suppliers and Coffees
+  //      // tables using the query interfaces
+  //      (facts.ddl).create
+  //    }
+  //  }
+  //
 
 
 }

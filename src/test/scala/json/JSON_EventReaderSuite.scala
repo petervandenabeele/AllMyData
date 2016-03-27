@@ -1,6 +1,6 @@
 /**
-*  Created by peter_v on 04/05/15.
-*/
+  * Created by peter_v on 04/05/15.
+  */
 
 package json
 
@@ -21,7 +21,7 @@ class JSON_EventReaderSuite extends FunSuite {
   }
 
   test("Object CSV_EventReader can read an empty JSON file") {
-    assert(eventByResourceIterator("/event_json/schema1.json","/empty_JSON_file.json").isEmpty)
+    assert(eventByResourceIterator("/event_json/schema1.json", "/empty_JSON_file.json").isEmpty)
   }
 
   test("Object JSON_EventReader can read the first entry of a JSON file") {

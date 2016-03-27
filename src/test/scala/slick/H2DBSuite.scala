@@ -1,6 +1,6 @@
 /**
- * Created by peter_v on 04/03/15.
- */
+  * Created by peter_v on 04/03/15.
+  */
 
 package slick
 
@@ -31,6 +31,7 @@ class H2DBSuite extends FunSuite {
         predicate = "amd:foo",
         objectType = "s",
         objectValue = "Foo")
+
     def factTuple(fact: Fact) = (
       fact.timeStamp,
       fact.uuid,
@@ -113,7 +114,9 @@ class H2DBSuite extends FunSuite {
       testResult.onComplete {
         case Success(completedResults) => {
           // println(s"test 3B: success reading tuples $completedResults")
-          assertResult(1){ completedResults.length }
+          assertResult(1) {
+            completedResults.length
+          }
         }
         case Failure(t) => // do nothing, will be trapped by Await
       }
@@ -153,7 +156,9 @@ class H2DBSuite extends FunSuite {
       testResult.onComplete {
         case Success(completedResults) => {
           // println(s"test 4B: success reading objectValues $completedResults")
-          assertResult("Bar,Foo") { completedResults }
+          assertResult("Bar,Foo") {
+            completedResults
+          }
         }
         case Failure(t) => // do nothing, will be trapped by Await
       }

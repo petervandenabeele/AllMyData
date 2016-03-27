@@ -7,8 +7,8 @@ package cli
 object Util {
 
   def getFileName(args: Array[String]) = args match {
-    case Array(f)  => f
-    case _  => throw new RuntimeException("provide a filename to read from")
+    case Array(f) => f
+    case _ => throw new RuntimeException("provide a filename to read from")
   }
 
   def getFullFilename(filename: String, dir: String = "data") = {

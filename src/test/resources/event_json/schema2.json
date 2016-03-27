@@ -1,4 +1,10 @@
 {
-  "city" : {"predicate":"my:city","objectType":"s"},
-  "bars" : {"predicate":"my:bars","objectType":"i"}
+  "city": {
+    "predicate": "my:city",
+    "objectType": "s"
+  },
+  "bars": {
+    "predicate": "my:bars",
+    "objectType": "i"
+  }
 }

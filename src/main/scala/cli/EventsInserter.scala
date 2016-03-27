@@ -1,6 +1,6 @@
 /**
- * Created by peter_v on 13/03/14.
- */
+  * Created by peter_v on 13/03/14.
+  */
 
 package cli
 
@@ -46,7 +46,7 @@ object EventsInserter {
     )
 
     val ebr = EventByResource(resource = Some(Resource()),
-                              event = Some(Event(predicateObjects)))
+      event = Some(Event(predicateObjects)))
     factsFromEventByResource(ebr, Context(""))
   }
 
@@ -73,7 +73,7 @@ object EventsInserter {
   /** Produce Facts from an EventByResource (move to EventByResource ??) **/
   private def factsFromEventByResource(eventByResource: EventByResource, context: Context): Seq[Fact] = {
     val resource = eventByResource.resource.get
-    eventByResource.event.get.pos.map ( predicateObject =>
+    eventByResource.event.get.pos.map(predicateObject =>
       Fact(
         context = context,
         subject = resource.subject,

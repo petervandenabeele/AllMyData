@@ -1,6 +1,6 @@
 /**
- * Created by peter_v on 20/11/14.
- */
+  * Created by peter_v on 20/11/14.
+  */
 
 package base
 
@@ -15,8 +15,8 @@ class FactSuite extends FunSuite {
   trait testFoo {
     val fact =
       Fact(predicate = "amd:foo",
-           objectType = "s",
-           objectValue = "Bar")
+        objectType = "s",
+        objectValue = "Bar")
   }
 
   test("Fact can be created without the default arguments") {

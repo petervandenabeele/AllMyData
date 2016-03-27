@@ -1,6 +1,6 @@
 /**
- * Created by peter_v on 23/11/14.
- */
+  * Created by peter_v on 23/11/14.
+  */
 
 package kafkaStreaming
 
@@ -12,34 +12,34 @@ import org.scalatest.junit.JUnitRunner
 @RunWith(classOf[JUnitRunner])
 class KafkaProducerSuite extends FunSuite {
 
-//  trait testFooBar {
-//    val fact1 =
-//      Fact(predicate = "amd:foo",
-//           objectType = "s",
-//           objectValue = "Bar")
-//    val fact2 =
-//      Fact(predicate = "amd:tux",
-//           objectType = "s",
-//           objectValue = "Ping")
-//  }
-//
-//  trait aProducer {
-//    val kafkaProducer: KafkaProducer = KafkaProducer()
-//  }
-//
-//  test("Can create a KafkaProducer") {
-//    new aProducer {
-//    }
-//  }
-//
-//  test("Can send a message to ATD_test") {
-//    new aProducer {
-//      new testFooBar {
-//        val factEncoder = new FactEncoder()
-//
-//        kafkaProducer.send(factEncoder.toBytes(fact1), null)
-//        kafkaProducer.send(factEncoder.toBytes(fact2), null)
-//      }
-//    }
-//  }
+  //  trait testFooBar {
+  //    val fact1 =
+  //      Fact(predicate = "amd:foo",
+  //           objectType = "s",
+  //           objectValue = "Bar")
+  //    val fact2 =
+  //      Fact(predicate = "amd:tux",
+  //           objectType = "s",
+  //           objectValue = "Ping")
+  //  }
+  //
+  //  trait aProducer {
+  //    val kafkaProducer: KafkaProducer = KafkaProducer()
+  //  }
+  //
+  //  test("Can create a KafkaProducer") {
+  //    new aProducer {
+  //    }
+  //  }
+  //
+  //  test("Can send a message to ATD_test") {
+  //    new aProducer {
+  //      new testFooBar {
+  //        val factEncoder = new FactEncoder()
+  //
+  //        kafkaProducer.send(factEncoder.toBytes(fact1), null)
+  //        kafkaProducer.send(factEncoder.toBytes(fact2), null)
+  //      }
+  //    }
+  //  }
 }
