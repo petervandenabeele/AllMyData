@@ -4,19 +4,19 @@
 
 import java.util.UUID
 
-import base.{Fact, Context, EventByResource}
+import base.{Fact, EventByResource}
 
 package object common {
   type ATD_TimeStamp = String
   type ATD_Uuid = String
   type ATD_Subject = UUID
   type ATD_Predicate = String
-  type ATD_ObjectType = String
   // see list of object types below
+  type ATD_ObjectType = String
   type ATD_ObjectValue = String
 
-  type FactWithStatus = (Option[Fact], Option[String])
   // optional Fact and optional Error message
+  type FactWithStatus = (Option[Fact], Option[String])
   type FactIterator = Iterator[FactWithStatus]
   type EventByResourceIterator = Iterator[EventByResource]
 

@@ -1,3 +1,5 @@
-schema:givenName;schema:familyName;schema:email
+amd:bar;amd:foo;amd:context:source
 s;s;s
-Peter;;p@v.net
+Bar;;Source
+
+Bars;Foos;Sources

@@ -35,17 +35,23 @@ object CSV_InFactReader {
       val (_, context) = getSubjectFromCache(localContextString, subjects)
       val (subjectIdOption, subjectOption) = getSubjectFromCache(localSubjectString, subjects)
 
-      val (objectType, objectValueOption, errorOption) = objectTypeValueTriple(
+      val (objectTypeOption, objectValueOption, errorOption) = objectTypeValueTriple(
         csvObjectType, csvObjectValue, subjects)
 
 
-      if (objectValueOption.isEmpty)
+      // empty line
+      if (objectTypeOption.isEmpty) {
+        (None, None)
+      }
       // error occurred in finding link to objectValue in this file
+      else if (objectValueOption.isEmpty) {
+        assert(errorOption.isDefined, "There should be an error message defined here")
         (None, errorOption)
+      }
       else {
         val fact = factFrom_CSV_Line(
           predicate = predicate,
-          objectType = objectType,
+          objectType = objectTypeOption.get,
           objectValue = objectValueOption.get.toString,
           context = Context(context),
           subjectOption = subjectOption)
@@ -55,7 +61,7 @@ object CSV_InFactReader {
         }
         (Some(fact), None)
       }
-    }).filter(factWithStatus => factWithStatus._1.nonEmpty || factWithStatus._2.nonEmpty)
+    }).filterNot { case (factOption, errorOption) => factOption.isEmpty && errorOption.isEmpty }
   }
 
   private type SubjectsMap = scala.collection.mutable.Map[Int, ATD_Subject]
@@ -77,9 +83,9 @@ object CSV_InFactReader {
                                      csvObjectType: String,
                                      csvObjectValue: String,
                                      subjects: SubjectsMap)
-  : (ATD_ObjectType, Option[ATD_ObjectValue], Option[String]) = {
+  : (Option[ATD_ObjectType], Option[ATD_ObjectValue], Option[String]) = {
     csvObjectType match {
-      case "" => ("", None, None) // empty line
+      case "" => (None, None, None) // empty line
       case "c" => // objectValue is link to earlier entry in this file
         val objectValueOption = subjects.get(csvObjectValue.toInt) match {
           case None => None
@@ -90,8 +96,8 @@ object CSV_InFactReader {
             None
           else
             Some(s"csvObjectValue $csvObjectValue could not be found")
-        ("r", objectValueOption, errorOption)
-      case _ => (csvObjectType, Some(csvObjectValue), None)
+        (Some("r"), objectValueOption, errorOption)
+      case _ => (Some(csvObjectType), Some(csvObjectValue), None)
     }
   }
 

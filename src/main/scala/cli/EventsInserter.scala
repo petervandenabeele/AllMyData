@@ -28,21 +28,11 @@ object EventsInserter {
   private val contextFacts: Seq[Fact] = {
 
     val predicateObjects = List(
-      PredicateObject(predicate = "amd:context:source",
-        objectType = "s",
-        objectValue = "@peter_v"), // replace this
-      PredicateObject(predicate = "amd:context:processor",
-        objectType = "s",
-        objectValue = "vim"), // replace this
-      PredicateObject(predicate = "amd:context:ingress_time",
-        objectType = "t",
-        objectValue = ZonedDateTime.now(ZoneId.of("UTC")).toString),
-      PredicateObject(predicate = "amd:context:visibility",
-        objectType = "s",
-        objectValue = "professional"), // public | private | professional
-      PredicateObject(predicate = "amd:context:encryption",
-        objectType = "s",
-        objectValue = "encrypted") // public | private | professional
+      PredicateObject(predicate = "amd:context:source", objectValue = "@peter_v", objectType = "s"), // replace this
+      PredicateObject(predicate = "amd:context:processor", objectValue = "vim", objectType = "s"), // replace this
+      PredicateObject(predicate = "amd:context:ingress_time", objectValue = ZonedDateTime.now(ZoneId.of("UTC")).toString, objectType = "t"),
+      PredicateObject(predicate = "amd:context:visibility", objectValue = "professional", objectType = "s"), // public | private | professional
+      PredicateObject(predicate = "amd:context:encryption", objectValue = "encrypted", objectType = "s") // public | private | professional
     )
 
     val ebr = EventByResource(resource = Some(Resource()),

@@ -10,3 +10,11 @@ amd:context:processor;s;processor
 amd:context:ingress_time;t;ingress time [Time]
 amd:context:visibility;s;visibility (public, private, professional)
 amd:context:encryption;s;encryption (encrypted, clear, ...)
+
+amd:error;s;a predicate to indicate errors in the input data
+
+rdf:type;s;RDF type
+rdfs:label;s;RDFS label
+
+my:city
+my:bars

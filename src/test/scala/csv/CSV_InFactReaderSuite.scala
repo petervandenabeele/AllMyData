@@ -203,7 +203,7 @@ class CSV_InFactReaderSuite extends FunSuite {
     val filename = "/in_fact_csv/two_in_facts_with_empty_line_and_csv_reference.csv"
     val file = scala.io.Source.fromURL(getClass.getResource(filename))
     val factIterator: FactIterator = reader(file)
-    val facts: Array[Fact] = factIterator.map(p => p._1.get).toArray
+    val facts: Array[Fact] = factIterator.map{ case (factOption, _) => factOption.get }.toArray
 
     val context_1 = facts(0)
     val context_2 = facts(1)

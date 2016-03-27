@@ -12,12 +12,27 @@ import org.scalatest.junit.JUnitRunner
 class PredicateObjectSuite extends FunSuite {
 
   trait testPredicateObject {
-    val predicateObject = PredicateObject()
+    val predicateObject = PredicateObject(
+      predicate = "rdf:type",
+      objectValue = "Foo"
+    )
   }
 
-  test("PredicateObject can be created without explicit arguments") {
+  test("PredicateObject can be created without explicit objectType") {
     new testPredicateObject {
-      assert(predicateObject == PredicateObject())
+      assertResult(PredicateObject("rdf:type", "Foo", "s"))(predicateObject)
+    }
+  }
+
+  test("PredicateObject fails with empty predicate") {
+    intercept[IllegalArgumentException] {
+      PredicateObject("", "Foo", "s")
+    }
+  }
+
+  test("PredicateObject fails with empty object") {
+    intercept[IllegalArgumentException] {
+      PredicateObject("rdf:type", "", "s")
     }
   }
 }

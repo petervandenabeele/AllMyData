@@ -14,7 +14,7 @@ import scala.io.BufferedSource
   * Format is:
   * First line: list of predicates (e.g. "amd:foo:name;amd:bar:size")
   * Second line: list of objectTypes (e.g. "s,i")
-  * Next lines: per line, all values for the predicates for one new resource
+  * Next lines: one new resource per line, with all values for the predicates in the cells
   */
 
 object CSV_EventReader {
@@ -28,7 +28,7 @@ object CSV_EventReader {
     val objectTypesLine = potential_header.next()
     val objectTypes = objectTypesLine.split(separator)
 
-    file.getLines().map[EventByResource](line => {
+    file.getLines().filterNot(x => x.isEmpty).map[EventByResource](line => {
       val objectValues = line.split(separator)
       val predicateObjects =
         predicates.
@@ -36,9 +36,7 @@ object CSV_EventReader {
           zip(objectValues).
           filter(p_ot_ov => !p_ot_ov._2.isEmpty). // drop tuples with empty objectValues
           map { case ((predicate, objectType), objectValue) =>
-          PredicateObject(predicate = predicate,
-            objectType = objectType,
-            objectValue = objectValue)
+          PredicateObject(predicate = predicate, objectValue = objectValue, objectType = objectType)
         }
       EventByResource(resource = Some(Resource()),
         event = Some(Event(predicateObjects)))

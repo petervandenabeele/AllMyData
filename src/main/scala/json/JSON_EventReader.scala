@@ -46,7 +46,7 @@ object JSON_EventReader {
         event = Some(Event(rawPos.map {
           case (rawPredicate, JString(objectValue)) => makePredicateObject(schemaJson, rawPredicate, objectValue)
           case (rawPredicate, JInt(objectValue)) => makePredicateObject(schemaJson, rawPredicate, objectValue.toString())
-          case _ => PredicateObject(predicate = "amd:error", objectType = "s", objectValue = "Found unsupported JSON type (only string and int)")
+          case _ => PredicateObject(predicate = "amd:error", objectValue = "Found unsupported JSON type (only string and int)", objectType = "s")
         }))
       )
     }.toIterator
@@ -55,10 +55,6 @@ object JSON_EventReader {
   private def makePredicateObject(schemaJson: JValue, rawPredicate: String, objectValueString: String): PredicateObject = {
     val predicate: String = (schemaJson \ rawPredicate \ "predicate").values.toString
     val objectType: String = (schemaJson \ rawPredicate \ "objectType").values.toString
-    PredicateObject(
-      predicate = predicate,
-      objectType = objectType,
-      objectValue = objectValueString
-    )
+    PredicateObject(predicate = predicate, objectValue = objectValueString, objectType = objectType)
   }
 }
