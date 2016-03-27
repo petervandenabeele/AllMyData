@@ -15,7 +15,7 @@ import org.scalatest.FunSuite
 import org.scalatest.junit.JUnitRunner
 
 @RunWith(classOf[JUnitRunner])
-class CSV_InFactReaderSuite extends FunSuite {
+class InFactsReaderSuite extends FunSuite {
 
   test("Object InFactsReader can read an empty CSV file") {
     val filename = "/empty_CSV_file.csv"

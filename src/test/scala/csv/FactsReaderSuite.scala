@@ -12,7 +12,7 @@ import org.scalatest.junit.JUnitRunner
 import FactsReader.reader
 
 @RunWith(classOf[JUnitRunner])
-class CSV_FactReaderSuite extends FunSuite {
+class FactsReaderSuite extends FunSuite {
 
     test("Object FactsReader can read an empty CSV file") {
       val filename = "/empty_CSV_file.csv"

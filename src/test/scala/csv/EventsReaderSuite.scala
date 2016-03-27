@@ -12,7 +12,7 @@ import org.scalatest.FunSuite
 import org.scalatest.junit.JUnitRunner
 
 @RunWith(classOf[JUnitRunner])
-class CSV_EventReaderSuite extends FunSuite {
+class EventsReaderSuite extends FunSuite {
 
   def eventByResourceIterator(filename: String): EventByResourceIterator = {
     val file = scala.io.Source.fromURL(getClass.getResource(filename))
@@ -23,7 +23,7 @@ class CSV_EventReaderSuite extends FunSuite {
     assert(eventByResourceIterator("/empty_CSV_file.csv").isEmpty)
   }
 
-  test("Object EventsReader can read a CSV file with a header line") {
+  test("Object EventsReader can read a CSV file with header lines") {
     assert(eventByResourceIterator("/event_csv/header.csv").isEmpty)
   }
 
@@ -42,7 +42,6 @@ class CSV_EventReaderSuite extends FunSuite {
     val iterator: EventByResourceIterator = eventByResourceIterator("/event_csv/one_data_line_empty_entry.csv")
     val eventByResource_0: EventByResource = iterator.next()
     assertResult(36)(eventByResource_0.resource.get.subject.toString.length)
-    println(eventByResource_0.event.get.pos)
     assertResult(2)(eventByResource_0.event.get.pos.size)
   }
 
@@ -51,7 +50,6 @@ class CSV_EventReaderSuite extends FunSuite {
     val eventByResource_0: EventByResource = iterator.next()
     val eventByResource_1: EventByResource = iterator.next()
     assertResult(36)(eventByResource_1.resource.get.subject.toString.length)
-    println(eventByResource_1.event.get.pos)
     assertResult(3)(eventByResource_1.event.get.pos.size)
   }
 
