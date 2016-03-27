@@ -15,7 +15,7 @@ object H2DB {
 
   def makeDb: Database = Database.forURL("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1", driver = "org.h2.Driver")
 
-  val foos: TableQuery[Foos] = TableQuery[Foos]
+  val foos = TableQuery[Foos]
 
 //  def makeFoosTable(db: Database): Unit = {
 //    db.withSession { implicit session =>
@@ -23,7 +23,7 @@ object H2DB {
 //    }
 //  }
 //
-  val facts: TableQuery[FactsInDB] = TableQuery[FactsInDB]
+  val facts = TableQuery[FactsInDB]
 
 //  def makeFactsTable(db: Database): Unit = {
 //    db.withSession { implicit session =>
@@ -34,23 +34,6 @@ object H2DB {
 //  }
 //
 
-//  def insert_fact(db: Database, fact: Fact): List[(String, String, Option[UUID], UUID, String, String, String)] = {
-//    db.withSession { implicit session =>
-//      // TODO context.getValue
-//      val factInDB = (
-//        fact.timeStamp,
-//        fact.uuid,
-//        fact.context.context,
-//        fact.subject,
-//        fact.predicate,
-//        fact.objectType,
-//        fact.objectValue)
-//
-//      facts += factInDB
-//
-//      facts.list
-//    }
-//  }
 
 //  def read_facts(db: Database):  List[(String, String, Option[UUID], UUID, String, String, String)] = {
 //

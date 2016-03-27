@@ -43,14 +43,31 @@ class H2DBSuite extends FunSuite {
     }
   }
 
-//  test("Insert a fact into the Facts table") {
-//    new testFoo {
-//      H2DB.makeFactsTable(db)
-//      val results = H2DB.insert_fact(db, fact)
-//      assertResult(1)(results.size)
-//    }
-//  }
-//
+  test("Insert a fact into the Facts table") {
+    new testFoo {
+      // TODO context.getValue
+      val factInDB = (
+        fact.timeStamp,
+        fact.uuid,
+        fact.context.context,
+        fact.subject,
+        fact.predicate,
+        fact.objectType,
+        fact.objectValue
+      )
+
+      val setup = DBIO.seq(
+        // Create the facts table
+        H2DB.facts.schema.create,
+
+        // Insert a fact
+        H2DB.facts += factInDB
+      )
+
+      val setupFuture = db.run(setup)
+    }
+  }
+
 //  test("Read a fact from the Facts table") {
 //    new testFoo {
 //      H2DB.read_facts(db).foreach {
