@@ -11,7 +11,7 @@ import common._
 
 import scala.io.BufferedSource
 
-object CSV_FactReader {
+object FactsReader {
 
   // reading from a CSV with structure (basic Fact, 7 fields, last field no newlines)
   // timeStamp

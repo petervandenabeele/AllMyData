@@ -15,7 +15,7 @@ object FactsReader {
     print("Reading from: ")
     println(fullFilename)
 
-    readFactsFromFile(fullFilename = fullFilename, csv.CSV_FactReader.reader)
+    readFactsFromFile(fullFilename = fullFilename, csv.FactsReader.reader)
   }
 
 }

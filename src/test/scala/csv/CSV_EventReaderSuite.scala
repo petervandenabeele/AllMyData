@@ -6,7 +6,7 @@ package csv
 
 import base.{PredicateObject, EventByResource}
 import common._
-import csv.CSV_EventReader.eventByResourceReader
+import csv.EventsReader.eventByResourceReader
 import org.junit.runner.RunWith
 import org.scalatest.FunSuite
 import org.scalatest.junit.JUnitRunner
@@ -19,26 +19,26 @@ class CSV_EventReaderSuite extends FunSuite {
     eventByResourceReader(file)
   }
 
-  test("Object CSV_EventReader can read an empty CSV file") {
+  test("Object EventsReader can read an empty CSV file") {
     assert(eventByResourceIterator("/empty_CSV_file.csv").isEmpty)
   }
 
-  test("Object CSV_EventReader can read a CSV file with a header line") {
+  test("Object EventsReader can read a CSV file with a header line") {
     assert(eventByResourceIterator("/event_csv/header.csv").isEmpty)
   }
 
-  test("Object CSV_EventReader can read a CSV file with 1 data line") {
+  test("Object EventsReader can read a CSV file with 1 data line") {
     assertResult(1)(eventByResourceIterator("/event_csv/one_data_line.csv").size)
   }
 
-  test("Object CSV_EventReader returns Resource and Event with 3 PredicateObjects") {
+  test("Object EventsReader returns Resource and Event with 3 PredicateObjects") {
     val iterator: EventByResourceIterator = eventByResourceIterator("/event_csv/one_data_line.csv")
     val eventByResource_0: EventByResource = iterator.next()
     assertResult(36)(eventByResource_0.resource.get.subject.toString.length)
     assertResult(3)(eventByResource_0.event.get.pos.size)
   }
 
-  test("Object CSV_EventReader returns Resource and Event with all present PredicateObjects even if one is empty") {
+  test("Object EventsReader returns Resource and Event with all present PredicateObjects even if one is empty") {
     val iterator: EventByResourceIterator = eventByResourceIterator("/event_csv/one_data_line_empty_entry.csv")
     val eventByResource_0: EventByResource = iterator.next()
     assertResult(36)(eventByResource_0.resource.get.subject.toString.length)
@@ -46,7 +46,7 @@ class CSV_EventReaderSuite extends FunSuite {
     assertResult(2)(eventByResource_0.event.get.pos.size)
   }
 
-  test("Object CSV_EventReader skips empty lines") {
+  test("Object EventsReader skips empty lines") {
     val iterator: EventByResourceIterator = eventByResourceIterator("/event_csv/one_data_line_empty_entry.csv")
     val eventByResource_0: EventByResource = iterator.next()
     val eventByResource_1: EventByResource = iterator.next()
@@ -55,7 +55,7 @@ class CSV_EventReaderSuite extends FunSuite {
     assertResult(3)(eventByResource_1.event.get.pos.size)
   }
 
-  test("Object CSV_EventReader returns Event with detailed PredicateObjects") {
+  test("Object EventsReader returns Event with detailed PredicateObjects") {
     val iterator: EventByResourceIterator = eventByResourceIterator("/event_csv/one_data_line.csv")
     val eventByResource_0: EventByResource = iterator.next()
     val event = eventByResource_0.event.get

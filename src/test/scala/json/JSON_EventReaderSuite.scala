@@ -20,7 +20,7 @@ class JSON_EventReaderSuite extends FunSuite {
     eventByResourceReader(schema, file)
   }
 
-  test("Object CSV_EventReader can read an empty JSON file") {
+  test("Object EventsReader can read an empty JSON file") {
     assert(eventByResourceIterator("/event_json/schema1.json", "/empty_JSON_file.json").isEmpty)
   }
 

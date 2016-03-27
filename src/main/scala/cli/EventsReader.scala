@@ -5,9 +5,8 @@
 package cli
 
 import java.time.{ZoneId, ZonedDateTime}
-
 import base._
-import csv.CSV_EventReader.eventByResourceReader
+import csv.EventsReader.eventByResourceReader
 
 /** WIP: Read events from an infacts file and write them to a facts file **/
 object EventsReader {

@@ -17,7 +17,7 @@ import scala.io.BufferedSource
   * Next lines: one new resource per line, with all values for the predicates in the cells
   */
 
-object CSV_EventReader {
+object EventsReader {
 
   def eventByResourceReader(file: BufferedSource): EventByResourceIterator = {
     val potential_header = file.getLines()
