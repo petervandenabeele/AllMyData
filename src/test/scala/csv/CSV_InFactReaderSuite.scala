@@ -256,4 +256,5 @@ class CSV_InFactReaderSuite extends FunSuite {
     assert(fact.objectType === "s")
     assert(fact.objectValue === "bar, dance and café")
   }
+
 }

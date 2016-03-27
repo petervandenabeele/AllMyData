@@ -11,7 +11,7 @@ import common._
 
 import scala.io.BufferedSource
 
-object CSV_KafkaReader {
+object CSV_FactReader {
 
   // reading from a CSV with structure (basic Fact, 7 fields, last field no newlines)
   // timeStamp

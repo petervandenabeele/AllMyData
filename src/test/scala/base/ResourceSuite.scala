@@ -11,13 +11,7 @@ import org.scalatest.junit.JUnitRunner
 @RunWith(classOf[JUnitRunner])
 class ResourceSuite extends FunSuite {
 
-  trait testResource {
-    val resource = Resource()
-  }
-
   test("Resource can be created without explicits") {
-    new testResource {
-      assert(1 == 1)
-    }
+    Resource() // does not fail
   }
 }
