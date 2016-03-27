@@ -99,8 +99,7 @@ object CSV_InFactReader {
                         objectType: ATD_ObjectType,
                         objectValue: ATD_ObjectValue,
                         context: Context,
-                        subjectOption: Option[ATD_Subject])
-  :Fact = {
+                        subjectOption: Option[ATD_Subject]): Fact = {
     subjectOption match {
       case Some(subject) =>
         Fact(

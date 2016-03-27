@@ -1,11 +1,12 @@
 
-amd:bar
-amd:foo
-amd:ping
-amd:pong
-amd:tux
-amd:context:source
-amd:context:processor
-amd:context:ingress_time
-amd:context:visibility
-amd:context:encryption
+amd:bar;s;bar
+amd:foo;s;foo
+amd:ping;i;ping [Int]
+amd:pong;u;pong [URL]
+amd:tux;d;tux [Decimal]
+
+amd:context:source;s;Source
+amd:context:processor;s;processor
+amd:context:ingress_time;t;ingress time [Time]
+amd:context:visibility;s;visibility (public, private, professional)
+amd:context:encryption;s;encryption (encrypted, clear, ...)

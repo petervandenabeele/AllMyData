@@ -4,9 +4,11 @@
 
 package base
 
+import java.net.URL
 import java.util.UUID
 import java.time.{ZoneId, ZonedDateTime}
 
+import cli.Util
 import common._
 
 // TODO Fix the timestamp to have more digits and/or be monotonic
@@ -18,12 +20,7 @@ case class Fact (timeStamp: ATD_TimeStamp = ZonedDateTime.now(ZoneId.of("UTC")).
                  objectType: ATD_ObjectType,
                  objectValue: ATD_ObjectValue) {
 
-  val filename = "/predicates/valid_predicates.csv"
-  val file = scala.io.Source.fromURL(getClass.getResource(filename))
-  val validPredicates: Set[String] =
-    file.getLines().map(line => line.split(";", 1)(0)).toSet
-
-  if(!validPredicates.contains(predicate))
+  if(! Fact.validPredicates.contains(predicate))
     throw new IllegalArgumentException(s"The predicate $predicate is not in list of validPredicates")
 
   if(objectValue.isEmpty)
@@ -42,9 +39,16 @@ case class Fact (timeStamp: ATD_TimeStamp = ZonedDateTime.now(ZoneId.of("UTC")).
   }
 }
 
+object Fact {
+  val filename = "/predicates/valid_predicates.csv"
+  val resourceFile = getClass.getResource(filename)
+  val file =
+    if(resourceFile.isInstanceOf[URL])
+      scala.io.Source.fromURL(resourceFile)
+    else
+      scala.io.Source.fromFile(Util.getFullFilename("valid_predicates.csv","metadata"))
 
-
-
-//val homeDir = System.getProperty("user.home")
-//val filename = homeDir + "/pp/facts/metadata/valid_predicates.csv"
-//val file = scala.io.Source.fromURL(filename)
+  val validPredicates: Set[String] =
+    file.getLines().map(line => line.split(separator, 2)(0)).toSet
+  println(validPredicates)
+}
