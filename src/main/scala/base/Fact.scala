@@ -11,6 +11,12 @@ import java.time.{ZoneId, ZonedDateTime}
 import cli.Util
 import common._
 
+/** The core abstraction of this data model.
+  *
+  * The full log of all information is stores as an ordered Sequence of facts.
+  * Each fact has an id, timestamp, context, a subject, predicate, object and objectType.
+  */
+
 // TODO Fix the timestamp to have more digits and/or be monotonic
 case class Fact(timeStamp: ATD_TimeStamp = ZonedDateTime.now(ZoneId.of("UTC")).toString,
                 uuid: ATD_Uuid = UUID.randomUUID().toString,
@@ -24,7 +30,7 @@ case class Fact(timeStamp: ATD_TimeStamp = ZonedDateTime.now(ZoneId.of("UTC")).t
     throw new IllegalArgumentException(s"The predicate $predicate is not in list of validPredicates")
 
   if (objectValue.isEmpty)
-    throw new IllegalArgumentException(s"The objectValue for new Fact with predicate $predicate is empty")
+    throw new IllegalArgumentException(s"The objectValue for new Fact with subject $subject and predicate $predicate is empty")
 
   override def toString: String = {
     List(
@@ -40,9 +46,9 @@ case class Fact(timeStamp: ATD_TimeStamp = ZonedDateTime.now(ZoneId.of("UTC")).t
 }
 
 object Fact {
-  val filename = "/predicates/valid_predicates.csv"
-  val resourceFile = getClass.getResource(filename)
-  val file =
+  private val filename = "/predicates/valid_predicates.csv"
+  private val resourceFile = getClass.getResource(filename)
+  private val file =
     if (resourceFile.isInstanceOf[URL])
       scala.io.Source.fromURL(resourceFile)
     else
