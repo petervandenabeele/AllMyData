@@ -10,10 +10,10 @@ import base._
 import csv.CSV_EventReader.eventByResourceReader
 
 /** WIP: Read events from an infacts file and write them to a facts file **/
-object EventsInserter {
+object EventsReader {
 
   def main(args: Array[String]): Unit = {
-    println("Starting AllMyData EventsInserter.main")
+    println("Starting AllMyData EventsReader.main")
     val filename = Util.getFileName(args)
     val fullFilename = Util.getFullFilename(filename)
 
@@ -21,7 +21,7 @@ object EventsInserter {
     println(fullFilename)
     println(s"context is $contextFacts")
 
-    insertEventsFromFile(fullFilename = fullFilename, contextFacts = contextFacts)
+    readEventsFromFile(fullFilename = fullFilename, contextFacts = contextFacts)
   }
 
   /** Static contextFacts (still needed ??) **/
@@ -41,7 +41,7 @@ object EventsInserter {
   }
 
   /** Read the actual facts and insert them in output file **/
-  private def insertEventsFromFile(fullFilename: String, contextFacts: Seq[Fact]): Unit = {
+  private def readEventsFromFile(fullFilename: String, contextFacts: Seq[Fact]): Unit = {
     val file = scala.io.Source.fromFile(fullFilename)
     val eventByResourceIterator = eventByResourceReader(file)
     val context: Context = Context(contextFacts.head.subject.toString)
