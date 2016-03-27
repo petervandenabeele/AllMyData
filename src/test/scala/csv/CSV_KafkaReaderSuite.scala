@@ -22,7 +22,7 @@ class CSV_KafkaReaderSuite extends FunSuite {
 //    assert(factIterator.isEmpty)
 //  }
 //
-//  test("Object CSV_FactReader can read a simple CSV file") {
+//  test("Object CSV_InFactReader can read a simple CSV file") {
 //    val filename = "/kafka_csv/simple_kafka_CSV_file.csv"
 //    val file = scala.io.Source.fromURL(getClass.getResource(filename))
 //    val factIterator: FactIterator = reader(file)

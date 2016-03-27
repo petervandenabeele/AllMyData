@@ -6,7 +6,7 @@ package csv
 
 import java.util.UUID
 
-import CSV_FactReader.reader
+import CSV_InFactReader.reader
 import base.{Context, Fact}
 import common.{FactIterator, FactWithStatus}
 
@@ -17,14 +17,14 @@ import org.scalatest.junit.JUnitRunner
 @RunWith(classOf[JUnitRunner])
 class CSV_FactReaderSuite extends FunSuite {
 
-  test("Object CSV_FactReader can read an empty CSV file") {
+  test("Object CSV_InFactReader can read an empty CSV file") {
     val filename = "/empty_CSV_file.csv"
     val file = scala.io.Source.fromURL(getClass.getResource(filename))
     val factIterator = reader(file)
     assert(factIterator.isEmpty)
   }
 
-  test("Object CSV_FactReader can read a simple CSV file") {
+  test("Object CSV_InFactReader can read a simple CSV file") {
     val filename = "/fact_csv/simple_CSV_file.csv"
     val file = scala.io.Source.fromURL(getClass.getResource(filename))
     val factIterator: FactIterator = reader(file)
@@ -226,7 +226,7 @@ class CSV_FactReaderSuite extends FunSuite {
     assert(UUID.fromString(fact_2.objectValue) === fact_1.subject)
   }
 
-  test("Object CSV_FactReader can read a simple CSV file with a ; delimiter and , in data") {
+  test("Object CSV_InFactReader can read a simple CSV file with a ; delimiter and , in data") {
     val filename = "/fact_csv/simple_CSV_file_with_semicolon_delimiter.csv"
     val file = scala.io.Source.fromURL(getClass.getResource(filename))
     val factIterator: FactIterator = reader(file)

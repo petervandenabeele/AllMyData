@@ -19,7 +19,7 @@ import scala.io.BufferedSource
   * and local_subject reused in later local_subject and object fields
   * (see tests for examples e.g. two_facts_with_csv_reference.csv)
   */
-object CSV_FactReader {
+object CSV_InFactReader {
 
   def reader(file: BufferedSource): FactIterator = {
     var subjects = scala.collection.mutable.Map[Int, ATD_Subject]()

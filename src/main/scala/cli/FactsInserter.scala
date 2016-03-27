@@ -4,7 +4,7 @@
 
 package cli
 
-import csv.CSV_FactReader.reader
+import csv.CSV_InFactReader.reader
 
 object FactsInserter {
   def main(args: Array[String]): Unit = {
