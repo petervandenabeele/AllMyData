@@ -20,7 +20,7 @@ class PredicateObjectSuite extends FunSuite {
 
   test("PredicateObject can be created without explicit objectType") {
     new testPredicateObject {
-      assertResult(PredicateObject("rdf:type", "Foo", "s"))(predicateObject)
+      assertResult(PredicateObject("rdf:type", "Foo", "s")) { predicateObject }
     }
   }
 
@@ -30,9 +30,17 @@ class PredicateObjectSuite extends FunSuite {
     }
   }
 
-  test("PredicateObject fails with empty object") {
+  test("PredicateObject fails with empty object when not a string") {
     intercept[IllegalArgumentException] {
-      PredicateObject("rdf:type", "", "s")
+      PredicateObject("amd:ping", "", "i")
     }
+  }
+
+  test("PredicateObject can be create with empty object when a string") {
+    val testPredicateObject = PredicateObject(
+      predicate = "amd:bar",
+      objectValue = ""
+    )
+    assertResult(PredicateObject("amd:bar", "", "s")) { testPredicateObject }
   }
 }

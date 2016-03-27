@@ -10,6 +10,7 @@ import java.time.{ZoneId, ZonedDateTime}
 
 import cli.Util
 import common._
+import PredicateObject.validatePredicateObject
 
 /** The core abstraction of this data model.
   *
@@ -21,16 +22,16 @@ import common._
 case class Fact(timeStamp: ATD_TimeStamp = ZonedDateTime.now(ZoneId.of("UTC")).toString,
                 uuid: ATD_Uuid = UUID.randomUUID().toString,
                 context: Context = Context(None),
-                subject: ATD_Subject = newUUID(),
+                subject: ATD_Subject = newUUID,
                 predicate: ATD_Predicate,
                 objectType: ATD_ObjectType,
                 objectValue: ATD_ObjectValue) {
 
-  if (!Fact.validPredicates.contains(predicate))
-    throw new IllegalArgumentException(s"The predicate $predicate is not in list of validPredicates")
-
-  if (objectValue.isEmpty)
-    throw new IllegalArgumentException(s"The objectValue for new Fact with subject $subject and predicate $predicate is empty")
+  validatePredicateObject(
+    predicate = predicate,
+    objectValue = objectValue,
+    objectType = objectType
+  )
 
   override def toString: String = {
     List(

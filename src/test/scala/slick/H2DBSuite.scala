@@ -27,7 +27,7 @@ class H2DBSuite extends FunSuite {
         objectType = "s",
         objectValue = "Bar")
     val factWithContext =
-      Fact(context = Context(newUUID().toString),
+      Fact(context = Context(newUUID.toString),
         predicate = "amd:foo",
         objectType = "s",
         objectValue = "Foo")

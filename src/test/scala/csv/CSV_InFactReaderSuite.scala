@@ -226,6 +226,25 @@ class CSV_InFactReaderSuite extends FunSuite {
     assert(UUID.fromString(fact_2.objectValue) === fact_1.subject)
   }
 
+  test("two_in_facts_with_empty_objectValue for string objectType must be allowed") {
+    val filename = "/in_fact_csv/two_in_facts_with_empty_objectValue.csv"
+    val file = scala.io.Source.fromURL(getClass.getResource(filename))
+    val factIterator: FactIterator = reader(file)
+    val facts: Array[Fact] = factIterator.map{ case (factOption, _) => factOption.get }.toArray
+
+    val context_1 = facts(0)
+    val fact_1 = facts(1)
+
+    assert(facts.length === 2)
+
+    val expected_context_1 = Context(Some(context_1.subject))
+
+    assert(fact_1.context === expected_context_1)
+    assert(fact_1.predicate === "amd:foo")
+    assert(fact_1.objectType === "s")
+    assert(fact_1.objectValue === "")
+  }
+
   test("Object CSV_InFactReader can read a simple CSV file with a ; delimiter and , in data") {
     val filename = "/in_fact_csv/simple_CSV_file_with_semicolon_delimiter.csv"
     val file = scala.io.Source.fromURL(getClass.getResource(filename))

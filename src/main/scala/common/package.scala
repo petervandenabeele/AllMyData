@@ -20,7 +20,7 @@ package object common {
   type FactIterator = Iterator[FactWithStatus]
   type EventByResourceIterator = Iterator[EventByResource]
 
-  def newUUID() = UUID.randomUUID()
+  def newUUID = UUID.randomUUID
 
   val separator = ";"
 }

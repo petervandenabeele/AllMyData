@@ -48,7 +48,7 @@ class FactSuite extends FunSuite {
 
   test("Fact has a UUID subject") {
     new testFoo {
-      val testSubject = newUUID()
+      val testSubject = newUUID
       val testSubjectString = testSubject.toString
       val factWithSubject = fact.copy(subject = testSubject)
       val subject: ATD_Subject = factWithSubject.subject
@@ -59,13 +59,13 @@ class FactSuite extends FunSuite {
   test("Fact has a default arg for subject and default is a UUID") {
     new testFoo {
       val subject: ATD_Subject = fact.subject
-      assert(subject.toString.size === 36)
+      assert(subject.toString.length === 36)
     }
   }
 
   test("Fact has an optional uuid") {
     new testFoo {
-      val factWithUuid = fact.copy(uuid = newUUID().toString)
+      val factWithUuid = fact.copy(uuid = newUUID.toString)
       val uuid: ATD_Uuid = factWithUuid.uuid
       assert(uuid.size === 36)
     }
@@ -97,7 +97,7 @@ class FactSuite extends FunSuite {
     new testFoo {
       val factWithContext = fact.copy(context = Context(Some(newUUID)))
       val context: Context = factWithContext.context
-      assert(context.toString.size === 36)
+      assert(context.toString.length === 36)
     }
   }
 
@@ -116,11 +116,17 @@ class FactSuite extends FunSuite {
     }
   }
 
-  test("Fact cannot have empty objectValue") {
+  test("Fact cannot have empty objectValue when not a string") {
     intercept[IllegalArgumentException] {
-      Fact(predicate = "amd:foo", // not valid
-        objectType = "s",
+      Fact(predicate = "amd:ping", // not valid
+        objectType = "i",
         objectValue = "")
     }
+  }
+
+  test("Fact can be created with empty objectValue when a string") {
+    Fact(predicate = "amd:foo",
+      objectType = "s",
+      objectValue = "")
   }
 }

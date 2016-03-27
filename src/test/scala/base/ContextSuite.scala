@@ -15,7 +15,7 @@ class ContextSuite extends FunSuite {
 
   trait testContexts {
     val contextNone = Context(None)
-    val contextSome = Context(Some(newUUID()))
+    val contextSome = Context(Some(newUUID))
   }
 
   test("Context None prints a empty string") {
@@ -26,7 +26,7 @@ class ContextSuite extends FunSuite {
 
   test("Context Some prints a 36 char string") {
     new testContexts {
-      assertResult(36)(contextSome.toString().size)
+      assertResult(36)(contextSome.toString.length)
     }
   }
 

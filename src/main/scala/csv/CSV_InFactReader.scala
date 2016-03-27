@@ -50,11 +50,11 @@ object CSV_InFactReader {
       }
       else {
         val fact = factFrom_CSV_Line(
-          predicate = predicate,
-          objectType = objectTypeOption.get,
-          objectValue = objectValueOption.get.toString,
           context = Context(context),
-          subjectOption = subjectOption)
+          subjectOption = subjectOption,
+          predicate = predicate,
+          objectValue = objectValueOption.get.toString,
+          objectType = objectTypeOption.get)
 
         if (subjectOption.isEmpty && subjectIdOption.nonEmpty) {
           subjects += (subjectIdOption.get -> fact.subject)
