@@ -31,7 +31,7 @@ class H2DBSuite extends FunSuite {
         predicate = "atd:foo",
         objectType = "s",
         objectValue = "Foo")
-    val factTuple = (
+    def factTuple(fact: Fact) = (
       fact.timeStamp,
       fact.uuid,
       fact.context.context,
@@ -39,7 +39,7 @@ class H2DBSuite extends FunSuite {
       fact.predicate,
       fact.objectType,
       fact.objectValue
-    )
+      )
   }
 
   test("Slick + H2DB works and CREATES TABLE FOOS and FACTS") {
@@ -67,7 +67,7 @@ class H2DBSuite extends FunSuite {
       // TODO context.getValue
       val setup = DBIO.seq(
         // Insert a fact
-        H2DB.facts += factTuple
+        H2DB.facts += factTuple(fact)
       )
 
       val setupFuture = db.run(setup)
@@ -110,11 +110,11 @@ class H2DBSuite extends FunSuite {
       testResult.onComplete {
         case Failure(t) => {
           println(s"test 3: failure $t")
-          throw new Exception("foo")
+          throw new Exception(t.toString)
         }
         case Success(completedResults) => {
           println(s"test 3B: success reading tuples $completedResults")
-          assertResult(completedResults.length.toString){"1"}
+          assertResult(1){ completedResults.length }
         }
       }
 
@@ -122,27 +122,46 @@ class H2DBSuite extends FunSuite {
     }
   }
 
-  //
-//  test("Read a fact with a context from the Facts table") {
-//    new testFoo {
-//      val results = H2DB.insert_fact(db, factWithContext)
-//      H2DB.read_facts(db).drop(1).foreach {
-//        case (timeStamp,
-//        uuid,
-//        context,
-//        subject,
-//        predicate,
-//        objectType,
-//        objectValue) => {
-//          assertResult(29)(timeStamp.toString.size)
-//          assertResult(36)(uuid.toString.size)
-//          assertResult(36)(context.get.toString.size)
-//          assertResult(36)(subject.toString.size)
-//          assertResult("atd:foo")(predicate.toString)
-//          assertResult("s")(objectType.toString)
-//          assertResult("Foo")(objectValue.toString)
-//        }
-//      }
-//    }
-//  }
+  test("Insert and read an additional fact with a context from the Facts table") {
+    new testFoo {
+
+      val setup = DBIO.seq(
+        // Insert a fact
+        H2DB.facts += factTuple(factWithContext)
+      )
+
+      val setupFuture = db.run(setup)
+
+      val results = db.run(H2DB.facts.result)
+
+      val testResult = results.map(r => {
+        r.map {
+          case (
+            timeStamp,
+            uuid,
+            context,
+            subject,
+            predicate,
+            objectType,
+            objectValue) => {
+            println(s"test 4A: objectValue is $objectValue")
+            objectValue
+          }
+        }.sorted.mkString(",")
+      })
+
+      testResult.onComplete {
+        case Failure(t) => {
+          println(s"test 4: failure $t")
+          throw new Exception(t.toString)
+        }
+        case Success(completedResults) => {
+          println(s"test 4B: success reading objectValues $completedResults")
+          assertResult("Bar,Foo") { completedResults }
+        }
+      }
+
+      Await.result(testResult, 1000.millis)
+    }
+  }
 }

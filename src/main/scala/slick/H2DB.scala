@@ -35,15 +35,4 @@ object H2DB {
 //
 
 
-//  def read_facts(db: Database):  List[(String, String, Option[UUID], UUID, String, String, String)] = {
-//
-//    val query = for (fact <- facts) yield fact
-//
-//    val result = db.withSession {
-//      implicit session => {
-//        query.list
-//      }
-//    }
-//    result
-//  }
 }
