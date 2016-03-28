@@ -18,7 +18,7 @@ object EventByResource {
     val resource = eventByResource.resource
     eventByResource.event.pos.map(predicateObject =>
       Fact(
-        context = Context(""),
+        context = context,
         subject = resource.subject,
         predicate = predicateObject.predicate,
         objectType = predicateObject.objectType,

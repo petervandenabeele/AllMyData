@@ -37,7 +37,7 @@ object EventsReader {
 
     val ebr = EventByResource(resource = Resource(),
       event = Event(predicateObjects))
-    factsFromEventByResource(ebr, Context(""))
+    factsFromEventByResource(ebr, Context(None))
   }
 
   /** Read the actual facts and print them **/
