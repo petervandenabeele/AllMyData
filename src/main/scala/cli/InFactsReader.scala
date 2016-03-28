@@ -15,7 +15,10 @@ object InFactsReader {
     print("Reading from: ")
     println(fullFilename)
 
-    readFactsFromFile(fullFilename = fullFilename, csv.InFactsReader.reader)
+    readFactsFromFile(
+      fullFilename = fullFilename,
+      readerEither = Left(csv.InFactsReader.reader)
+    )
   }
 
 }

@@ -4,7 +4,8 @@
 
 package csv
 
-import base.{PredicateObject, Event, Resource, EventByResource}
+import base.EventByResource._
+import base.{Context, _}
 import common._
 
 import scala.io.BufferedSource
@@ -19,6 +20,16 @@ import scala.io.BufferedSource
 
 object EventsReader {
 
+  /** Read the actual facts and print them */
+  def reader(file: BufferedSource, contextOption: Option[Context] = None): FactIterator = {
+    val eventByResourceIterator = eventByResourceReader(file)
+
+    eventByResourceIterator.flatMap[FactWithStatus](eventByResource => {
+      factsFromEventByResource(eventByResource, contextOption.get).map(fact => (Some(fact), None))
+    })
+  }
+
+  // TODO only success case covered here (exception on
   def eventByResourceReader(file: BufferedSource): EventByResourceIterator = {
     val potential_header = file.getLines()
     if (!potential_header.hasNext) return Iterator.empty

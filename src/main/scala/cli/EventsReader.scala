@@ -4,28 +4,38 @@
 
 package cli
 
-import java.time.{ZoneId, ZonedDateTime}
-import base._
-import base.EventByResource.factsFromEventByResource
-import csv.EventsReader.eventByResourceReader
+import Util.readFactsFromFile
 
-/** WIP: Read events from an infacts file and write them to a facts file */
 object EventsReader {
 
   def main(args: Array[String]): Unit = {
     println("Starting AllMyData EventsReader.main")
     val filename = Util.getFileName(args)
     val fullFilename = Util.getFullFilename(filename)
-
     print("Reading from: ")
     println(fullFilename)
-    println(s"context is $contextFacts")
 
-    readEventsFromFile(fullFilename = fullFilename, contextFacts = contextFacts)
+    val (context, contextFacts) = contextAndFacts
+    println(s"context is $context")
+    println(s"contextFacts are $contextFacts")
+
+    contextFacts.foreach(fact =>
+      println(fact.toString)
+    )
+
+    readFactsFromFile(
+      fullFilename = fullFilename,
+      readerEither = Right(csv.EventsReader.reader),
+      contextOption = Some(context)
+    )
   }
 
-  /** Static contextFacts */
-  private val contextFacts: Seq[Fact] = {
+  import java.time.{ZoneId, ZonedDateTime}
+  import base._
+  import base.EventByResource.factsFromEventByResource
+
+  /** Static contextFacts for bootstrapping. */
+  private val contextAndFacts: (Context, Seq[Fact]) = {
 
     val predicateObjects = List(
       PredicateObject(predicate = "amd:context:source", objectValue = "@peter_v", objectType = "s"), // replace this
@@ -35,23 +45,11 @@ object EventsReader {
       PredicateObject(predicate = "amd:context:encryption", objectValue = "encrypted", objectType = "s") // public | private | professional
     )
 
-    val ebr = EventByResource(resource = Resource(),
+    val resource = Resource()
+    val eventByResource = EventByResource(
+      resource = resource,
       event = Event(predicateObjects))
-    factsFromEventByResource(ebr, Context(None))
-  }
-
-  /** Read the actual facts and print them */
-  private def readEventsFromFile(fullFilename: String, contextFacts: Seq[Fact]): Unit = {
-    val file = scala.io.Source.fromFile(fullFilename)
-    val eventByResourceIterator = eventByResourceReader(file)
-    val context: Context = Context(contextFacts.head.subject.toString)
-
-    contextFacts.foreach(fact =>
-      println(fact.toString)
-    )
-    eventByResourceIterator.foreach(eventByResource => {
-      factsFromEventByResource(eventByResource, context).foreach(fact => println(fact.toString))
-    })
+    (Context(Some(resource.subject)), factsFromEventByResource(eventByResource, Context(None)))
   }
 
 }

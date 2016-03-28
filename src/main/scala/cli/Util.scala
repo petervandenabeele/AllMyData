@@ -4,7 +4,9 @@
 
 package cli
 
+import base.{Context, Fact}
 import common.FactIterator
+
 import scala.io.BufferedSource
 
 object Util {
@@ -19,10 +21,20 @@ object Util {
     homeDir + s"/pp/facts/$dir/" + filename
   }
 
-  /** WIP show in println */
-  def readFactsFromFile(fullFilename: String, reader : BufferedSource => FactIterator): Unit = {
+  def readFactsFromFile(
+                         fullFilename: String,
+                         readerEither : Either[
+                           BufferedSource => FactIterator,
+                           (BufferedSource, Option[Context]) => FactIterator],
+                         contextOption : Option[Context] = None): Unit = {
+
     val file = scala.io.Source.fromFile(fullFilename)
-    val factIterator = reader(file)
+    val factIterator =
+      if (readerEither.isLeft)
+        readerEither.left.get(file)
+      else
+        readerEither.right.get(file, contextOption)
+
     factIterator.foreach(factWithStatus => {
       val (factOption, errorOption) = factWithStatus
       if (factOption.nonEmpty)
