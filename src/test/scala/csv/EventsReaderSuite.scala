@@ -34,29 +34,29 @@ class EventsReaderSuite extends FunSuite {
   test("Object EventsReader returns Resource and Event with 3 PredicateObjects") {
     val iterator: EventByResourceIterator = eventByResourceIterator("/event_csv/one_data_line.csv")
     val eventByResource_0: EventByResource = iterator.next()
-    assertResult(36)(eventByResource_0.resource.get.subject.toString.length)
-    assertResult(3)(eventByResource_0.event.get.pos.size)
+    assertResult(36)(eventByResource_0.resource.subject.toString.length)
+    assertResult(3)(eventByResource_0.event.pos.size)
   }
 
   test("Object EventsReader returns Resource and Event with all present PredicateObjects even if one is empty") {
     val iterator: EventByResourceIterator = eventByResourceIterator("/event_csv/one_data_line_empty_entry.csv")
     val eventByResource_0: EventByResource = iterator.next()
-    assertResult(36)(eventByResource_0.resource.get.subject.toString.length)
-    assertResult(2)(eventByResource_0.event.get.pos.size)
+    assertResult(36)(eventByResource_0.resource.subject.toString.length)
+    assertResult(2)(eventByResource_0.event.pos.size)
   }
 
   test("Object EventsReader skips empty lines") {
     val iterator: EventByResourceIterator = eventByResourceIterator("/event_csv/one_data_line_empty_entry.csv")
     val eventByResource_0: EventByResource = iterator.next()
     val eventByResource_1: EventByResource = iterator.next()
-    assertResult(36)(eventByResource_1.resource.get.subject.toString.length)
-    assertResult(3)(eventByResource_1.event.get.pos.size)
+    assertResult(36)(eventByResource_1.resource.subject.toString.length)
+    assertResult(3)(eventByResource_1.event.pos.size)
   }
 
   test("Object EventsReader returns Event with detailed PredicateObjects") {
     val iterator: EventByResourceIterator = eventByResourceIterator("/event_csv/one_data_line.csv")
     val eventByResource_0: EventByResource = iterator.next()
-    val event = eventByResource_0.event.get
+    val event = eventByResource_0.event
     val predicateObject: PredicateObject = event.pos.head
     assertResult("amd:bar")(predicateObject.predicate)
     assertResult("s")(predicateObject.objectType)
@@ -74,7 +74,7 @@ class EventsReaderSuite extends FunSuite {
   test("Object EventsReader returns Events for 2 resources") {
     val iterator: EventByResourceIterator = eventByResourceIterator("/event_csv/two_events.csv")
     val eventByResource_0: EventByResource = iterator.next()
-    val event = eventByResource_0.event.get
+    val event = eventByResource_0.event
     val predicateObject: PredicateObject = event.pos.head
     assertResult("amd:bar")(predicateObject.predicate)
     assertResult("s")(predicateObject.objectType)
@@ -89,7 +89,7 @@ class EventsReaderSuite extends FunSuite {
     assertResult(42)(nextNextPredicateObject.objectValue.toInt) // TODO return a real Int for "i" objectType
 
     val eventByResource_1: EventByResource = iterator.next()
-    val event_1 = eventByResource_1.event.get
+    val event_1 = eventByResource_1.event
     val predicateObject_1: PredicateObject = event_1.pos.head
     assertResult("amd:bar")(predicateObject_1.predicate)
     assertResult("s")(predicateObject_1.objectType)

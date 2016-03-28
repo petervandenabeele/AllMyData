@@ -11,14 +11,8 @@ import org.scalatest.junit.JUnitRunner
 @RunWith(classOf[JUnitRunner])
 class EventByResourceSuite extends FunSuite {
 
-  trait testEventByResource {
-    val eventByResource = EventByResource(resource = None,
-      event = None)
+  test("EventByResource can be created with a resource and an event") {
+    val eventByResource = EventByResource(resource = Resource(), event = Event() )
   }
 
-  test("EventByResource can be created without explicit arguments") {
-    new testEventByResource {
-      assert(1 == 1)
-    }
-  }
 }

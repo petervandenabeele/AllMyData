@@ -38,8 +38,9 @@ object EventsReader {
           map { case ((predicate, objectType), objectValue) =>
           PredicateObject(predicate = predicate, objectValue = objectValue, objectType = objectType)
         }
-      EventByResource(resource = Some(Resource()),
-        event = Some(Event(predicateObjects)))
+      EventByResource(
+        resource = Resource(),
+        event = Event(predicateObjects))
     })
   }
 }

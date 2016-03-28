@@ -35,8 +35,8 @@ object EventsReader {
       PredicateObject(predicate = "amd:context:encryption", objectValue = "encrypted", objectType = "s") // public | private | professional
     )
 
-    val ebr = EventByResource(resource = Some(Resource()),
-      event = Some(Event(predicateObjects)))
+    val ebr = EventByResource(resource = Resource(),
+      event = Event(predicateObjects))
     factsFromEventByResource(ebr, Context(""))
   }
 
@@ -50,13 +50,7 @@ object EventsReader {
       println(fact.toString)
     )
     eventByResourceIterator.foreach(eventByResource => {
-      if (eventByResource.resource.nonEmpty) {
-        factsFromEventByResource(eventByResource, context).foreach(fact =>
-          println(fact.toString)
-        )
-      }
-      if (eventByResource.error.nonEmpty)
-        println(s"ERROR: In $fullFilename : ${eventByResource.error.get}")
+      factsFromEventByResource(eventByResource, context).foreach(fact => println(fact.toString))
     })
   }
 

@@ -42,12 +42,12 @@ object JSON_EventReader {
     topList.get.map { case JObject(rawPos) =>
       EventByResource(
         // new resource, not trying to find existing
-        resource = Some(Resource()),
-        event = Some(Event(rawPos.map {
+        resource = Resource(),
+        event = Event(rawPos.map {
           case (rawPredicate, JString(objectValue)) => makePredicateObject(schemaJson, rawPredicate, objectValue)
           case (rawPredicate, JInt(objectValue)) => makePredicateObject(schemaJson, rawPredicate, objectValue.toString())
           case _ => PredicateObject(predicate = "amd:error", objectValue = "Found unsupported JSON type (only string and int)", objectType = "s")
-        }))
+        })
       )
     }.toIterator
   }

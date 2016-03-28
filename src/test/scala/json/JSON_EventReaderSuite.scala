@@ -4,7 +4,7 @@
 
 package json
 
-import base.{PredicateObject, EventByResource}
+import base.EventByResource
 import common._
 import json.JSON_EventReader.eventByResourceReader
 import org.junit.runner.RunWith
@@ -29,9 +29,9 @@ class JSON_EventReaderSuite extends FunSuite {
 
     val eventByResource_0: EventByResource = iterator.next()
 
-    val resource_0 = eventByResource_0.resource.get
+    val resource_0 = eventByResource_0.resource
     assertResult(36)(resource_0.subject.toString.length)
-    val predicateObject_0 = eventByResource_0.event.get.pos.head
+    val predicateObject_0 = eventByResource_0.event.pos.head
     assertResult("amd:foo")(predicateObject_0.predicate)
     assertResult("s")(predicateObject_0.objectType)
     assertResult("bar")(predicateObject_0.objectValue)
@@ -42,14 +42,14 @@ class JSON_EventReaderSuite extends FunSuite {
 
     val eventByResource_0: EventByResource = iterator.next()
 
-    val resource_0 = eventByResource_0.resource.get
+    val resource_0 = eventByResource_0.resource
     assertResult(36)(resource_0.subject.toString.length)
-    val predicateObject_0 = eventByResource_0.event.get.pos.head
+    val predicateObject_0 = eventByResource_0.event.pos.head
     assertResult("amd:foo")(predicateObject_0.predicate)
     assertResult("s")(predicateObject_0.objectType)
     assertResult("bar")(predicateObject_0.objectValue)
 
-    val predicateObject_1 = eventByResource_0.event.get.pos.tail.head
+    val predicateObject_1 = eventByResource_0.event.pos.tail.head
     assertResult("amd:bar")(predicateObject_1.predicate)
     assertResult("s")(predicateObject_1.objectType)
     assertResult("ping")(predicateObject_1.objectValue)
@@ -60,14 +60,14 @@ class JSON_EventReaderSuite extends FunSuite {
 
     val eventByResource_0: EventByResource = iterator.next()
 
-    val resource_0 = eventByResource_0.resource.get
+    val resource_0 = eventByResource_0.resource
     assertResult(36)(resource_0.subject.toString.length)
-    val predicateObject_0 = eventByResource_0.event.get.pos.head
+    val predicateObject_0 = eventByResource_0.event.pos.head
     assertResult("amd:bar")(predicateObject_0.predicate)
     assertResult("s")(predicateObject_0.objectType)
     assertResult("ping")(predicateObject_0.objectValue)
 
-    val predicateObject_1 = eventByResource_0.event.get.pos.tail.head
+    val predicateObject_1 = eventByResource_0.event.pos.tail.head
     assertResult("amd:foo")(predicateObject_1.predicate)
     assertResult("s")(predicateObject_1.objectType)
     assertResult("bar")(predicateObject_1.objectValue)
@@ -78,15 +78,15 @@ class JSON_EventReaderSuite extends FunSuite {
 
     val eventByResource_0: EventByResource = iterator.next()
 
-    val resource_0 = eventByResource_0.resource.get
+    val resource_0 = eventByResource_0.resource
     assertResult(36)(resource_0.subject.toString.length)
 
-    val predicateObject_00 = eventByResource_0.event.get.pos.head
+    val predicateObject_00 = eventByResource_0.event.pos.head
     assertResult("amd:foo")(predicateObject_00.predicate)
     assertResult("s")(predicateObject_00.objectType)
     assertResult("bar")(predicateObject_00.objectValue)
 
-    val predicateObject_01 = eventByResource_0.event.get.pos.tail.head
+    val predicateObject_01 = eventByResource_0.event.pos.tail.head
     assertResult("amd:bar")(predicateObject_01.predicate)
     assertResult("s")(predicateObject_01.objectType)
     assertResult("ping")(predicateObject_01.objectValue)
@@ -94,15 +94,15 @@ class JSON_EventReaderSuite extends FunSuite {
 
     val eventByResource_1: EventByResource = iterator.next()
 
-    val resource_1 = eventByResource_1.resource.get
+    val resource_1 = eventByResource_1.resource
     assertResult(36)(resource_1.subject.toString.length)
 
-    val predicateObject_10 = eventByResource_1.event.get.pos.head
+    val predicateObject_10 = eventByResource_1.event.pos.head
     assertResult("amd:foo")(predicateObject_10.predicate)
     assertResult("s")(predicateObject_10.objectType)
     assertResult("tux")(predicateObject_10.objectValue)
 
-    val predicateObject_11 = eventByResource_1.event.get.pos.tail.head
+    val predicateObject_11 = eventByResource_1.event.pos.tail.head
     assertResult("amd:bar")(predicateObject_11.predicate)
     assertResult("s")(predicateObject_11.objectType)
     assertResult("pong")(predicateObject_11.objectValue)
@@ -113,15 +113,15 @@ class JSON_EventReaderSuite extends FunSuite {
 
     val eventByResource_0: EventByResource = iterator.next()
 
-    val resource_0 = eventByResource_0.resource.get
+    val resource_0 = eventByResource_0.resource
     assertResult(36)(resource_0.subject.toString.length)
 
-    val predicateObject_00 = eventByResource_0.event.get.pos.head
+    val predicateObject_00 = eventByResource_0.event.pos.head
     assertResult("my:city")(predicateObject_00.predicate)
     assertResult("s")(predicateObject_00.objectType)
     assertResult("London")(predicateObject_00.objectValue)
 
-    val predicateObject_01 = eventByResource_0.event.get.pos.tail.head
+    val predicateObject_01 = eventByResource_0.event.pos.tail.head
     assertResult("my:bars")(predicateObject_01.predicate)
     assertResult("i")(predicateObject_01.objectType)
     assertResult("442")(predicateObject_01.objectValue)
@@ -129,15 +129,15 @@ class JSON_EventReaderSuite extends FunSuite {
 
     val eventByResource_1: EventByResource = iterator.next()
 
-    val resource_1 = eventByResource_1.resource.get
+    val resource_1 = eventByResource_1.resource
     assertResult(36)(resource_1.subject.toString.length)
 
-    val predicateObject_10 = eventByResource_1.event.get.pos.head
+    val predicateObject_10 = eventByResource_1.event.pos.head
     assertResult("my:city")(predicateObject_10.predicate)
     assertResult("s")(predicateObject_10.objectType)
     assertResult("SFO")(predicateObject_10.objectValue)
 
-    val predicateObject_11 = eventByResource_1.event.get.pos.tail.head
+    val predicateObject_11 = eventByResource_1.event.pos.tail.head
     assertResult("my:bars")(predicateObject_11.predicate)
     assertResult("i")(predicateObject_11.objectType)
     assertResult("537")(predicateObject_11.objectValue)
@@ -148,15 +148,15 @@ class JSON_EventReaderSuite extends FunSuite {
 
     val eventByResource_0: EventByResource = iterator.next()
 
-    val resource_0 = eventByResource_0.resource.get
+    val resource_0 = eventByResource_0.resource
     assertResult(36)(resource_0.subject.toString.length)
 
-    val predicateObject_00 = eventByResource_0.event.get.pos.head
+    val predicateObject_00 = eventByResource_0.event.pos.head
     assertResult("my:city")(predicateObject_00.predicate)
     assertResult("s")(predicateObject_00.objectType)
     assertResult("London")(predicateObject_00.objectValue)
 
-    val predicateObject_01 = eventByResource_0.event.get.pos.tail.head
+    val predicateObject_01 = eventByResource_0.event.pos.tail.head
     assertResult("my:bars")(predicateObject_01.predicate)
     assertResult("i")(predicateObject_01.objectType)
     assertResult("442")(predicateObject_01.objectValue)
@@ -164,15 +164,15 @@ class JSON_EventReaderSuite extends FunSuite {
 
     val eventByResource_1: EventByResource = iterator.next()
 
-    val resource_1 = eventByResource_1.resource.get
+    val resource_1 = eventByResource_1.resource
     assertResult(36)(resource_1.subject.toString.length)
 
-    val predicateObject_10 = eventByResource_1.event.get.pos.head
+    val predicateObject_10 = eventByResource_1.event.pos.head
     assertResult("my:city")(predicateObject_10.predicate)
     assertResult("s")(predicateObject_10.objectType)
     assertResult("SFO")(predicateObject_10.objectValue)
 
-    val predicateObject_11 = eventByResource_1.event.get.pos.tail.head
+    val predicateObject_11 = eventByResource_1.event.pos.tail.head
     assertResult("my:bars")(predicateObject_11.predicate)
     assertResult("i")(predicateObject_11.objectType)
     assertResult("537")(predicateObject_11.objectValue)
@@ -183,15 +183,15 @@ class JSON_EventReaderSuite extends FunSuite {
 
     val eventByResource_0: EventByResource = iterator.next()
 
-    val resource_0 = eventByResource_0.resource.get
+    val resource_0 = eventByResource_0.resource
     assertResult(36)(resource_0.subject.toString.length)
 
-    val predicateObject_00 = eventByResource_0.event.get.pos.head
+    val predicateObject_00 = eventByResource_0.event.pos.head
     assertResult("my:city")(predicateObject_00.predicate)
     assertResult("s")(predicateObject_00.objectType)
     assertResult("London")(predicateObject_00.objectValue)
 
-    val predicateObject_01 = eventByResource_0.event.get.pos.tail.head
+    val predicateObject_01 = eventByResource_0.event.pos.tail.head
     assertResult("amd:error")(predicateObject_01.predicate)
     assertResult("s")(predicateObject_01.objectType)
     assertResult("Found unsupported JSON type (only string and int)")(predicateObject_01.objectValue)
@@ -199,15 +199,15 @@ class JSON_EventReaderSuite extends FunSuite {
 
     val eventByResource_1: EventByResource = iterator.next()
 
-    val resource_1 = eventByResource_1.resource.get
+    val resource_1 = eventByResource_1.resource
     assertResult(36)(resource_1.subject.toString.length)
 
-    val predicateObject_10 = eventByResource_1.event.get.pos.head
+    val predicateObject_10 = eventByResource_1.event.pos.head
     assertResult("my:city")(predicateObject_10.predicate)
     assertResult("s")(predicateObject_10.objectType)
     assertResult("SFO")(predicateObject_10.objectValue)
 
-    val predicateObject_11 = eventByResource_1.event.get.pos.tail.head
+    val predicateObject_11 = eventByResource_1.event.pos.tail.head
     assertResult("my:bars")(predicateObject_11.predicate)
     assertResult("i")(predicateObject_11.objectType)
     assertResult("537")(predicateObject_11.objectValue)
