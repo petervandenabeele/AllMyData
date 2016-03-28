@@ -9,7 +9,7 @@ import base._
 import base.EventByResource.factsFromEventByResource
 import csv.EventsReader.eventByResourceReader
 
-/** WIP: Read events from an infacts file and write them to a facts file **/
+/** WIP: Read events from an infacts file and write them to a facts file */
 object EventsReader {
 
   def main(args: Array[String]): Unit = {
@@ -24,7 +24,7 @@ object EventsReader {
     readEventsFromFile(fullFilename = fullFilename, contextFacts = contextFacts)
   }
 
-  /** Static contextFacts (still needed ??) **/
+  /** Static contextFacts */
   private val contextFacts: Seq[Fact] = {
 
     val predicateObjects = List(
@@ -40,7 +40,7 @@ object EventsReader {
     factsFromEventByResource(ebr, Context(None))
   }
 
-  /** Read the actual facts and print them **/
+  /** Read the actual facts and print them */
   private def readEventsFromFile(fullFilename: String, contextFacts: Seq[Fact]): Unit = {
     val file = scala.io.Source.fromFile(fullFilename)
     val eventByResourceIterator = eventByResourceReader(file)

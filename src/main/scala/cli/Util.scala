@@ -19,7 +19,7 @@ object Util {
     homeDir + s"/pp/facts/$dir/" + filename
   }
 
-  /** WIP show in println **/
+  /** WIP show in println */
   def readFactsFromFile(fullFilename: String, reader : BufferedSource => FactIterator): Unit = {
     val file = scala.io.Source.fromFile(fullFilename)
     val factIterator = reader(file)
