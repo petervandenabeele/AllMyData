@@ -71,4 +71,37 @@ class EventsReaderSuite extends FunSuite {
     assertResult(42)(nextNextPredicateObject.objectValue.toInt) // TODO return a real Int for "i" objectType
   }
 
+  test("Object EventsReader returns Events for 2 resources") {
+    val iterator: EventByResourceIterator = eventByResourceIterator("/event_csv/two_events.csv")
+    val eventByResource_0: EventByResource = iterator.next()
+    val event = eventByResource_0.event.get
+    val predicateObject: PredicateObject = event.pos.head
+    assertResult("amd:bar")(predicateObject.predicate)
+    assertResult("s")(predicateObject.objectType)
+    assertResult("Bar")(predicateObject.objectValue)
+    val nextPredicateObject: PredicateObject = event.pos.tail.head
+    assertResult("amd:foo")(nextPredicateObject.predicate)
+    assertResult("s")(nextPredicateObject.objectType)
+    assertResult("Foo")(nextPredicateObject.objectValue)
+    val nextNextPredicateObject: PredicateObject = event.pos.tail.tail.head
+    assertResult("amd:ping")(nextNextPredicateObject.predicate)
+    assertResult("i")(nextNextPredicateObject.objectType)
+    assertResult(42)(nextNextPredicateObject.objectValue.toInt) // TODO return a real Int for "i" objectType
+
+    val eventByResource_1: EventByResource = iterator.next()
+    val event_1 = eventByResource_1.event.get
+    val predicateObject_1: PredicateObject = event_1.pos.head
+    assertResult("amd:bar")(predicateObject_1.predicate)
+    assertResult("s")(predicateObject_1.objectType)
+    assertResult("Ping")(predicateObject_1.objectValue)
+    val nextPredicateObject_1: PredicateObject = event_1.pos.tail.head
+    assertResult("amd:foo")(nextPredicateObject_1.predicate)
+    assertResult("s")(nextPredicateObject_1.objectType)
+    assertResult("Pong")(nextPredicateObject_1.objectValue)
+    val nextNextPredicateObject_1: PredicateObject = event_1.pos.tail.tail.head
+    assertResult("amd:ping")(nextNextPredicateObject_1.predicate)
+    assertResult("i")(nextNextPredicateObject_1.objectType)
+    assertResult(37)(nextNextPredicateObject_1.objectValue.toInt) // TODO return a real Int for "i" objectType
+  }
+
 }
