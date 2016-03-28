@@ -6,6 +6,7 @@ package cli
 
 import java.time.{ZoneId, ZonedDateTime}
 import base._
+import base.EventByResource.factsFromEventByResource
 import csv.EventsReader.eventByResourceReader
 
 /** WIP: Read events from an infacts file and write them to a facts file **/
@@ -39,7 +40,7 @@ object EventsReader {
     factsFromEventByResource(ebr, Context(""))
   }
 
-  /** Read the actual facts and insert them in output file **/
+  /** Read the actual facts and print them **/
   private def readEventsFromFile(fullFilename: String, contextFacts: Seq[Fact]): Unit = {
     val file = scala.io.Source.fromFile(fullFilename)
     val eventByResourceIterator = eventByResourceReader(file)
@@ -59,17 +60,4 @@ object EventsReader {
     })
   }
 
-  /** Produce Facts from an EventByResource (move to EventByResource ??) **/
-  private def factsFromEventByResource(eventByResource: EventByResource, context: Context): Seq[Fact] = {
-    val resource = eventByResource.resource.get
-    eventByResource.event.get.pos.map(predicateObject =>
-      Fact(
-        context = context,
-        subject = resource.subject,
-        predicate = predicateObject.predicate,
-        objectType = predicateObject.objectType,
-        objectValue = predicateObject.objectValue
-      )
-    )
-  }
 }

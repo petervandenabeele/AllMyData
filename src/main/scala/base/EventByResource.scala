@@ -13,3 +13,20 @@ package base
 case class EventByResource(resource: Option[Resource],
                            event: Option[Event],
                            error: Option[String] = None)
+
+object EventByResource {
+
+  def factsFromEventByResource(eventByResource: EventByResource, context: Context): Seq[Fact] = {
+    val resource = eventByResource.resource.get
+    eventByResource.event.get.pos.map(predicateObject =>
+      Fact(
+        context = context,
+        subject = resource.subject,
+        predicate = predicateObject.predicate,
+        objectType = predicateObject.objectType,
+        objectValue = predicateObject.objectValue
+      )
+    )
+  }
+
+}
