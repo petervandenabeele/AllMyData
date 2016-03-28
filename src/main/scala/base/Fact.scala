@@ -19,13 +19,13 @@ import PredicateObject.validatePredicateObject
   */
 
 // TODO Fix the timestamp to have more digits and/or be monotonic
-case class Fact(timeStamp: ATD_TimeStamp = ZonedDateTime.now(ZoneId.of("UTC")).toString,
-                uuid: ATD_Uuid = UUID.randomUUID().toString,
+case class Fact(timeStamp: AMD_TimeStamp = ZonedDateTime.now(ZoneId.of("UTC")).toString,
+                uuid: AMD_Uuid = UUID.randomUUID().toString,
                 context: Context = Context(None),
-                subject: ATD_Subject = newUUID,
-                predicate: ATD_Predicate,
-                objectType: ATD_ObjectType,
-                objectValue: ATD_ObjectValue) {
+                subject: AMD_Subject = newUUID,
+                predicate: AMD_Predicate,
+                objectType: AMD_ObjectType,
+                objectValue: AMD_ObjectValue) {
 
   validatePredicateObject(
     predicate = predicate,

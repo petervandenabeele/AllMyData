@@ -7,13 +7,13 @@ import java.util.UUID
 import base.{Fact, EventByResource}
 
 package object common {
-  type ATD_TimeStamp = String
-  type ATD_Uuid = String
-  type ATD_Subject = UUID
-  type ATD_Predicate = String
+  type AMD_TimeStamp = String
+  type AMD_Uuid = String
+  type AMD_Subject = UUID
+  type AMD_Predicate = String
   // see list of object types below
-  type ATD_ObjectType = String
-  type ATD_ObjectValue = String
+  type AMD_ObjectType = String
+  type AMD_ObjectValue = String
 
   // optional Fact and optional Error message
   type FactWithStatus = (Option[Fact], Option[String])
@@ -25,7 +25,7 @@ package object common {
   val separator = ";"
 }
 
-// ATD_ObjectType describes the type ObjectValue is one of:
+// AMD_ObjectType describes the type ObjectValue is one of:
 // s : string (most generic)
 // c : csv_reference (to a number in the CSV input, translated to a reference (r))
 // t : time (date and/or time ISO, with up to 9 decimals for nanoseconds)

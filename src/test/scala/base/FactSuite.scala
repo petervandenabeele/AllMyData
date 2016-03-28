@@ -27,21 +27,21 @@ class FactSuite extends FunSuite {
 
   test("Fact has a predicate attribute") {
     new testFoo {
-      val predicate: ATD_Predicate = fact.predicate
+      val predicate: AMD_Predicate = fact.predicate
       assert(predicate === "amd:foo")
     }
   }
 
   test("Fact has an objectType attribute") {
     new testFoo {
-      val objectType: ATD_ObjectType = fact.objectType
+      val objectType: AMD_ObjectType = fact.objectType
       assert(objectType === "s")
     }
   }
 
   test("Fact has an objectValue attribute") {
     new testFoo {
-      val objectValue: ATD_ObjectValue = fact.objectValue
+      val objectValue: AMD_ObjectValue = fact.objectValue
       assert(objectValue === "Bar")
     }
   }
@@ -51,14 +51,14 @@ class FactSuite extends FunSuite {
       val testSubject = newUUID
       val testSubjectString = testSubject.toString
       val factWithSubject = fact.copy(subject = testSubject)
-      val subject: ATD_Subject = factWithSubject.subject
+      val subject: AMD_Subject = factWithSubject.subject
       assert(subject === testSubject)
     }
   }
 
   test("Fact has a default arg for subject and default is a UUID") {
     new testFoo {
-      val subject: ATD_Subject = fact.subject
+      val subject: AMD_Subject = fact.subject
       assert(subject.toString.length === 36)
     }
   }
@@ -66,14 +66,14 @@ class FactSuite extends FunSuite {
   test("Fact has an optional uuid") {
     new testFoo {
       val factWithUuid = fact.copy(uuid = newUUID.toString)
-      val uuid: ATD_Uuid = factWithUuid.uuid
+      val uuid: AMD_Uuid = factWithUuid.uuid
       assert(uuid.size === 36)
     }
   }
 
   test("Fact has an optional uuid and default is a new random UUID") {
     new testFoo {
-      val uuid: ATD_Uuid = fact.uuid
+      val uuid: AMD_Uuid = fact.uuid
       assert(uuid.size === 36)
     }
   }
@@ -81,14 +81,14 @@ class FactSuite extends FunSuite {
   test("Fact has an optional timeStamp") {
     new testFoo {
       val factWithTimeStamp = fact.copy(timeStamp = "2014-11-21 23:59:36.134567890")
-      val timeStamp: ATD_TimeStamp = factWithTimeStamp.timeStamp
+      val timeStamp: AMD_TimeStamp = factWithTimeStamp.timeStamp
       assert(timeStamp === "2014-11-21 23:59:36.134567890")
     }
   }
 
   test("Fact has an optional timeStamp and default is a UTC time") {
     new testFoo {
-      val timeStamp: ATD_TimeStamp = fact.timeStamp
+      val timeStamp: AMD_TimeStamp = fact.timeStamp
       assert(timeStamp.size === 29)
     }
   }

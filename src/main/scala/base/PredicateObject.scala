@@ -4,11 +4,11 @@
 
 package base
 
-import common.{ATD_ObjectValue, ATD_ObjectType, ATD_Predicate}
+import common.{AMD_ObjectValue, AMD_ObjectType, AMD_Predicate}
 
-case class PredicateObject(predicate: ATD_Predicate,
-                           objectValue: ATD_ObjectValue,
-                           objectType: ATD_ObjectType = "s") {
+case class PredicateObject(predicate: AMD_Predicate,
+                           objectValue: AMD_ObjectValue,
+                           objectType: AMD_ObjectType = "s") {
   PredicateObject.validatePredicateObject(
     predicate = predicate,
     objectValue = objectValue,
@@ -16,9 +16,9 @@ case class PredicateObject(predicate: ATD_Predicate,
 }
 
 object PredicateObject {
-  def validatePredicateObject(predicate: ATD_Predicate,
-                              objectValue: ATD_ObjectValue,
-                              objectType: ATD_ObjectType) {
+  def validatePredicateObject(predicate: AMD_Predicate,
+                              objectValue: AMD_ObjectValue,
+                              objectType: AMD_ObjectType) {
     if (!Fact.validPredicates.contains(predicate))
       throw new IllegalArgumentException(s"The predicate $predicate is not in list of validPredicates")
 

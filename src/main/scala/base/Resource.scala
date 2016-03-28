@@ -4,7 +4,7 @@
 
 package base
 
-import common.{ATD_Subject, newUUID}
+import common.{AMD_Subject, newUUID}
 
 /** A logical representation of all facts for one subject. */
-case class Resource(subject: ATD_Subject = newUUID)
+case class Resource(subject: AMD_Subject = newUUID)

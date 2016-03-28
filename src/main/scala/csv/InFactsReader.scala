@@ -22,7 +22,7 @@ import scala.io.BufferedSource
 object InFactsReader {
 
   def reader(file: BufferedSource): FactIterator = {
-    var subjects = scala.collection.mutable.Map[Int, ATD_Subject]()
+    var subjects = scala.collection.mutable.Map[Int, AMD_Subject]()
 
     file.getLines().filterNot(x => x.isEmpty).map[FactWithStatus](line => {
       val elements: Array[String] = line.split(separator, 7)
@@ -64,10 +64,10 @@ object InFactsReader {
     }).filterNot { case (factOption, errorOption) => factOption.isEmpty && errorOption.isEmpty }
   }
 
-  private type SubjectsMap = scala.collection.mutable.Map[Int, ATD_Subject]
+  private type SubjectsMap = scala.collection.mutable.Map[Int, AMD_Subject]
 
   private def getSubjectFromCache(csvReference: String, subjects: SubjectsMap)
-  : (Option[Int], Option[ATD_Subject]) = {
+  : (Option[Int], Option[AMD_Subject]) = {
     val subjectIdOption: Option[Int] = csvReference match {
       case "" => None
       case s => Some(s.toInt)
@@ -83,13 +83,13 @@ object InFactsReader {
                                      csvObjectType: String,
                                      csvObjectValue: String,
                                      subjects: SubjectsMap)
-  : (Option[ATD_ObjectType], Option[ATD_ObjectValue], Option[String]) = {
+  : (Option[AMD_ObjectType], Option[AMD_ObjectValue], Option[String]) = {
     csvObjectType match {
       case "" => (None, None, None) // empty line
       case "c" => // objectValue is link to earlier entry in this file
         val objectValueOption = subjects.get(csvObjectValue.toInt) match {
           case None => None
-          case Some(x: ATD_Subject) => Some(x.toString)
+          case Some(x: AMD_Subject) => Some(x.toString)
         }
         val errorOption =
           if (objectValueOption.nonEmpty)
@@ -101,11 +101,11 @@ object InFactsReader {
     }
   }
 
-  private def factFrom_CSV_Line(predicate: ATD_Predicate,
-                                objectType: ATD_ObjectType,
-                                objectValue: ATD_ObjectValue,
+  private def factFrom_CSV_Line(predicate: AMD_Predicate,
+                                objectType: AMD_ObjectType,
+                                objectValue: AMD_ObjectValue,
                                 context: Context,
-                                subjectOption: Option[ATD_Subject]): Fact = {
+                                subjectOption: Option[AMD_Subject]): Fact = {
     subjectOption match {
       case Some(subject) =>
         Fact(
