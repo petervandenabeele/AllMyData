@@ -34,7 +34,7 @@ class H2DBSuite extends FunSuite {
 
     def factTuple(fact: Fact) = (
       fact.timeStamp,
-      fact.uuid,
+      fact.id,
       fact.context.context,
       fact.subject,
       fact.predicate,

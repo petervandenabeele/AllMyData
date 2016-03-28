@@ -25,7 +25,7 @@ object FactsReader {
     file.getLines().map[FactWithStatus](line => {
       val elements: Array[String] = line.split(separator, 7)
       val timeStamp = elements(0)
-      val uuid = elements(1)
+      val id = UUID.fromString(elements(1)) // fail fast for invalid UUID string
       val context = elements(2)
       val subject = elements(3)
       val predicate = elements(4)
@@ -34,7 +34,7 @@ object FactsReader {
 
       val fact = Fact(
         timeStamp = timeStamp,
-        uuid = uuid,
+        id = id,
         context = Context(context),
         subject = UUID.fromString(subject),
         predicate = predicate,

@@ -20,7 +20,7 @@ import PredicateObject.validatePredicateObject
 
 // TODO Fix the timestamp to have more digits and/or be monotonic
 case class Fact(timeStamp: AMD_TimeStamp = ZonedDateTime.now(ZoneId.of("UTC")).toString,
-                uuid: AMD_Uuid = UUID.randomUUID().toString,
+                id: AMD_Id = newUUID,
                 context: Context = Context(None),
                 subject: AMD_Subject = newUUID,
                 predicate: AMD_Predicate,
@@ -36,7 +36,7 @@ case class Fact(timeStamp: AMD_TimeStamp = ZonedDateTime.now(ZoneId.of("UTC")).t
   override def toString: String = {
     List(
       timeStamp,
-      uuid,
+      id,
       context,
       subject,
       predicate,

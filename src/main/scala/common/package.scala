@@ -8,7 +8,7 @@ import base.{Fact, EventByResource}
 
 package object common {
   type AMD_TimeStamp = String
-  type AMD_Uuid = String
+  type AMD_Id = UUID
   type AMD_Subject = UUID
   type AMD_Predicate = String
   // see list of object types below

@@ -19,11 +19,11 @@ class Foos(tag: Tag) extends Table[(Int, String)](tag, "FOOS") {
   def * : ProvenShape[(Int, String)] = (id, name)
 }
 
-class FactsInDB(tag: Tag) extends Table[(String, String, Option[UUID], UUID, String, String, String)](tag, "FACTS") {
+class FactsInDB(tag: Tag) extends Table[(String, UUID, Option[UUID], UUID, String, String, String)](tag, "FACTS") {
   // This is the primary key column:
   def timeStamp: Rep[String] = column[String]("FACT_TIMESTAMP", O.PrimaryKey)
 
-  def uuid: Rep[String] = column[String]("FACT_UUID")
+  def id: Rep[UUID] = column[UUID]("FACT_UUID", O.SqlType("UUID"))
 
   def context: Rep[Option[UUID]] = column[Option[UUID]]("FACT_CONTEXT", O.SqlType("UUID"))
 
@@ -35,7 +35,7 @@ class FactsInDB(tag: Tag) extends Table[(String, String, Option[UUID], UUID, Str
 
   def objectValue: Rep[String] = column[String]("FACT_OBJECT_VALUE")
 
-  def * : ProvenShape[(String, String, Option[UUID], UUID, String, String, String)] = {
-    (timeStamp, uuid, context, subject, predicate, objectType, objectValue)
+  def * : ProvenShape[(String, UUID, Option[UUID], UUID, String, String, String)] = {
+    (timeStamp, id, context, subject, predicate, objectType, objectValue)
   }
 }

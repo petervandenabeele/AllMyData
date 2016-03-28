@@ -65,16 +65,16 @@ class FactSuite extends FunSuite {
 
   test("Fact has an optional uuid") {
     new testFoo {
-      val factWithUuid = fact.copy(uuid = newUUID.toString)
-      val uuid: AMD_Uuid = factWithUuid.uuid
-      assert(uuid.size === 36)
+      val factWithId = fact.copy(id = newUUID)
+      val id: AMD_Id = factWithId.id
+      assert(id.isInstanceOf[AMD_Id])
     }
   }
 
   test("Fact has an optional uuid and default is a new random UUID") {
     new testFoo {
-      val uuid: AMD_Uuid = fact.uuid
-      assert(uuid.size === 36)
+      val id: AMD_Id = fact.id
+      assert(id.isInstanceOf[AMD_Id])
     }
   }
 
