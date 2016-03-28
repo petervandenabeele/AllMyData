@@ -6,7 +6,9 @@ package base
 
 import java.util.UUID
 
-case class Context(context: Option[UUID]) {
+import common.ATD_Subject
+
+case class Context(context: Option[ATD_Subject]) {
   override def toString: String =
     context match {
       case None => ""
