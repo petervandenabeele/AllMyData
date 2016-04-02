@@ -15,6 +15,3 @@ amd:error;s;a predicate to indicate errors in the input data
 
 rdf:type;s;RDF type
 rdfs:label;s;RDFS label
-
-my:city
-my:bars

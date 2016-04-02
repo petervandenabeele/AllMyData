@@ -1,10 +1,14 @@
 {
   "city": {
-    "predicate": "my:city",
+    "predicate": "amd:foo",
     "objectType": "s"
   },
   "bars": {
-    "predicate": "my:bars",
+    "predicate": "amd:ping",
     "objectType": "i"
+  },
+  "foo_double": {
+    "predicate": "amd:tux",
+    "objectType": "f"
   }
 }
