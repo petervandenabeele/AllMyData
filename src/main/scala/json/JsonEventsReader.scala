@@ -4,16 +4,25 @@
 
 package json
 
-import base.{PredicateObject, Event, Resource, EventByResource}
+import base.EventByResource._
+import base._
 import common._
 import org.json4s.JsonAST.JValue
 
 import scala.io.BufferedSource
-
 import org.json4s._
 import org.json4s.native.JsonMethods._
 
-object JSON_EventReader {
+object JsonEventsReader {
+
+  /** Read the actual facts and print them */
+  def reader(file: BufferedSource, contextOption: Option[Context] = None, schemaFile: Option[BufferedSource] = None): FactIterator = {
+    val eventByResourceIterator = eventByResourceReader(schemaFile.get, file)
+
+    eventByResourceIterator.flatMap[FactWithStatus](eventByResource => {
+      factsFromEventByResource(eventByResource, contextOption.get).map(fact => (Some(fact), None))
+    })
+  }
 
   def eventByResourceReader(schemaFile: BufferedSource, eventFile: BufferedSource): EventByResourceIterator = {
     // parse the schema first

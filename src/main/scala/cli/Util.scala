@@ -11,9 +11,10 @@ import scala.io.BufferedSource
 
 object Util {
 
-  def getFileName(args: Array[String]) = args match {
-    case Array(f) => f
-    case _ => throw new RuntimeException("provide a filename to read from")
+  def getFileName(args: Array[String]): (String, Option[String]) = args match {
+    case Array(dataFile) => (dataFile, None)
+    case Array(dataFile, schemaFile) => (dataFile, Some(schemaFile))
+    case _ => throw new RuntimeException("provide a dataFile (and optional schemaFile) to read from")
   }
 
   def getFullFilename(filename: String, dir: String = "data") = {
@@ -25,15 +26,21 @@ object Util {
                          fullFilename: String,
                          readerEither : Either[
                            BufferedSource => FactIterator,
-                           (BufferedSource, Option[Context]) => FactIterator],
-                         contextOption : Option[Context] = None): Unit = {
+                           (BufferedSource, Option[Context], Option[BufferedSource]) => FactIterator],
+                         contextOption : Option[Context] = None,
+                         schemaFullFilename: Option[String] = None): Unit = {
 
     val file = scala.io.Source.fromFile(fullFilename)
     val factIterator =
       if (readerEither.isLeft)
         readerEither.left.get(file)
-      else
-        readerEither.right.get(file, contextOption)
+      else {
+        val reader = readerEither.right.get
+        if (schemaFullFilename.isEmpty)
+          reader(file, contextOption, None)
+        else
+          reader(file, contextOption, Some(scala.io.Source.fromFile(schemaFullFilename.get)))
+      }
 
     factIterator.foreach(factWithStatus => {
       val (factOption, errorOption) = factWithStatus

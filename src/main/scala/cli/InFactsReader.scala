@@ -10,7 +10,7 @@ object InFactsReader {
 
   def main(args: Array[String]): Unit = {
     println("Starting AllMyData InFactsReader.main")
-    val filename = Util.getFileName(args)
+    val filename = Util.getFileName(args)._1
     val fullFilename = Util.getFullFilename(filename)
     print("Reading from: ")
     println(fullFilename)

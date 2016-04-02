@@ -21,7 +21,8 @@ import scala.io.BufferedSource
 object EventsReader {
 
   /** Read the actual facts and print them */
-  def reader(file: BufferedSource, contextOption: Option[Context] = None): FactIterator = {
+  def reader(file: BufferedSource, contextOption: Option[Context] = None, unused: Option[BufferedSource] = None): FactIterator = {
+    if (unused.isDefined) throw new RuntimeException("unused should not be defined")
     val eventByResourceIterator = eventByResourceReader(file)
 
     eventByResourceIterator.flatMap[FactWithStatus](eventByResource => {

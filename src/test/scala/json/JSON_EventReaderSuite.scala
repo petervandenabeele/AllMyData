@@ -6,7 +6,7 @@ package json
 
 import base.EventByResource
 import common._
-import json.JSON_EventReader.eventByResourceReader
+import json.JsonEventsReader.eventByResourceReader
 import org.junit.runner.RunWith
 import org.scalatest.FunSuite
 import org.scalatest.junit.JUnitRunner
@@ -24,7 +24,7 @@ class JSON_EventReaderSuite extends FunSuite {
     assert(eventByResourceIterator("/event_json/schema1.json", "/empty_JSON_file.json").isEmpty)
   }
 
-  test("Object JSON_EventReader can read the first entry of a JSON file") {
+  test("Object JsonEventsReader can read the first entry of a JSON file") {
     val iterator: EventByResourceIterator = eventByResourceIterator("/event_json/schema1.json", "/event_json/foo_bar.json")
 
     val eventByResource_0: EventByResource = iterator.next()
@@ -37,7 +37,7 @@ class JSON_EventReaderSuite extends FunSuite {
     assertResult("bar")(predicateObject_0.objectValue)
   }
 
-  test("Object JSON_EventReader can read two entries in one event of a JSON file") {
+  test("Object JsonEventsReader can read two entries in one event of a JSON file") {
     val iterator: EventByResourceIterator = eventByResourceIterator("/event_json/schema1.json", "/event_json/foo_bar.json")
 
     val eventByResource_0: EventByResource = iterator.next()
@@ -55,7 +55,7 @@ class JSON_EventReaderSuite extends FunSuite {
     assertResult("ping")(predicateObject_1.objectValue)
   }
 
-  test("Object JSON_EventReader can read two entries when in other order in JSON file") {
+  test("Object JsonEventsReader can read two entries when in other order in JSON file") {
     val iterator: EventByResourceIterator = eventByResourceIterator("/event_json/schema1.json", "/event_json/bar_foo.json")
 
     val eventByResource_0: EventByResource = iterator.next()
@@ -73,7 +73,7 @@ class JSON_EventReaderSuite extends FunSuite {
     assertResult("bar")(predicateObject_1.objectValue)
   }
 
-  test("Object JSON_EventReader can two events in a JSON file") {
+  test("Object JsonEventsReader can two events in a JSON file") {
     val iterator: EventByResourceIterator = eventByResourceIterator("/event_json/schema1.json", "/event_json/foo_bar.json")
 
     val eventByResource_0: EventByResource = iterator.next()
@@ -108,7 +108,7 @@ class JSON_EventReaderSuite extends FunSuite {
     assertResult("pong")(predicateObject_11.objectValue)
   }
 
-  test("Object JSON_EventReader can read an Int and write an \"i\" objectType") {
+  test("Object JsonEventsReader can read an Int and write an \"i\" objectType") {
     val iterator: EventByResourceIterator = eventByResourceIterator("/event_json/schema2.json", "/event_json/foo_bar_int.json")
 
     val eventByResource_0: EventByResource = iterator.next()
@@ -143,7 +143,7 @@ class JSON_EventReaderSuite extends FunSuite {
     assertResult("537")(predicateObject_11.objectValue)
   }
 
-  test("Object JSON_EventReader uses the schema2.json info") {
+  test("Object JsonEventsReader uses the schema2.json info") {
     val iterator: EventByResourceIterator = eventByResourceIterator("/event_json/schema2.json", "/event_json/foo_bar_int.json")
 
     val eventByResource_0: EventByResource = iterator.next()
@@ -178,7 +178,7 @@ class JSON_EventReaderSuite extends FunSuite {
     assertResult("537")(predicateObject_11.objectValue)
   }
 
-  test("Object JSON_EventReader does not crash on unsupported value type") {
+  test("Object JsonEventsReader does not crash on unsupported value type") {
     val iterator: EventByResourceIterator = eventByResourceIterator("/event_json/schema2.json", "/event_json/foo_bar_int_with_float.json")
 
     val eventByResource_0: EventByResource = iterator.next()
