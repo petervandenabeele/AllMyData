@@ -32,7 +32,7 @@ object JsonEventsReader {
     // parse the core json
     // FIXME : proper streaming
     val eventString = eventFile.mkString
-    val eventJson = parse(eventString)
+    val eventJson = parse(eventString, useBigDecimalForDouble = true)
 
     val topList = eventJson match {
       case JObject(list) => Some(list)
@@ -55,8 +55,8 @@ object JsonEventsReader {
         event = Event(rawPos.map {
           case (rawPredicate, JString(objectValue)) => makePredicateObject(schemaJson, rawPredicate, objectValue)
           case (rawPredicate, JInt(objectValue)) => makePredicateObject(schemaJson, rawPredicate, objectValue.toString())
-          case (rawPredicate, JDouble(objectValue)) => makePredicateObject(schemaJson, rawPredicate, objectValue.toString)
-          case _ => PredicateObject(predicate = "amd:error", objectValue = "Found unsupported JSON type (only string, int and float)", objectType = "s")
+          case (rawPredicate, JDecimal(objectValue)) => makePredicateObject(schemaJson, rawPredicate, objectValue.toString)
+          case _ => PredicateObject(predicate = "amd:error", objectValue = "Found unsupported JSON type (only string, int and decimal)", objectType = "s")
         })
       )
     }.toIterator

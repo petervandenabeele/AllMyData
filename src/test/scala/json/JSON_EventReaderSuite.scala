@@ -199,7 +199,7 @@ class JSON_EventReaderSuite extends FunSuite {
     val predicateObject_02 = eventByResource_0.event.pos.tail.tail.head
     assertResult("amd:error")(predicateObject_02.predicate)
     assertResult("s")(predicateObject_02.objectType)
-    assertResult("Found unsupported JSON type (only string, int and float)")(predicateObject_02.objectValue)
+    assertResult("Found unsupported JSON type (only string, int and decimal)")(predicateObject_02.objectValue)
 
 
     val eventByResource_1: EventByResource = iterator.next()
