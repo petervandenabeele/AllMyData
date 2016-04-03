@@ -20,10 +20,7 @@ object EventByResource {
       Fact(
         context = context,
         subject = resource.subject,
-        predicate = predicateObject.predicate,
-        objectType = predicateObject.objectType,
-        objectValue = predicateObject.objectValue
-      )
+        predicateObject = predicateObject)
     )
   }
 

@@ -13,10 +13,13 @@ import org.scalatest.junit.JUnitRunner
 class FactSuite extends FunSuite {
 
   trait testFoo {
-    val fact =
-      Fact(predicate = "amd:foo",
+    val predicateObject =
+      PredicateObject(
+        predicate = "amd:foo",
         objectType = "s",
         objectValue = "Bar")
+    val fact =
+      Fact(predicateObject = predicateObject)
   }
 
   test("Fact can be created without the default arguments") {
@@ -110,23 +113,32 @@ class FactSuite extends FunSuite {
 
   test("Fact only accepts predicates from a list") {
     intercept[IllegalArgumentException] {
-      Fact(predicate = "amd:foobar", // not valid
+      val predicateObject = PredicateObject(
+        predicate = "amd:foobar", // not valid
         objectType = "s",
-        objectValue = "Bar")
+        objectValue = "Bar"
+      )
+      Fact(predicateObject = predicateObject) // code never reached
     }
   }
 
   test("Fact cannot have empty objectValue when not a string") {
     intercept[IllegalArgumentException] {
-      Fact(predicate = "amd:ping", // not valid
+      val predicateObject = PredicateObject(
+        predicate = "amd:ping",
         objectType = "i",
-        objectValue = "")
+        objectValue = ""
+      )
+      Fact(predicateObject = predicateObject) // code never reached
     }
   }
 
   test("Fact can be created with empty objectValue when a string") {
-    Fact(predicate = "amd:foo",
+    val predicateObject = PredicateObject(
+      predicate = "amd:foo",
       objectType = "s",
-      objectValue = "")
+      objectValue = ""
+    )
+    Fact(predicateObject = predicateObject)
   }
 }

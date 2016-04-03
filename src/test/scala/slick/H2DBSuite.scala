@@ -4,7 +4,7 @@
 
 package slick
 
-import base.{Context, Fact}
+import base.{Context, Fact, PredicateObject}
 import common._
 import org.junit.runner.RunWith
 import org.scalatest.FunSuite
@@ -22,16 +22,20 @@ class H2DBSuite extends FunSuite {
 
   trait testFoo {
     val db = H2DB.makeDb
-    val fact =
-      Fact(predicate = "amd:foo",
-        objectType = "s",
-        objectValue = "Bar")
+    val predicateObjectBar = PredicateObject(
+      predicate = "amd:foo",
+      objectType = "s",
+      objectValue = "Bar"
+    )
+    val fact = Fact(predicateObject = predicateObjectBar)
+    val predicateObjectFoo = predicateObjectBar.copy(
+      objectValue = "Foo"
+    )
     val factWithContext =
-      Fact(context = Context(newUUID.toString),
-        predicate = "amd:foo",
-        objectType = "s",
-        objectValue = "Foo")
-
+      Fact(
+        context = Context(newUUID.toString),
+        predicateObject = predicateObjectFoo
+      )
     def factTuple(fact: Fact) = (
       fact.timeStamp,
       fact.id,

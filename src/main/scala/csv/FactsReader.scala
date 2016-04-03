@@ -6,7 +6,7 @@ package csv
 
 import java.util.UUID
 
-import base.{Context, Fact}
+import base.{Context, Fact, PredicateObject}
 import common._
 
 import scala.io.BufferedSource
@@ -32,14 +32,17 @@ object FactsReader {
       val objectType = elements(5)
       val objectValue = elements(6)
 
+      val predicateObject = PredicateObject(
+        predicate = predicate,
+        objectValue = objectValue,
+        objectType = objectType)
+
       val fact = Fact(
         timeStamp = timeStamp,
         id = id,
         context = Context(context),
         subject = UUID.fromString(subject),
-        predicate = predicate,
-        objectType = objectType,
-        objectValue = objectValue
+        predicateObject
       )
       (Some(fact), None) // errors not yet handled
     })

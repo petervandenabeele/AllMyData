@@ -4,7 +4,7 @@
 
 package csv
 
-import base.{Context, Fact}
+import base.{Context, Fact, PredicateObject}
 import common._
 
 import scala.io.BufferedSource
@@ -106,21 +106,22 @@ object InFactsReader {
                                 objectValue: AMD_ObjectValue,
                                 context: Context,
                                 subjectOption: Option[AMD_Subject]): Fact = {
+    val predicateObject = PredicateObject(
+      predicate = predicate,
+      objectType = objectType,
+      objectValue = objectValue
+    )
     subjectOption match {
       case Some(subject) =>
         Fact(
           context = context,
           subject = subject,
-          predicate = predicate,
-          objectType = objectType,
-          objectValue = objectValue
+          predicateObject = predicateObject
         )
       case None =>
         Fact(
           context = context,
-          predicate = predicate,
-          objectType = objectType,
-          objectValue = objectValue
+          predicateObject = predicateObject
         )
     }
   }

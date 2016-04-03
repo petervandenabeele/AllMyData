@@ -5,17 +5,18 @@
 package base
 
 import java.net.URL
-import java.util.UUID
 import java.time.{ZoneId, ZonedDateTime}
 
 import cli.Util
 import common._
-import PredicateObject.validatePredicateObject
 
 /** The core abstraction of this data model.
   *
-  * The full log of all information is stores as an ordered Sequence of facts.
-  * Each fact has an id, timestamp, context, a subject, predicate, object and objectType.
+  * The full log of all information is stored as an ordered Sequence of facts.
+  *
+  * Each fact has id, timestamp, context, subject, predicate, objectType, objectValue.
+  *
+  * Construction can only occur from a predicateObject (that is the real "data" part with validations).
   */
 
 // TODO Fix the timestamp to have more digits and/or be monotonic
@@ -23,15 +24,11 @@ case class Fact(timeStamp: AMD_TimeStamp = ZonedDateTime.now(ZoneId.of("UTC")).t
                 id: AMD_Id = newUUID,
                 context: Context = Context(None),
                 subject: AMD_Subject = newUUID,
-                predicate: AMD_Predicate,
-                objectType: AMD_ObjectType,
-                objectValue: AMD_ObjectValue) {
+                predicateObject: PredicateObject) {
 
-  validatePredicateObject(
-    predicate = predicate,
-    objectValue = objectValue,
-    objectType = objectType
-  )
+  def predicate = predicateObject.predicate
+  def objectType = predicateObject.objectType
+  def objectValue = predicateObject.objectValue
 
   override def toString: String = {
     List(
