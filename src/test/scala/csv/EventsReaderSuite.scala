@@ -66,7 +66,7 @@ class EventsReaderSuite extends FunSuite {
     assertResult("s")(nextPredicateObject.objectType)
     assertResult("Foo")(nextPredicateObject.objectValue)
     val nextNextPredicateObject: PredicateObject = event.pos.tail.tail.head
-    assertResult("amd:ping")(nextNextPredicateObject.predicate)
+    assertResult("amd:int")(nextNextPredicateObject.predicate)
     assertResult("i")(nextNextPredicateObject.objectType)
     assertResult(42)(nextNextPredicateObject.objectValue.toInt) // TODO return a real Int for "i" objectType
   }
@@ -84,7 +84,7 @@ class EventsReaderSuite extends FunSuite {
     assertResult("s")(nextPredicateObject.objectType)
     assertResult("Foo")(nextPredicateObject.objectValue)
     val nextNextPredicateObject: PredicateObject = event.pos.tail.tail.head
-    assertResult("amd:ping")(nextNextPredicateObject.predicate)
+    assertResult("amd:int")(nextNextPredicateObject.predicate)
     assertResult("i")(nextNextPredicateObject.objectType)
     assertResult(42)(nextNextPredicateObject.objectValue.toInt) // TODO return a real Int for "i" objectType
 
@@ -99,7 +99,7 @@ class EventsReaderSuite extends FunSuite {
     assertResult("s")(nextPredicateObject_1.objectType)
     assertResult("Pong")(nextPredicateObject_1.objectValue)
     val nextNextPredicateObject_1: PredicateObject = event_1.pos.tail.tail.head
-    assertResult("amd:ping")(nextNextPredicateObject_1.predicate)
+    assertResult("amd:int")(nextNextPredicateObject_1.predicate)
     assertResult("i")(nextNextPredicateObject_1.objectType)
     assertResult(37)(nextNextPredicateObject_1.objectValue.toInt) // TODO return a real Int for "i" objectType
   }

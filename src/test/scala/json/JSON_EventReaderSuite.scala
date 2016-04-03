@@ -122,7 +122,7 @@ class JSON_EventReaderSuite extends FunSuite {
     assertResult("London")(predicateObject_00.objectValue)
 
     val predicateObject_01 = eventByResource_0.event.pos.tail.head
-    assertResult("amd:ping")(predicateObject_01.predicate)
+    assertResult("amd:int")(predicateObject_01.predicate)
     assertResult("i")(predicateObject_01.objectType)
     assertResult("442")(predicateObject_01.objectValue)
 
@@ -138,7 +138,7 @@ class JSON_EventReaderSuite extends FunSuite {
     assertResult("SFO")(predicateObject_10.objectValue)
 
     val predicateObject_11 = eventByResource_1.event.pos.tail.head
-    assertResult("amd:ping")(predicateObject_11.predicate)
+    assertResult("amd:int")(predicateObject_11.predicate)
     assertResult("i")(predicateObject_11.objectType)
     assertResult("537")(predicateObject_11.objectValue)
   }
@@ -157,7 +157,7 @@ class JSON_EventReaderSuite extends FunSuite {
     assertResult("London")(predicateObject_00.objectValue)
 
     val predicateObject_01 = eventByResource_0.event.pos.tail.head
-    assertResult("amd:ping")(predicateObject_01.predicate)
+    assertResult("amd:int")(predicateObject_01.predicate)
     assertResult("i")(predicateObject_01.objectType)
     assertResult("442")(predicateObject_01.objectValue)
 
@@ -173,7 +173,7 @@ class JSON_EventReaderSuite extends FunSuite {
     assertResult("SFO")(predicateObject_10.objectValue)
 
     val predicateObject_11 = eventByResource_1.event.pos.tail.head
-    assertResult("amd:ping")(predicateObject_11.predicate)
+    assertResult("amd:int")(predicateObject_11.predicate)
     assertResult("i")(predicateObject_11.objectType)
     assertResult("537")(predicateObject_11.objectValue)
   }
@@ -218,7 +218,7 @@ class JSON_EventReaderSuite extends FunSuite {
     assertResult("SFO")(predicateObject_10.objectValue)
 
     val predicateObject_11 = eventByResource_1.event.pos.tail.head
-    assertResult("amd:ping")(predicateObject_11.predicate)
+    assertResult("amd:int")(predicateObject_11.predicate)
     assertResult("i")(predicateObject_11.objectType)
     assertResult("537")(predicateObject_11.objectValue)
   }

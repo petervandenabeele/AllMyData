@@ -58,9 +58,9 @@ class InFactsReaderSuite extends FunSuite {
     assert(fact_2.objectType === "d")
     assert(fact_2.objectValue === "6.73")
 
-    assert(fact_3.predicate === "amd:ping")
-    assert(fact_3.objectType === "s")
-    assert(fact_3.objectValue === "pong")
+    assert(fact_3.predicate === "amd:int")
+    assert(fact_3.objectType === "i")
+    assert(fact_3.objectValue === "42")
 
     val resource_subject = fact_1.subject
     assert(fact_2.subject === resource_subject)
@@ -103,9 +103,9 @@ class InFactsReaderSuite extends FunSuite {
     assert(fact_2.objectValue === "6.5")
 
     assert(fact_3.context === expected_context_1)
-    assert(fact_3.predicate === "amd:ping")
-    assert(fact_3.objectType === "s")
-    assert(fact_3.objectValue === "pong")
+    assert(fact_3.predicate === "amd:int")
+    assert(fact_3.objectType === "i")
+    assert(fact_3.objectValue === "42")
 
     val resource_subject = fact_1.subject
     assert(fact_2.subject === resource_subject)

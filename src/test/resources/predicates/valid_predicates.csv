@@ -1,7 +1,7 @@
 
 amd:bar;s;bar
 amd:foo;s;foo
-amd:ping;i;ping [Int]
+amd:int;i;int [Int]
 amd:uri;u;uri [URI]
 amd:dec;d;dec [Decimal]
 amd:ref;r;ref [Ref]

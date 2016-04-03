@@ -1,4 +1,4 @@
-amd:bar;amd:foo;amd:ping
+amd:bar;amd:foo;amd:int
 s;s;i
 Bar;Foo;42
 Ping;Pong;37

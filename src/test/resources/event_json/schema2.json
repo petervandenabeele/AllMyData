@@ -4,7 +4,7 @@
     "objectType": "s"
   },
   "bars": {
-    "predicate": "amd:ping",
+    "predicate": "amd:int",
     "objectType": "i"
   },
   "foo_float": {
