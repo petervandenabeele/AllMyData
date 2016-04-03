@@ -4,8 +4,8 @@
 
 package cli
 
-import base.{Context, Fact}
-import common.FactIterator
+import base._
+import common.FactWithStatusIterator
 
 import scala.io.BufferedSource
 
@@ -17,7 +17,7 @@ object Util {
     case _ => throw new RuntimeException("provide a dataFile (and optional schemaFile) to read from")
   }
 
-  def getFullFilename(filename: String, dir: String = "data") = {
+  def getFullFilename(filename: String, dir: String) = {
     val homeDir = System.getProperty("user.home")
     homeDir + s"/pp/facts/$dir/" + filename
   }
@@ -25,10 +25,10 @@ object Util {
   def readFactsFromFile(
                          fullFilename: String,
                          readerEither : Either[
-                           BufferedSource => FactIterator,
-                           (BufferedSource, Option[Context], Option[BufferedSource]) => FactIterator],
+                           BufferedSource => FactWithStatusIterator,
+                           (BufferedSource, Option[Context], Option[BufferedSource]) => FactWithStatusIterator],
                          contextOption : Option[Context] = None,
-                         schemaFullFilename: Option[String] = None): Unit = {
+                         schemaFullFilename: Option[String] = None): Iterator[Fact] = {
 
     val file = scala.io.Source.fromFile(fullFilename)
     val factIterator =
@@ -42,12 +42,12 @@ object Util {
           reader(file, contextOption, Some(scala.io.Source.fromFile(schemaFullFilename.get)))
       }
 
-    factIterator.foreach(factWithStatus => {
-      val (factOption, errorOption) = factWithStatus
-      if (factOption.nonEmpty)
-        println(factOption.get)
-      if (errorOption.nonEmpty)
-        println(s"ERROR: In $fullFilename : ${errorOption.get}")
+    factIterator.collect({
+      case (Some(fact), _) => fact
+      case (_, Some(error)) => {
+        val predicateObject = PredicateObject.errorPredicateObject(s"ERROR: In $fullFilename : $error")
+        Fact(predicateObject = predicateObject)
+      }
     })
   }
 

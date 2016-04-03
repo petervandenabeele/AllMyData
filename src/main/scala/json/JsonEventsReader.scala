@@ -16,7 +16,7 @@ import org.json4s.native.JsonMethods._
 object JsonEventsReader {
 
   /** Read the actual facts and print them */
-  def reader(file: BufferedSource, contextOption: Option[Context] = None, schemaFile: Option[BufferedSource] = None): FactIterator = {
+  def reader(file: BufferedSource, contextOption: Option[Context] = None, schemaFile: Option[BufferedSource] = None): FactWithStatusIterator = {
     val eventByResourceIterator = eventByResourceReader(schemaFile.get, file)
 
     eventByResourceIterator.flatMap[FactWithStatus](eventByResource => {
@@ -72,7 +72,7 @@ object JsonEventsReader {
       PredicateObject(predicate = predicate, objectValue = objectValueString, objectType = objectType)
     } catch {
       case e: java.lang.IllegalArgumentException =>
-        PredicateObject(predicate = "amd:error", objectValue = e.getMessage, objectType = "s")
+        PredicateObject.errorPredicateObject(e.getMessage)
     }
   }
 }

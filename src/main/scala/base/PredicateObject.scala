@@ -80,4 +80,7 @@ object PredicateObject {
     "d"  // decimal (arbitrary precision, correct "decimal" behaviour)
   )
   // TODO : support "f" float
+  def errorPredicateObject(errorMsg: String) = {
+    PredicateObject(predicate = "amd:error", objectValue = errorMsg, objectType = "s")
+  }
 }

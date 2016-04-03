@@ -8,7 +8,7 @@ import java.util.UUID
 
 import InFactsReader.reader
 import base.{Context, Fact}
-import common.{FactIterator, FactWithStatus}
+import common.{FactWithStatusIterator, FactWithStatus}
 
 import org.junit.runner.RunWith
 import org.scalatest.FunSuite
@@ -20,15 +20,15 @@ class InFactsReaderSuite extends FunSuite {
   test("Object InFactsReader can read an empty CSV file") {
     val filename = "/empty_CSV_file.csv"
     val file = scala.io.Source.fromURL(getClass.getResource(filename))
-    val factIterator = reader(file)
-    assert(factIterator.isEmpty)
+    val factWithStatusIterator = reader(file)
+    assert(factWithStatusIterator.isEmpty)
   }
 
   test("Object InFactsReader can read a simple CSV file") {
     val filename = "/in_fact_csv/simple_CSV_file.csv"
     val file = scala.io.Source.fromURL(getClass.getResource(filename))
-    val factIterator: FactIterator = reader(file)
-    val factWithStatus: FactWithStatus = factIterator.next()
+    val factWithStatusIterator: FactWithStatusIterator = reader(file)
+    val factWithStatus: FactWithStatus = factWithStatusIterator.next()
     val fact = factWithStatus._1.get
 
     assert(fact.predicate === "amd:foo")
@@ -42,8 +42,8 @@ class InFactsReaderSuite extends FunSuite {
   test("one_in_fact.csv creates 3 facts for one resource") {
     val filename = "/in_fact_csv/one_in_fact.csv"
     val file = scala.io.Source.fromURL(getClass.getResource(filename))
-    val factIterator: FactIterator = reader(file)
-    val facts: Array[Fact] = factIterator.map(p => p._1.get).toArray
+    val factWithStatusIterator: FactWithStatusIterator = reader(file)
+    val facts: Array[Fact] = factWithStatusIterator.map(p => p._1.get).toArray
     val fact_1 = facts(0)
     val fact_2 = facts(1)
     val fact_3 = facts(2)
@@ -70,8 +70,8 @@ class InFactsReaderSuite extends FunSuite {
   test("one_in_fact_with_context.csv creates 1 context and 3 facts") {
     val filename = "/in_fact_csv/one_in_fact_with_context.csv"
     val file = scala.io.Source.fromURL(getClass.getResource(filename))
-    val factIterator: FactIterator = reader(file)
-    val facts: Array[Fact] = factIterator.map(p => p._1.get).toArray
+    val factWithStatusIterator: FactWithStatusIterator = reader(file)
+    val facts: Array[Fact] = factWithStatusIterator.map(p => p._1.get).toArray
     val context_1 = facts(0)
     val context_2 = facts(1)
     val fact_1 = facts(2)
@@ -115,8 +115,8 @@ class InFactsReaderSuite extends FunSuite {
   test("two_in_facts_with_context.csv 2 contexts for 2 facts") {
     val filename = "/in_fact_csv/two_in_facts_with_context.csv"
     val file = scala.io.Source.fromURL(getClass.getResource(filename))
-    val factIterator: FactIterator = reader(file)
-    val facts: Array[Fact] = factIterator.map(p => p._1.get).toArray
+    val factWithStatusIterator: FactWithStatusIterator = reader(file)
+    val facts: Array[Fact] = factWithStatusIterator.map(p => p._1.get).toArray
 
     val context_1 = facts(0)
     val context_2 = facts(1)
@@ -142,8 +142,8 @@ class InFactsReaderSuite extends FunSuite {
   test("two_in_facts_with_csv_reference.csv links object first resource") {
     val filename = "/in_fact_csv/two_in_facts_with_csv_reference.csv"
     val file = scala.io.Source.fromURL(getClass.getResource(filename))
-    val factIterator: FactIterator = reader(file)
-    val facts: Array[Fact] = factIterator.map(p => p._1.get).toArray
+    val factWithStatusIterator: FactWithStatusIterator = reader(file)
+    val facts: Array[Fact] = factWithStatusIterator.map(p => p._1.get).toArray
 
     val context_1 = facts(0)
     val context_2 = facts(1)
@@ -171,8 +171,8 @@ class InFactsReaderSuite extends FunSuite {
     val filename = "/in_fact_csv/three_in_facts_with_invalid_csv_reference.csv"
     val file = scala.io.Source.fromURL(getClass.getResource(filename))
 
-    val factIterator: FactIterator = reader(file)
-    val factsWithStatusses = factIterator.toArray
+    val factWithStatusIterator: FactWithStatusIterator = reader(file)
+    val factsWithStatusses = factWithStatusIterator.toArray
     val facts: Array[Fact] = factsWithStatusses.filter(p => p._1.nonEmpty).map(p => p._1.get)
 
     val context_1 = facts(0)
@@ -205,8 +205,8 @@ class InFactsReaderSuite extends FunSuite {
   test("two_in_facts_with_empty_line_and_csv_reference.csv ignores blank lines") {
     val filename = "/in_fact_csv/two_in_facts_with_empty_line_and_csv_reference.csv"
     val file = scala.io.Source.fromURL(getClass.getResource(filename))
-    val factIterator: FactIterator = reader(file)
-    val facts: Array[Fact] = factIterator.map{ case (factOption, _) => factOption.get }.toArray
+    val factWithStatusIterator: FactWithStatusIterator = reader(file)
+    val facts: Array[Fact] = factWithStatusIterator.map{ case (factOption, _) => factOption.get }.toArray
 
     val context_1 = facts(0)
     val context_2 = facts(1)
@@ -232,8 +232,8 @@ class InFactsReaderSuite extends FunSuite {
   test("two_in_facts_with_empty_objectValue for string objectType must be allowed") {
     val filename = "/in_fact_csv/two_in_facts_with_empty_objectValue.csv"
     val file = scala.io.Source.fromURL(getClass.getResource(filename))
-    val factIterator: FactIterator = reader(file)
-    val facts: Array[Fact] = factIterator.map{ case (factOption, _) => factOption.get }.toArray
+    val factWithStatusIterator: FactWithStatusIterator = reader(file)
+    val facts: Array[Fact] = factWithStatusIterator.map{ case (factOption, _) => factOption.get }.toArray
 
     val context_1 = facts(0)
     val fact_1 = facts(1)
@@ -251,8 +251,8 @@ class InFactsReaderSuite extends FunSuite {
   test("Object InFactsReader can read a simple CSV file with a ; delimiter and , in data") {
     val filename = "/in_fact_csv/simple_CSV_file_with_semicolon_delimiter.csv"
     val file = scala.io.Source.fromURL(getClass.getResource(filename))
-    val factIterator: FactIterator = reader(file)
-    val factWithStatus: FactWithStatus = factIterator.next()
+    val factWithStatusIterator: FactWithStatusIterator = reader(file)
+    val factWithStatus: FactWithStatus = factWithStatusIterator.next()
     val fact = factWithStatus._1.get
 
     assert(fact.predicate === "amd:foo")

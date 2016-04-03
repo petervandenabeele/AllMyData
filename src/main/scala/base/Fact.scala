@@ -49,8 +49,8 @@ case class Fact(timestamp: AMD_Timestamp = Fact.now,
 
 object Fact {
   def now = ZonedDateTime.now(ZoneId.of("UTC")).toString.dropRight(5) // drop `[UTC]`
-  private val filename = "/predicates/valid_predicates.csv"
-  private val resourceFile = getClass.getResource(filename)
+  private val resourceName = "/predicates/valid_predicates.csv"
+  private val resourceFile = getClass.getResource(resourceName)
   private val file =
     if (resourceFile.isInstanceOf[URL])
       scala.io.Source.fromURL(resourceFile)

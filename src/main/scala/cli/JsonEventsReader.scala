@@ -4,6 +4,7 @@
 
 package cli
 
+import base.Fact
 import cli.Util.readFactsFromFile
 
 object JsonEventsReader {
@@ -13,11 +14,11 @@ object JsonEventsReader {
     val (dataFile, schemaFile) = Util.getFileName(args)
     if (schemaFile.isEmpty) throw new RuntimeException("Also provide a schemaFile as second argument")
 
-    val dataFullFilename = Util.getFullFilename(dataFile)
+    val dataFullFilename = Util.getFullFilename(dataFile, "data")
     print("Reading from: ")
     println(dataFullFilename)
 
-    val schemaFullFilename = Util.getFullFilename(schemaFile.get)
+    val schemaFullFilename = Util.getFullFilename(schemaFile.get, "metadata")
     print("With schema: ")
     println(schemaFullFilename)
 
@@ -25,8 +26,8 @@ object JsonEventsReader {
     println(s"context is $context")
     println(s"contextFacts are $contextFacts")
 
-    contextFacts.foreach(fact =>
-      println(fact.toString)
+    contextFacts.foreach(
+      fact => println(fact)
     )
 
     readFactsFromFile(
@@ -34,10 +35,10 @@ object JsonEventsReader {
       readerEither = Right(json.JsonEventsReader.reader),
       contextOption = Some(context),
       schemaFullFilename = Some(schemaFullFilename)
+    ).foreach(
+      (fact: Fact) => println(fact)
     )
   }
-
-  import java.time.{ZoneId, ZonedDateTime}
 
   import base.EventByResource.factsFromEventByResource
   import base._

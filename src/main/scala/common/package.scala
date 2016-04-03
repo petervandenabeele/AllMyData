@@ -17,7 +17,7 @@ package object common {
 
   // optional Fact and optional Error message
   type FactWithStatus = (Option[Fact], Option[String])
-  type FactIterator = Iterator[FactWithStatus]
+  type FactWithStatusIterator = Iterator[FactWithStatus]
   type EventByResourceIterator = Iterator[EventByResource]
 
   def newUUID = UUID.randomUUID

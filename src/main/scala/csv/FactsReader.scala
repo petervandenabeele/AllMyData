@@ -24,7 +24,7 @@ object FactsReader {
   // at
   // from
   // to
-  def reader(file: BufferedSource): FactIterator = {
+  def reader(file: BufferedSource): FactWithStatusIterator = {
     file.getLines().map[FactWithStatus](line => {
       val elements: Array[String] = line.split(separator, 10)
       val timestampString = elements(0)

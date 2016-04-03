@@ -5,13 +5,14 @@
 package cli
 
 import Util.readFactsFromFile
+import base.Fact
 
 object EventsReader {
 
   def main(args: Array[String]): Unit = {
     println("Starting AllMyData EventsReader.main")
     val filename = Util.getFileName(args)._1
-    val fullFilename = Util.getFullFilename(filename)
+    val fullFilename = Util.getFullFilename(filename, "data")
     print("Reading from: ")
     println(fullFilename)
 
@@ -19,14 +20,16 @@ object EventsReader {
     println(s"context is $context")
     println(s"contextFacts are $contextFacts")
 
-    contextFacts.foreach(fact =>
-      println(fact.toString)
+    contextFacts.foreach(
+      (fact: Fact) => println(fact)
     )
 
     readFactsFromFile(
       fullFilename = fullFilename,
       readerEither = Right(csv.EventsReader.reader),
       contextOption = Some(context)
+    ).foreach(
+      (fact: Fact) => println(fact)
     )
   }
 

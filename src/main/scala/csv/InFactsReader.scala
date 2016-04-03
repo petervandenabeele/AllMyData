@@ -30,7 +30,7 @@ import scala.io.BufferedSource
   */
 object InFactsReader {
 
-  def reader(file: BufferedSource): FactIterator = {
+  def reader(file: BufferedSource): FactWithStatusIterator = {
     var subjects = scala.collection.mutable.Map[Int, AMD_Subject]()
 
     // NOTE : this is _not_ the Fact CSV format, first 4 fields are different;
