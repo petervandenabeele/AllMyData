@@ -2,8 +2,12 @@
 amd:bar;s;bar
 amd:foo;s;foo
 amd:ping;i;ping [Int]
-amd:pong;u;pong [URL]
-amd:tux;d;tux [Decimal]
+amd:uri;u;uri [URI]
+amd:dec;d;dec [Decimal]
+amd:ref;r;ref [Ref]
+amd:time;t;time [Ref]
+amd:float;f;not yet implemented TODO: make this fail at initial read
+amd:xyz;z;undefined TODO: make this fail at initial read
 
 amd:context:source;s;Source
 amd:context:processor;s;processor

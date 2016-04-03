@@ -56,7 +56,10 @@ object JsonEventsReader {
           case (rawPredicate, JString(objectValue)) => makePredicateObject(schemaJson, rawPredicate, objectValue)
           case (rawPredicate, JInt(objectValue)) => makePredicateObject(schemaJson, rawPredicate, objectValue.toString())
           case (rawPredicate, JDecimal(objectValue)) => makePredicateObject(schemaJson, rawPredicate, objectValue.toString)
-          case _ => PredicateObject(predicate = "amd:error", objectValue = "Found unsupported JSON type (only string, int and decimal)", objectType = "s")
+          case other => PredicateObject(
+            predicate = "amd:error",
+            objectValue = s"Found unsupported JSON type (only string, int and decimal); type is ${other._2.getClass.getSimpleName}",
+            objectType = "s")
         })
       )
     }.toIterator
@@ -65,6 +68,11 @@ object JsonEventsReader {
   private def makePredicateObject(schemaJson: JValue, rawPredicate: String, objectValueString: String): PredicateObject = {
     val predicate: String = (schemaJson \ rawPredicate \ "predicate").values.toString
     val objectType: String = (schemaJson \ rawPredicate \ "objectType").values.toString
-    PredicateObject(predicate = predicate, objectValue = objectValueString, objectType = objectType)
+    try {
+      PredicateObject(predicate = predicate, objectValue = objectValueString, objectType = objectType)
+    } catch {
+      case e: java.lang.IllegalArgumentException =>
+        PredicateObject(predicate = "amd:error", objectValue = e.getMessage, objectType = "s")
+    }
   }
 }

@@ -15,3 +15,5 @@ libraryDependencies += "com.h2database" % "h2" % "1.4.191"
 libraryDependencies += "org.json4s" %% "json4s-native" % "3.3.0"
 
 libraryDependencies += "org.slf4j" % "slf4j-nop" % "1.6.4"
+
+libraryDependencies += "com.github.nscala-time" %% "nscala-time" % "1.8.0"

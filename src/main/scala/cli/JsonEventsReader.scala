@@ -48,7 +48,7 @@ object JsonEventsReader {
     val predicateObjects = List(
       PredicateObject(predicate = "amd:context:source", objectValue = "Meetup", objectType = "s"), // replace this
       PredicateObject(predicate = "amd:context:processor", objectValue = "getter", objectType = "s"), // replace this
-      PredicateObject(predicate = "amd:context:ingress_time", objectValue = ZonedDateTime.now(ZoneId.of("UTC")).toString, objectType = "t"),
+      PredicateObject(predicate = "amd:context:ingress_time", objectValue = Fact.now, objectType = "t"),
       PredicateObject(predicate = "amd:context:visibility", objectValue = "professional", objectType = "s"), // public | private | professional
       PredicateObject(predicate = "amd:context:encryption", objectValue = "encrypted", objectType = "s") // public | private | professional
     )

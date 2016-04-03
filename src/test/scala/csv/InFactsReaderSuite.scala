@@ -54,9 +54,9 @@ class InFactsReaderSuite extends FunSuite {
     assert(fact_1.objectType === "s")
     assert(fact_1.objectValue === "bar")
 
-    assert(fact_2.predicate === "amd:tux")
-    assert(fact_2.objectType === "s")
-    assert(fact_2.objectValue === "ping")
+    assert(fact_2.predicate === "amd:dec")
+    assert(fact_2.objectType === "d")
+    assert(fact_2.objectValue === "6.73")
 
     assert(fact_3.predicate === "amd:ping")
     assert(fact_3.objectType === "s")
@@ -98,9 +98,9 @@ class InFactsReaderSuite extends FunSuite {
     assert(fact_1.objectValue === "bar")
 
     assert(fact_2.context === expected_context_1)
-    assert(fact_2.predicate === "amd:tux")
-    assert(fact_2.objectType === "s")
-    assert(fact_2.objectValue === "ping")
+    assert(fact_2.predicate === "amd:dec")
+    assert(fact_2.objectType === "d")
+    assert(fact_2.objectValue === "6.5")
 
     assert(fact_3.context === expected_context_1)
     assert(fact_3.predicate === "amd:ping")
@@ -162,7 +162,7 @@ class InFactsReaderSuite extends FunSuite {
     assert(fact_1.objectValue === "bar")
 
     assert(fact_2.context === expected_context_2)
-    assert(fact_2.predicate === "amd:bar")
+    assert(fact_2.predicate === "amd:ref")
     assert(fact_2.objectType === "r")
     assert(UUID.fromString(fact_2.objectValue) === fact_1.subject)
   }

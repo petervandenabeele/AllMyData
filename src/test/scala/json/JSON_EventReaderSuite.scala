@@ -192,14 +192,19 @@ class JSON_EventReaderSuite extends FunSuite {
     assertResult("London")(predicateObject_00.objectValue)
 
     val predicateObject_01 = eventByResource_0.event.pos.tail.head
-    assertResult("amd:tux")(predicateObject_01.predicate)
-    assertResult("f")(predicateObject_01.objectType)
-    assertResult("442.5")(predicateObject_01.objectValue)
+    assertResult("amd:error")(predicateObject_01.predicate)
+    assertResult("s")(predicateObject_01.objectType)
+    assertResult("The objectType f is not in supported List(s, t, u, r, i, d)")(predicateObject_01.objectValue)
 
     val predicateObject_02 = eventByResource_0.event.pos.tail.tail.head
     assertResult("amd:error")(predicateObject_02.predicate)
     assertResult("s")(predicateObject_02.objectType)
-    assertResult("Found unsupported JSON type (only string, int and decimal)")(predicateObject_02.objectValue)
+    assertResult("Found unsupported JSON type (only string, int and decimal); type is JBool")(predicateObject_02.objectValue)
+
+    val predicateObject_03 = eventByResource_0.event.pos.tail.tail.tail.head
+    assertResult("amd:dec")(predicateObject_03.predicate)
+    assertResult("d")(predicateObject_03.objectType)
+    assertResult("22.65")(predicateObject_03.objectValue)
 
 
     val eventByResource_1: EventByResource = iterator.next()

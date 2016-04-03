@@ -30,9 +30,71 @@ class PredicateObjectSuite extends FunSuite {
     }
   }
 
-  test("PredicateObject fails with empty object when not a string") {
+  test("PredicateObject fails with empty object for an integer") {
     intercept[IllegalArgumentException] {
       PredicateObject("amd:ping", "", "i")
+    }
+  }
+
+  test("PredicateObject fails with invalid object for an integer") {
+    intercept[IllegalArgumentException] {
+      PredicateObject("amd:ping", "abc", "i")
+    }
+  }
+
+  test("PredicateObject fails with empty object for a decimal") {
+    intercept[IllegalArgumentException] {
+      PredicateObject("amd:dec", "", "d")
+    }
+  }
+
+  test("PredicateObject fails with invalid object for a decimal") {
+    intercept[IllegalArgumentException] {
+      PredicateObject("amd:dec", "abc.def", "d")
+    }
+  }
+
+  test("PredicateObject fails with empty object for a reference") {
+    intercept[IllegalArgumentException] {
+      PredicateObject("amd:ref", "", "r")
+    }
+  }
+
+  test("PredicateObject fails with invalid object for a reference") {
+    intercept[IllegalArgumentException] {
+      PredicateObject("amd:ref", "abcd-too-short", "r")
+    }
+  }
+
+  test("PredicateObject succeeds with a time that at least has proper date format") {
+    PredicateObject("amd:time", "2016-04-03", "t")
+    PredicateObject("amd:time", "2016-04-03T13:20:53Z", "t")
+    PredicateObject("amd:time", "2016-04-03T13:20:53.123Z", "t")
+    PredicateObject("amd:time", "2016-04-03T13:20:53.123456789Z", "t")
+  }
+
+  test("PredicateObject fails with invalid object for a time") {
+    intercept[IllegalArgumentException] {
+      PredicateObject("amd:time", "61-02-03", "t")
+    }
+  }
+
+  test("PredicateObject succeeds with a uri (any format)") {
+    PredicateObject("amd:uri", "", "u")
+    PredicateObject("amd:uri", "http://foobar.org", "u")
+    PredicateObject("amd:uri", "http://foo.org/bar?x=4&y=7", "u")
+    PredicateObject("amd:uri", "a83hjcx$%#^&", "u")
+  }
+
+  test("PredicateObject fails with undefined objectType") {
+    intercept[IllegalArgumentException] {
+      PredicateObject("amd:xyz", "abc", "z")
+    }
+  }
+
+  test("PredicateObject fails with a not yet implemented objectType") {
+    intercept[IllegalArgumentException] {
+      PredicateObject("amd:float", "1.56", "f")
     }
   }
 

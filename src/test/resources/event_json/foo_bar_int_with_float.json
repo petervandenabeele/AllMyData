@@ -1,8 +1,9 @@
 [
   {
     "city": "London",
-    "foo_double": 442.5,
-    "bars": null
+    "foo_float": 442.5,
+    "bars": true,
+    "foo_decimal": 22.65
   },
   {
     "city": "SFO",

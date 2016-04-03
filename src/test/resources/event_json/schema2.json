@@ -7,8 +7,12 @@
     "predicate": "amd:ping",
     "objectType": "i"
   },
-  "foo_double": {
-    "predicate": "amd:tux",
+  "foo_float": {
+    "predicate": "amd:float",
     "objectType": "f"
+  },
+  "foo_decimal": {
+    "predicate": "amd:dec",
+    "objectType": "d"
   }
 }

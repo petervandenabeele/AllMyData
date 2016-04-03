@@ -48,7 +48,7 @@ case class Fact(timestamp: AMD_Timestamp = Fact.now,
 }
 
 object Fact {
-  private def now = ZonedDateTime.now(ZoneId.of("UTC")).toString.dropRight(5) // drop `[UTC]`
+  def now = ZonedDateTime.now(ZoneId.of("UTC")).toString.dropRight(5) // drop `[UTC]`
   private val filename = "/predicates/valid_predicates.csv"
   private val resourceFile = getClass.getResource(filename)
   private val file =
