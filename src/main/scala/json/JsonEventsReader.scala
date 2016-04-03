@@ -72,8 +72,8 @@ object JsonEventsReader {
       PredicateObject(
         predicate = predicate,
         objectValue = objectValueString,
-        objectType = objectType,
-        at = OptionalTimestamp(Fact.today))
+        objectType = objectType
+      )
     } catch {
       case e: java.lang.IllegalArgumentException =>
         PredicateObject.errorPredicateObject(e.getMessage)

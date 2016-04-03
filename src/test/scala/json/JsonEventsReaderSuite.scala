@@ -46,7 +46,7 @@ class JsonEventsReaderSuite extends FunSuite {
     assert(predicateObject_0.at.get.matches("""^\d{4}-\d\d-\d\d$"""))
   }
 
-    test("Object JsonEventsReader can read two entries in one event of a JSON file") {
+  test("Object JsonEventsReader can read two entries in one event of a JSON file") {
     val iterator: EventByResourceIterator = eventByResourceIterator("/event_json/schema1.json", "/event_json/foo_bar.json")
 
     val eventByResource_0: EventByResource = iterator.next()

@@ -143,6 +143,14 @@ class PredicateObjectSuite extends FunSuite {
     )
   }
 
+  test("PredicateObject has by default today in the at timestamp") {
+    val testPredicateObject = PredicateObject(
+      predicate = "amd:bar",
+      objectValue = ""
+    )
+    assert(testPredicateObject.at.get.toString.matches("""^\d{4}-\d\d-\d\d$"""))
+  }
+
   test("PredicateObject is invalid when can be created with to earlier than from timestamps") {
     intercept[IllegalArgumentException] {
       val testPredicateObject = PredicateObject(
@@ -171,8 +179,8 @@ class PredicateObjectSuite extends FunSuite {
       predicate = "amd:bar",
       objectValue = "bar"
     )
-    val expected = "amd:bar;s;bar;;;"
-    assertResult(expected){ testPredicateObject.toString }
+    val expected = "amd:bar;s;bar;.*;;"
+    assert( testPredicateObject.toString.matches(expected))
   }
 
 }

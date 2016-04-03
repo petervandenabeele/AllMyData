@@ -12,7 +12,7 @@ import common._
 case class PredicateObject(predicate: AMD_Predicate,
                            objectValue: AMD_ObjectValue,
                            objectType: AMD_ObjectType = "s",
-                           at: OptionalTimestamp = OptionalTimestamp(None),
+                           at: OptionalTimestamp = OptionalTimestamp(Fact.today),
                            from: OptionalTimestamp = OptionalTimestamp(None),
                            to: OptionalTimestamp = OptionalTimestamp(None)) {
 
