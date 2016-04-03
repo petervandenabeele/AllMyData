@@ -28,7 +28,7 @@ class FactsReaderSuite extends FunSuite {
 
       val factWithStatus: FactWithStatus = factIterator.next()
       val fact_1 = factWithStatus._1.get
-      assert(fact_1.timeStamp.toString.startsWith("2014")) // not newly made
+      assert(fact_1.timestamp.toString.startsWith("2014")) // not newly made
       assert(fact_1.id.toString.startsWith("3d83fa7e"))
       assert(fact_1.context == Context(None))
       assert(fact_1.subject.toString.startsWith("973a7688"))
@@ -37,7 +37,7 @@ class FactsReaderSuite extends FunSuite {
       assert(fact_1.objectValue === "Foo")
 
       val fact_2 = factIterator.next()._1.get
-      assert(fact_2.timeStamp.toString.startsWith("2014"))
+      assert(fact_2.timestamp.toString.startsWith("2014"))
       assert(fact_2.id.toString.startsWith("c0994ce6"))
       assert(fact_2.context == Context(fact_1.subject.toString))
       assert(fact_2.subject.toString.startsWith("5458822b"))

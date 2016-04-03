@@ -14,13 +14,14 @@ import common._
   *
   * The full log of all information is stored as an ordered Sequence of facts.
   *
-  * Each fact has id, timestamp, context, subject, predicate, objectType, objectValue.
+  * Each fact has id, timestamp, context, subject, predicate, objectType, objectValue, and
+  * optional `at`, `from`, `to` timestamps (`from` and `to` are inclusive)
   *
   * Construction can only occur from a predicateObject (that is the real "data" part with validations).
   */
 
 // TODO Fix the timestamp to have more digits and/or be monotonic
-case class Fact(timeStamp: AMD_TimeStamp = ZonedDateTime.now(ZoneId.of("UTC")).toString,
+case class Fact(timestamp: AMD_Timestamp = Fact.now,
                 id: AMD_Id = newUUID,
                 context: Context = Context(None),
                 subject: AMD_Subject = newUUID,
@@ -29,21 +30,25 @@ case class Fact(timeStamp: AMD_TimeStamp = ZonedDateTime.now(ZoneId.of("UTC")).t
   def predicate = predicateObject.predicate
   def objectType = predicateObject.objectType
   def objectValue = predicateObject.objectValue
+  def at   = predicateObject.at
+  def from = predicateObject.from
+  def to   = predicateObject.to
 
   override def toString: String = {
     List(
-      timeStamp,
-      id,
-      context,
-      subject,
-      predicate,
-      objectType,
-      objectValue
+      List(
+        timestamp,
+        id,
+        context,
+        subject
+      ).mkString(separator),
+      predicateObject.toString
     ).mkString(separator)
   }
 }
 
 object Fact {
+  private def now = ZonedDateTime.now(ZoneId.of("UTC")).toString.dropRight(5) // drop `[UTC]`
   private val filename = "/predicates/valid_predicates.csv"
   private val resourceFile = getClass.getResource(filename)
   private val file =

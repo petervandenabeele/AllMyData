@@ -4,7 +4,7 @@
 
 package slick
 
-import base.{Context, Fact, PredicateObject}
+import base._
 import common._
 import org.junit.runner.RunWith
 import org.scalatest.FunSuite
@@ -16,6 +16,9 @@ import scala.concurrent.Await
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.{Failure, Success}
 import scala.concurrent.duration._
+
+// TODO Also save the at, from, to in the database
+//      (with the custom OptionalTimestamp type)
 
 @RunWith(classOf[JUnitRunner])
 class H2DBSuite extends FunSuite {
@@ -37,7 +40,7 @@ class H2DBSuite extends FunSuite {
         predicateObject = predicateObjectFoo
       )
     def factTuple(fact: Fact) = (
-      fact.timeStamp,
+      fact.timestamp,
       fact.id,
       fact.context.context,
       fact.subject,
@@ -82,7 +85,7 @@ class H2DBSuite extends FunSuite {
 
       setupFuture.onComplete {
         case Success(()) => // println(s"test 2: success inserting a tuple")
-        case Failure(t) => // do nothing, will be trapped by Await
+        case Failure(t) =>  // do nothing, will be trapped by Await
       }
       Await.result(setupFuture, 1000.millis)
     }
@@ -95,7 +98,7 @@ class H2DBSuite extends FunSuite {
       val testResult = results.map(r => {
         r.foreach {
           case (
-            timeStamp,
+            timestamp,
             uuid,
             context,
             subject,
@@ -103,7 +106,7 @@ class H2DBSuite extends FunSuite {
             objectType,
             objectValue) => {
             // println(s"test 3A: asserting accuracy of the tuple")
-            assertResult(29)(timeStamp.toString.length)
+            assertResult(24)(timestamp.toString.length)
             assertResult(36)(uuid.toString.length)
             assertResult(None)(context)
             assertResult(36)(subject.toString.length)
@@ -144,7 +147,7 @@ class H2DBSuite extends FunSuite {
       val testResult = results.map(r => {
         r.map {
           case (
-            timeStamp,
+            timestamp,
             uuid,
             context,
             subject,

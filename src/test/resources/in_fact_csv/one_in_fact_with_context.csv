@@ -1,5 +1,5 @@
-;;1;;amd:context:source;s;me
-;;1;;amd:context:ingress_time;s;2014-12-12T22:13:00
-1;;2;;amd:foo;s;bar
-1;;2;;amd:tux;s;ping
-1;;2;;amd:ping;s;pong
+;;1;;amd:context:source;s;me;;;
+;;1;;amd:context:ingress_time;s;2014-12-12T22:13:00;;;
+1;;2;;amd:foo;s;bar;;;
+1;;2;;amd:tux;s;ping;;;
+1;;2;;amd:ping;s;pong;2016-04-03T11:47:00;2014-01-01T00:00:00;2016-12-31T23:59:59.999

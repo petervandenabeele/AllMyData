@@ -34,6 +34,9 @@ class InFactsReaderSuite extends FunSuite {
     assert(fact.predicate === "amd:foo")
     assert(fact.objectType === "s")
     assert(fact.objectValue === "bar and café")
+    assertResult("2014-11-21T23:59:36.123456789Z") { fact.at.get }
+    assertResult("2013-01-01T00:00:00Z") { fact.from.get }
+    assertResult("2015-12-31T23:59:59.999Z") { fact.to.get }
   }
 
   test("one_in_fact.csv creates 3 facts for one resource") {

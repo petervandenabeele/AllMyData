@@ -4,7 +4,7 @@
 
 package csv
 
-import base.{Context, Fact, PredicateObject}
+import base._
 import common._
 
 import scala.io.BufferedSource
@@ -13,7 +13,16 @@ import scala.io.BufferedSource
   *
   * Format is (statically defined):
   * no header line
-  * local_context | context_uuid | local_subject | subject_uuid | predicate | objectType | objectValue
+  *   local_context
+  *   context_id
+  *   local_subject
+  *   subject_id
+  *   predicate
+  *   objectType
+  *   objectValue
+  *   at
+  *   from
+  *   to
   *
   * There is a local correlation between local_context entries and reused in later facts
   * and local_subject reused in later local_subject and object fields
@@ -24,19 +33,25 @@ object InFactsReader {
   def reader(file: BufferedSource): FactIterator = {
     var subjects = scala.collection.mutable.Map[Int, AMD_Subject]()
 
+    // NOTE : this is _not_ the Fact CSV format, first 4 fields are different;
+    //        we could write a PredicateObject.fromCSV to DRY this.
     file.getLines().filterNot(x => x.isEmpty).map[FactWithStatus](line => {
-      val elements: Array[String] = line.split(separator, 7)
+      val elements: Array[String] = line.split(separator, 10)
       val localContextString = elements(0)
       val localSubjectString = elements(2)
       val predicate = elements(4)
       val csvObjectType = elements(5)
       val csvObjectValue = elements(6)
+      val at = elements(7)
+      val from = elements(8)
+      val to = elements(9)
 
       val (_, context) = getSubjectFromCache(localContextString, subjects)
       val (subjectIdOption, subjectOption) = getSubjectFromCache(localSubjectString, subjects)
 
       val (objectTypeOption, objectValueOption, errorOption) = objectTypeValueTriple(
-        csvObjectType, csvObjectValue, subjects)
+        csvObjectType, csvObjectValue, subjects
+      )
 
 
       // empty line
@@ -49,12 +64,19 @@ object InFactsReader {
         (None, errorOption)
       }
       else {
+        val predicateObject = PredicateObject(
+          predicate = predicate,
+          objectType = objectTypeOption.get,
+          objectValue = objectValueOption.get.toString,
+          at   = OptionalTimestamp(at),
+          from = OptionalTimestamp(from),
+          to   = OptionalTimestamp(to)
+        )
         val fact = factFrom_CSV_Line(
           context = Context(context),
           subjectOption = subjectOption,
-          predicate = predicate,
-          objectValue = objectValueOption.get.toString,
-          objectType = objectTypeOption.get)
+          predicateObject = predicateObject
+        )
 
         if (subjectOption.isEmpty && subjectIdOption.nonEmpty) {
           subjects += (subjectIdOption.get -> fact.subject)
@@ -101,16 +123,9 @@ object InFactsReader {
     }
   }
 
-  private def factFrom_CSV_Line(predicate: AMD_Predicate,
-                                objectType: AMD_ObjectType,
-                                objectValue: AMD_ObjectValue,
-                                context: Context,
-                                subjectOption: Option[AMD_Subject]): Fact = {
-    val predicateObject = PredicateObject(
-      predicate = predicate,
-      objectType = objectType,
-      objectValue = objectValue
-    )
+  private def factFrom_CSV_Line(context: Context,
+                                subjectOption: Option[AMD_Subject],
+                                predicateObject: PredicateObject): Fact = {
     subjectOption match {
       case Some(subject) =>
         Fact(
