@@ -12,7 +12,7 @@ import org.scalatest.FunSuite
 import org.scalatest.junit.JUnitRunner
 
 @RunWith(classOf[JUnitRunner])
-class JSON_EventReaderSuite extends FunSuite {
+class JsonEventsReaderSuite extends FunSuite {
 
   def eventByResourceIterator(schemaName: String, fileName: String): EventByResourceIterator = {
     val schema = scala.io.Source.fromURL(getClass.getResource(schemaName))
@@ -37,7 +37,16 @@ class JSON_EventReaderSuite extends FunSuite {
     assertResult("bar")(predicateObject_0.objectValue)
   }
 
-  test("Object JsonEventsReader can read two entries in one event of a JSON file") {
+  test("Object JsonEventsReader sets the at timestamp") {
+    val iterator: EventByResourceIterator = eventByResourceIterator("/event_json/schema1.json", "/event_json/foo_bar.json")
+
+    val eventByResource_0: EventByResource = iterator.next()
+    val resource_0 = eventByResource_0.resource
+    val predicateObject_0 = eventByResource_0.event.pos.head
+    assert(predicateObject_0.at.get.matches("""^\d{4}-\d\d-\d\d$"""))
+  }
+
+    test("Object JsonEventsReader can read two entries in one event of a JSON file") {
     val iterator: EventByResourceIterator = eventByResourceIterator("/event_json/schema1.json", "/event_json/foo_bar.json")
 
     val eventByResource_0: EventByResource = iterator.next()
