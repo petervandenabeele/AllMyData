@@ -4,11 +4,15 @@
 
 package base
 
-import common._
+import java.io.ByteArrayInputStream
+import scala.io.BufferedSource
 import org.scalatest.FunSuite
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.Matchers._
+
+import common._
+import csv.FactsReader
 
 @RunWith(classOf[JUnitRunner])
 class FactSuite extends FunSuite {
@@ -192,6 +196,28 @@ class FactSuite extends FunSuite {
       val d4 = """\d{4}"""
       val re = s"""$d4-$d2-${d2}T$d2:$d2:$d2.${d3}Z;$uuidRegex;$uuidRegex;$uuidRegex;amd:bar;s;bar;2014-11-21T23:59:36.123456789Z;2013-01-01T00:00:00Z;2015-12-31T23:59:59.999Z"""
       fact.toString should fullyMatch regex re
+    }
+  }
+
+  test("[Integration] A fact saved to facts file can be read back") {
+    new PredicateObjectWithTimestamps {
+      val fact = Fact(
+        context = Context(Some(newUUID)),
+        predicateObject = testPredicateObject
+      )
+      val serializedFact = fact.toString
+      val reader = FactsReader.reader(new BufferedSource(new ByteArrayInputStream(serializedFact.getBytes)))
+      val readFact: Fact = reader.take(1).next._1.get
+
+      assertResult(fact.timestamp){ readFact.timestamp }
+      assertResult(fact.id){ readFact.id }
+      assertResult(fact.context){ readFact.context }
+      assertResult(fact.subject){ readFact.subject }
+      assertResult(fact.predicate){ readFact.predicate }
+      assertResult(fact.objectType){ readFact.objectType }
+      assertResult(fact.at){ readFact.at }
+      assertResult(fact.from){ readFact.from }
+      assertResult(fact.to){ readFact.to }
     }
   }
 }

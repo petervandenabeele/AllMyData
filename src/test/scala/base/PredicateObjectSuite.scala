@@ -151,7 +151,7 @@ class PredicateObjectSuite extends FunSuite {
     assert(testPredicateObject.at.get.toString.matches("""^\d{4}-\d\d-\d\d$"""))
   }
 
-  test("PredicateObject is invalid when can be created with to earlier than from timestamps") {
+  test("PredicateObject is invalid when can be created with `to` earlier than `from` timestamps") {
     intercept[IllegalArgumentException] {
       val testPredicateObject = PredicateObject(
         predicate = "amd:bar",
