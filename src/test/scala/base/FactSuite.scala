@@ -97,7 +97,6 @@ class FactSuite extends FunSuite {
   test("Fact has an optional timeStamp and default is a UTC time") {
     new testFoo {
       val timestamp: AMD_Timestamp = fact.timestamp
-      println(timestamp)
       assert(timestamp.toString.length === 24) // 3 fractionals a Z and no [UTC]
       assert(timestamp.startsWith("20"))
     }
@@ -152,7 +151,7 @@ class FactSuite extends FunSuite {
   trait PredicateObjectWithTimestamps {
     val testPredicateObject = PredicateObject(
       predicate = "amd:bar",
-      objectValue = "bar",
+      objectValue = """bar , ,, ; ;; " \" "" \ \\ \n \t""",
       at   = OptionalTimestamp("2014-11-21T23:59:36.123456789Z"),
       from = OptionalTimestamp("2013-01-01T00:00:00Z"),
       to   = OptionalTimestamp("2015-12-31T23:59:59.999Z")
@@ -194,12 +193,12 @@ class FactSuite extends FunSuite {
       val d2 = """\d{2}"""
       val d3 = """\d{3}"""
       val d4 = """\d{4}"""
-      val re = s"""$d4-$d2-${d2}T$d2:$d2:$d2.${d3}Z;$uuidRegex;$uuidRegex;$uuidRegex;amd:bar;s;bar;2014-11-21T23:59:36.123456789Z;2013-01-01T00:00:00Z;2015-12-31T23:59:59.999Z"""
+      val re = s"""$d4-$d2-${d2}T$d2:$d2:$d2.${d3}Z;$uuidRegex;$uuidRegex;$uuidRegex;2014-11-21T23:59:36.123456789Z;2013-01-01T00:00:00Z;2015-12-31T23:59:59.999Z;amd:bar;s;bar , ,, ; ;; " \\\\" "" \\\\ \\\\\\\\ \\\\n \\\\t"""
       fact.toString should fullyMatch regex re
     }
   }
 
-  test("[Integration] A fact saved to facts file can be read back") {
+  test("[Integration] A fact with complex content saved to facts file can be read back") {
     new PredicateObjectWithTimestamps {
       val fact = Fact(
         context = Context(Some(newUUID)),

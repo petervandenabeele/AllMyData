@@ -170,17 +170,17 @@ class PredicateObjectSuite extends FunSuite {
       from = OptionalTimestamp("2013-01-01T00:00:00Z"),
       to   = OptionalTimestamp("2015-12-31T23:59:59.999Z")
     )
-    val expected = "amd:bar;s;bar;2014-11-21T23:59:36.123456789Z;2013-01-01T00:00:00Z;2015-12-31T23:59:59.999Z"
+    val expected = "2014-11-21T23:59:36.123456789Z;2013-01-01T00:00:00Z;2015-12-31T23:59:59.999Z;amd:bar;s;bar"
     assertResult(expected){ testPredicateObject.toString }
   }
 
-  test("toString returns CSV style result with empty timestamps") {
+  test("toString returns CSV style result with an at timestamps") {
     val testPredicateObject = PredicateObject(
       predicate = "amd:bar",
       objectValue = "bar"
     )
-    val expected = "amd:bar;s;bar;.*;;"
-    assert( testPredicateObject.toString.matches(expected))
+    val expected = """2\d\d\d-\d\d-\d\d;;;amd:bar;s;bar"""
+    assert(testPredicateObject.toString.matches(expected))
   }
 
 }

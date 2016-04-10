@@ -17,12 +17,12 @@ import scala.io.BufferedSource
   *   context_id
   *   local_subject
   *   subject_id
-  *   predicate
-  *   objectType
-  *   objectValue
   *   at
   *   from
   *   to
+  *   predicate
+  *   objectType
+  *   objectValue
   *
   * There is a local correlation between local_context entries and reused in later facts
   * and local_subject reused in later local_subject and object fields
@@ -39,12 +39,12 @@ object InFactsReader {
       val elements: Array[String] = line.split(separator, 10)
       val localContextString = elements(0)
       val localSubjectString = elements(2)
-      val predicate = elements(4)
-      val csvObjectType = elements(5)
-      val csvObjectValue = elements(6)
-      val at = elements(7)
-      val from = elements(8)
-      val to = elements(9)
+      val at = elements(4)
+      val from = elements(5)
+      val to = elements(6)
+      val predicate = elements(7)
+      val csvObjectType = elements(8)
+      val csvObjectValue = elements(9)
 
       val (_, context) = getSubjectFromCache(localContextString, subjects)
       val (subjectIdOption, subjectOption) = getSubjectFromCache(localSubjectString, subjects)

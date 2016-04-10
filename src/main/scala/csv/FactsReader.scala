@@ -31,12 +31,12 @@ object FactsReader {
       val id = UUID.fromString(elements(1)) // fail fast for invalid UUID string
       val context = elements(2)
       val subject = elements(3)
-      val predicate = elements(4)
-      val objectType = elements(5)
-      val objectValue = elements(6)
-      val at = elements(7)
-      val from = elements(8)
-      val to = elements(9)
+      val at = elements(4)
+      val from = elements(5)
+      val to = elements(6)
+      val predicate = elements(7)
+      val objectType = elements(8)
+      val objectValue = elements(9)
 
       val predicateObject = PredicateObject(
         predicate = predicate,

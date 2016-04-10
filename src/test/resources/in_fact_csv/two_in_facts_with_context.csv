@@ -1,4 +1,4 @@
-;;37;;amd:context:source;s;test file;;;
-;;38;;amd:context:source;s;other file;;;
-37;;1;;amd:foo;s;bar;;;
-38;;2;;amd:bar;s;foo;;;
+;;37;;;;;amd:context:source;s;test file
+;;38;;;;;amd:context:source;s;other file
+37;;1;;;;;amd:foo;s;bar
+38;;2;;;;;amd:bar;s;foo

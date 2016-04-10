@@ -60,12 +60,12 @@ case class PredicateObject(predicate: AMD_Predicate,
 
   override def toString: String = {
     List(
-      predicate,
-      objectType,
-      objectValue,
       at,
       from,
-      to
+      to,
+      predicate,
+      objectType,
+      objectValue
     ).mkString(separator)
   }
 }

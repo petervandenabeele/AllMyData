@@ -1,6 +1,0 @@
-;;1;;amd:foo;s;bar
-;;2;;amd:bar;s;foo
-;;1;;amd:dec;d;7.35
-;;2;;amd:int;i;36
-;;1;;amd:int;i;42
-;;2;;amd:pong;s;ping
