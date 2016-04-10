@@ -229,23 +229,29 @@ class InFactsReaderSuite extends FunSuite {
     assert(UUID.fromString(fact_2.objectValue) === fact_1.subject)
   }
 
-  test("two_in_facts_with_empty_objectValue for string objectType must be allowed") {
-    val filename = "/in_fact_csv/two_in_facts_with_empty_objectValue.csv"
+  test("in_facts with empty objectValue and complex objectValue must be allowed") {
+    val filename = "/in_fact_csv/two_in_facts_with_empty_and_complex_objectValue.csv"
     val file = scala.io.Source.fromURL(getClass.getResource(filename))
     val factWithStatusIterator: FactWithStatusIterator = reader(file)
     val facts: Array[Fact] = factWithStatusIterator.map{ case (factOption, _) => factOption.get }.toArray
 
     val context_1 = facts(0)
     val fact_1 = facts(1)
+    val fact_2 = facts(2)
 
-    assert(facts.length === 2)
+    assert(facts.length === 3)
 
     val expected_context_1 = Context(Some(context_1.subject))
 
     assert(fact_1.context === expected_context_1)
-    assert(fact_1.predicate === "amd:foo")
+    assert(fact_1.predicate === "amd:bar")
     assert(fact_1.objectType === "s")
-    assert(fact_1.objectValue === "")
+    assert(fact_1.objectValue === """bar; ;; \ \\ \n \t " "" \"""")
+
+    assert(fact_2.context === expected_context_1)
+    assert(fact_2.predicate === "amd:foo")
+    assert(fact_2.objectType === "s")
+    assert(fact_2.objectValue === "")
   }
 
   test("Object InFactsReader can read a simple CSV file with a ; delimiter and , in data") {

@@ -34,7 +34,7 @@ object InFactsReader {
     var subjects = scala.collection.mutable.Map[Int, AMD_Subject]()
 
     // NOTE : this is _not_ the Fact CSV format, first 4 fields are different;
-    //        we could write a PredicateObject.fromCSV to DRY this.
+    //        also the objectType and objectValue are different from a regular PredicateObject
     file.getLines().filterNot(x => x.isEmpty).map[FactWithStatus](line => {
       val elements: Array[String] = line.split(separator, 10)
       val localContextString = elements(0)
