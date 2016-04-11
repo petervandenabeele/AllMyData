@@ -10,13 +10,12 @@ object InFactsReader {
 
   def main(args: Array[String]): Unit = {
     println("Starting AllMyData InFactsReader.main")
-    val filename = getFileName(args)._1
-    val fullFilename = getFullFilename(filename, "data")
-    print("Reading from: ")
-    println(fullFilename)
+    val (dataFile, unusedSchemaFile, unusedContextFile) = getFileName(args)
+
+    val dataFullFilename    = getAndLogFullFileName(dataFile,        "data",     "Reading from: ")
 
     val facts = readFactsFromFile(
-      fullFilename = fullFilename,
+      fullFilename = dataFullFilename,
       readerEither = Left(csv.InFactsReader.reader)
     )
 

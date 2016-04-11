@@ -14,17 +14,9 @@ object JsonEventsReader {
     if (schemaFile.isEmpty) throw new RuntimeException("Also provide a schemaFile as second argument")
     if (contextFile.isEmpty) throw new RuntimeException("Also provide a contextFile as third argument")
 
-    val dataFullFilename = getFullFilename(dataFile, "data")
-    print("Reading from: ")
-    println(dataFullFilename)
-
-    val schemaFullFilename = getFullFilename(schemaFile.get, "metadata")
-    print("With schema: ")
-    println(schemaFullFilename)
-
-    val contextFullFilename = getFullFilename(contextFile.get, "data")
-    print("With context: ")
-    println(contextFullFilename)
+    val dataFullFilename    = getAndLogFullFileName(dataFile,        "data",     "Reading from: ")
+    val schemaFullFilename  = getAndLogFullFileName(schemaFile.get,  "metadata", "With schema:  ")
+    val contextFullFilename = getAndLogFullFileName(contextFile.get, "data",     "With context: ")
 
     val (context, contextFacts) = contextAndFacts(contextFullFilename)
     println(s"context is $context")

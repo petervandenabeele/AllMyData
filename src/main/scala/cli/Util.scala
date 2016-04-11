@@ -11,6 +11,12 @@ import scala.io.BufferedSource
 
 object Util {
 
+  /** Naive: extract filename(s) from arguments
+    * TODO: use proper command line parsing
+    *
+    * @param args dataFile and optional schemaFile and optional contextFile
+    * @return a tuple with 1, 2 or 3 defined filenams
+    */
   def getFileName(args: Array[String]): (String, Option[String], Option[String]) = args match {
     case Array(dataFile) => (dataFile, None, None)
     case Array(dataFile, schemaFile) => (dataFile, Some(schemaFile), None)
@@ -18,21 +24,38 @@ object Util {
     case _ => throw new RuntimeException("provide a dataFile and optional schemaFile and optional contextFile to read from")
   }
 
+  /** Naive: expand to full filename on local system of @peter_v
+    *
+    * @param filename  short filename (can contain / like in `test/foo_bar`)
+    * @param dir  is this in the data or metadata directory
+    * @return the full filename
+    */
   def getFullFilename(filename: String, dir: String) = {
     val homeDir = System.getProperty("user.home")
     homeDir + s"/pp/data/$dir/" + filename
   }
 
+  /** Naive: just print all results to stdout ; this is used by later scripts
+    *
+     * @param results this is an Iterator (so large datasets can be processed)
+    */
   def handleResults(results: Iterator[Fact]) =
     results.foreach(println)
 
+  /** Read the facts from file using different reader types (supplied in the CLI)
+    *
+    * @param fullFilename full filename of the data file
+    * @param readerEither the reader having one 2 different signatures
+    * @param context the context (can be empty if the datafile had built-in context)
+    * @param schemaFullFilename the schema (needed for JSON parsing)
+    * @return an Iterator (to process large data sets)
+    */
   def readFactsFromFile(fullFilename: String,
                         readerEither : Either[
                           BufferedSource => FactWithStatusIterator,
                           (BufferedSource, Context, Option[BufferedSource]) => FactWithStatusIterator],
                         context : Context = Context(None),
                         schemaFullFilename: Option[String] = None): Iterator[Fact] = {
-
     val file = scala.io.Source.fromFile(fullFilename)
     val factIterator =
       if (readerEither.isLeft)
@@ -54,8 +77,12 @@ object Util {
     })
   }
 
+  /** Read the context with its facts from a context file
+    *
+    * @param contextFullFilename filename of the context file (should be of in_facts format)
+    * @return A tuple with a context and a fresh iterator over the facts inside
+    */
   def contextAndFacts(contextFullFilename: String): (Context, Iterator[Fact]) = {
-
     val contextFacts = readFactsFromFile(
       fullFilename = contextFullFilename,
       readerEither = Left(csv.InFactsReader.reader)
@@ -66,6 +93,19 @@ object Util {
 
     val contextSubject: AMD_Subject = subjects.head
     (Context(Some(contextSubject)), contextFacts.toIterator)
+  }
+
+  /** Get the full filename but also logs it to println while at it
+    *
+    * @param file the local filename
+    * @param directory the directory: data or metadata
+    * @param logText the log text to append (try similar length)
+    * @return the fullFilename
+    */
+  def getAndLogFullFileName(file: String, directory: String, logText: String) = {
+    val fullFilename = getFullFilename(file, directory)
+    println(s"$logText $fullFilename")
+    fullFilename
   }
 
 }

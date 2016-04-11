@@ -13,13 +13,8 @@ object EventsReader {
     val (dataFile, unusedSchemaFile, contextFile) = Util.getFileName(args)
     if (contextFile.isEmpty) throw new RuntimeException("Also provide a contextFile as third argument")
 
-    val dataFullFilename = Util.getFullFilename(dataFile, "data")
-    print("Reading from: ")
-    println(dataFullFilename)
-
-    val contextFullFilename = Util.getFullFilename(contextFile.get, "data")
-    print("With context: ")
-    println(contextFullFilename)
+    val dataFullFilename    = getAndLogFullFileName(dataFile,        "data",     "Reading from: ")
+    val contextFullFilename = getAndLogFullFileName(contextFile.get, "data",     "With context: ")
 
     val (context, contextFacts) = contextAndFacts(contextFullFilename)
     println(s"context is $context")
