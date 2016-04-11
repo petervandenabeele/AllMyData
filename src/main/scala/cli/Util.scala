@@ -11,16 +11,20 @@ import scala.io.BufferedSource
 
 object Util {
 
-  def getFileName(args: Array[String]): (String, Option[String]) = args match {
-    case Array(dataFile) => (dataFile, None)
-    case Array(dataFile, schemaFile) => (dataFile, Some(schemaFile))
-    case _ => throw new RuntimeException("provide a dataFile (and optional schemaFile) to read from")
+  def getFileName(args: Array[String]): (String, Option[String], Option[String]) = args match {
+    case Array(dataFile) => (dataFile, None, None)
+    case Array(dataFile, schemaFile) => (dataFile, Some(schemaFile), None)
+    case Array(dataFile, schemaFile, contextFile) => (dataFile, Some(schemaFile), Some(contextFile))
+    case _ => throw new RuntimeException("provide a dataFile and optional schemaFile and optional contextFile to read from")
   }
 
   def getFullFilename(filename: String, dir: String) = {
     val homeDir = System.getProperty("user.home")
     homeDir + s"/pp/facts/$dir/" + filename
   }
+
+  def handleResults(results: Iterator[Fact]) =
+    results.foreach(println)
 
   def readFactsFromFile(
                          fullFilename: String,

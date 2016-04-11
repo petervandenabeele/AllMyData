@@ -11,7 +11,7 @@ object JsonEventsReader {
 
   def main(args: Array[String]): Unit = {
     println("Starting AllMyData JsonEventsReader.main")
-    val (dataFile, schemaFile) = Util.getFileName(args)
+    val (dataFile, schemaFile, contextFile) = Util.getFileName(args)
     if (schemaFile.isEmpty) throw new RuntimeException("Also provide a schemaFile as second argument")
 
     val dataFullFilename = Util.getFullFilename(dataFile, "data")

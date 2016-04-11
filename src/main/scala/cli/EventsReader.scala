@@ -4,33 +4,29 @@
 
 package cli
 
-import Util.readFactsFromFile
-import base.Fact
+import Util._
 
 object EventsReader {
 
   def main(args: Array[String]): Unit = {
     println("Starting AllMyData EventsReader.main")
-    val filename = Util.getFileName(args)._1
-    val fullFilename = Util.getFullFilename(filename, "data")
+    val (dataFile, unusedSchemaFile, contextFile) = Util.getFileName(args)
+
+    val dataFullFilename = Util.getFullFilename(dataFile, "data")
     print("Reading from: ")
-    println(fullFilename)
+    println(dataFullFilename)
 
     val (context, contextFacts) = contextAndFacts
     println(s"context is $context")
     println(s"contextFacts are $contextFacts")
 
-    contextFacts.foreach(
-      (fact: Fact) => println(fact)
-    )
-
-    readFactsFromFile(
-      fullFilename = fullFilename,
+    val facts = readFactsFromFile(
+      fullFilename = dataFullFilename,
       readerEither = Right(csv.EventsReader.reader),
       contextOption = Some(context)
-    ).foreach(
-      (fact: Fact) => println(fact)
     )
+
+    handleResults(contextFacts ++ facts)
   }
 
   import java.time.{ZoneId, ZonedDateTime}
@@ -38,7 +34,7 @@ object EventsReader {
   import base.EventByResource.factsFromEventByResource
 
   /** Static contextFacts for bootstrapping. */
-  private val contextAndFacts: (Context, Seq[Fact]) = {
+  private val contextAndFacts: (Context, Iterator[Fact]) = {
 
     val predicateObjects = List(
       PredicateObject(predicate = "amd:context:source", objectValue = "@peter_v", objectType = "s"), // replace this
@@ -52,7 +48,7 @@ object EventsReader {
     val eventByResource = EventByResource(
       resource = resource,
       event = Event(predicateObjects))
-    (Context(Some(resource.subject)), factsFromEventByResource(eventByResource, Context(None)))
+    (Context(Some(resource.subject)), factsFromEventByResource(eventByResource, Context(None)).toIterator)
   }
 
 }
