@@ -17,12 +17,12 @@ object JsonEventsReader {
 
   /** Read the actual facts and print them */
   def reader(file: BufferedSource,
-             contextOption: Option[Context] = None,
+             context: Context = Context(None),
              schemaFile: Option[BufferedSource] = None): FactWithStatusIterator = {
     val eventByResourceIterator = eventByResourceReader(schemaFile.get, file)
 
     eventByResourceIterator.flatMap[FactWithStatus](eventByResource => {
-      factsFromEventByResource(eventByResource, contextOption.get).map(fact => (Some(fact), None))
+      factsFromEventByResource(eventByResource, context).map(fact => (Some(fact), None))
     })
   }
 

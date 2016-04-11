@@ -22,13 +22,13 @@ object EventsReader {
 
   /** Read the actual facts and print them */
   def reader(file: BufferedSource,
-             contextOption: Option[Context] = None,
+             context: Context = Context(None),
              unusedSchemaFile: Option[BufferedSource] = None): FactWithStatusIterator = {
     if (unusedSchemaFile.isDefined) throw new RuntimeException("unused should not be defined")
     val eventByResourceIterator = eventByResourceReader(file)
 
     eventByResourceIterator.flatMap[FactWithStatus](eventByResource => {
-      factsFromEventByResource(eventByResource, contextOption.get).map(fact => (Some(fact), None))
+      factsFromEventByResource(eventByResource, context).map(fact => (Some(fact), None))
     })
   }
 

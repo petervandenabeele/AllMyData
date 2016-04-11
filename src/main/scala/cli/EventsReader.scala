@@ -18,12 +18,11 @@ object EventsReader {
 
     val (context, contextFacts) = contextAndFacts
     println(s"context is $context")
-    println(s"contextFacts are $contextFacts")
 
     val facts = readFactsFromFile(
       fullFilename = dataFullFilename,
       readerEither = Right(csv.EventsReader.reader),
-      contextOption = Some(context)
+      context = context
     )
 
     handleResults(contextFacts ++ facts)

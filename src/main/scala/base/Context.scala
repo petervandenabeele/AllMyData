@@ -12,7 +12,7 @@ case class Context(context: Option[AMD_Subject]) {
   override def toString: String =
     context match {
       case None => ""
-      case Some(uuid: UUID) => uuid.toString
+      case Some(uuid: AMD_Subject) => uuid.toString
     }
 }
 

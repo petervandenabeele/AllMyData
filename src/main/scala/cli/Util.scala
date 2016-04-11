@@ -30,8 +30,8 @@ object Util {
                          fullFilename: String,
                          readerEither : Either[
                            BufferedSource => FactWithStatusIterator,
-                           (BufferedSource, Option[Context], Option[BufferedSource]) => FactWithStatusIterator],
-                         contextOption : Option[Context] = None,
+                           (BufferedSource, Context, Option[BufferedSource]) => FactWithStatusIterator],
+                         context : Context = Context(None),
                          schemaFullFilename: Option[String] = None): Iterator[Fact] = {
 
     val file = scala.io.Source.fromFile(fullFilename)
@@ -41,9 +41,9 @@ object Util {
       else {
         val reader = readerEither.right.get
         if (schemaFullFilename.isEmpty)
-          reader(file, contextOption, None)
+          reader(file, context, None)
         else
-          reader(file, contextOption, Some(scala.io.Source.fromFile(schemaFullFilename.get)))
+          reader(file, context, Some(scala.io.Source.fromFile(schemaFullFilename.get)))
       }
 
     factIterator.collect({

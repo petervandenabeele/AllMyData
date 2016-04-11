@@ -4,8 +4,7 @@
 
 package cli
 
-import base.Fact
-import cli.Util.readFactsFromFile
+import cli.Util._
 
 object JsonEventsReader {
 
@@ -24,27 +23,22 @@ object JsonEventsReader {
 
     val (context, contextFacts) = contextAndFacts
     println(s"context is $context")
-    println(s"contextFacts are $contextFacts")
 
-    contextFacts.foreach(
-      fact => println(fact)
-    )
-
-    readFactsFromFile(
+    val facts = readFactsFromFile(
       fullFilename = dataFullFilename,
       readerEither = Right(json.JsonEventsReader.reader),
-      contextOption = Some(context),
+      context = context,
       schemaFullFilename = Some(schemaFullFilename)
-    ).foreach(
-      (fact: Fact) => println(fact)
     )
+
+    handleResults(contextFacts ++ facts)
   }
 
   import base.EventByResource.factsFromEventByResource
   import base._
 
   /** Static contextFacts for bootstrapping. */
-  private val contextAndFacts: (Context, Seq[Fact]) = {
+  private val contextAndFacts: (Context, Iterator[Fact]) = {
 
     val predicateObjects = List(
       PredicateObject(predicate = "amd:context:source", objectValue = "Meetup", objectType = "s"), // replace this
@@ -58,7 +52,7 @@ object JsonEventsReader {
     val eventByResource = EventByResource(
       resource = resource,
       event = Event(predicateObjects))
-    (Context(Some(resource.subject)), factsFromEventByResource(eventByResource, Context(None)))
+    (Context(Some(resource.subject)), factsFromEventByResource(eventByResource, Context(None)).toIterator)
   }
 
 }
