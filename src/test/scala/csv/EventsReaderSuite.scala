@@ -19,15 +19,15 @@ class EventsReaderSuite extends FunSuite {
     eventByResourceReader(file)
   }
 
-  test("Object EventsReader can read an empty CSV file") {
+  test("Object EventsReader can read an empty CSV eventFile") {
     assert(eventByResourceIterator("/empty_CSV_file.csv").isEmpty)
   }
 
-  test("Object EventsReader can read a CSV file with header lines") {
+  test("Object EventsReader can read a CSV eventFile with header lines") {
     assert(eventByResourceIterator("/event_csv/header.csv").isEmpty)
   }
 
-  test("Object EventsReader can read a CSV file with 1 data line") {
+  test("Object EventsReader can read a CSV eventFile with 1 data line") {
     assertResult(1)(eventByResourceIterator("/event_csv/one_data_line.csv").size)
   }
 

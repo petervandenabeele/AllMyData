@@ -10,7 +10,7 @@ import common._
 
 import scala.io.BufferedSource
 
-/** Reads events from a CSV file
+/** Reads events from a CSV eventFile
   *
   * Format is:
   * First line: list of predicates (e.g. "amd:foo:name;amd:bar:size")
@@ -21,11 +21,11 @@ import scala.io.BufferedSource
 object EventsReader {
 
   /** Read the actual facts and print them */
-  def reader(file: BufferedSource,
+  def reader(eventFile: BufferedSource,
              context: Context = Context(None),
              unusedSchemaFile: Option[BufferedSource] = None): FactWithStatusIterator = {
-    if (unusedSchemaFile.isDefined) throw new RuntimeException("unused should not be defined")
-    val eventByResourceIterator = eventByResourceReader(file)
+    if (unusedSchemaFile.isDefined) throw new RuntimeException("unusedSchemaFile should not be defined")
+    val eventByResourceIterator = eventByResourceReader(eventFile)
 
     eventByResourceIterator.flatMap[FactWithStatus](eventByResource => {
       factsFromEventByResource(eventByResource, context).map(fact => (Some(fact), None))
@@ -33,8 +33,8 @@ object EventsReader {
   }
 
   // TODO only success case covered here
-  def eventByResourceReader(file: BufferedSource): EventByResourceIterator = {
-    val potential_header = file.getLines()
+  def eventByResourceReader(eventFile: BufferedSource): EventByResourceIterator = {
+    val potential_header = eventFile.getLines()
     if (!potential_header.hasNext) return Iterator.empty
 
     val predicatesLine = potential_header.next()
@@ -42,7 +42,7 @@ object EventsReader {
     val objectTypesLine = potential_header.next()
     val objectTypes = objectTypesLine.split(separator)
 
-    file.getLines().filterNot(x => x.isEmpty).map[EventByResource](line => {
+    eventFile.getLines().filterNot(x => x.isEmpty).map[EventByResource](line => {
       val objectValues = line.split(separator)
       val predicateObjects =
         predicates.

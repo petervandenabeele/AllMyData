@@ -16,10 +16,10 @@ import org.json4s.native.JsonMethods._
 object JsonEventsReader {
 
   /** Read the actual facts and print them */
-  def reader(file: BufferedSource,
+  def reader(eventFile: BufferedSource,
              context: Context = Context(None),
-             schemaFile: Option[BufferedSource] = None): FactWithStatusIterator = {
-    val eventByResourceIterator = eventByResourceReader(schemaFile.get, file)
+             schemaFileOption: Option[BufferedSource] = None): FactWithStatusIterator = {
+    val eventByResourceIterator = eventByResourceReader(schemaFileOption.get, eventFile)
 
     eventByResourceIterator.flatMap[FactWithStatus](eventByResource => {
       factsFromEventByResource(eventByResource, context).map(fact => (Some(fact), None))

@@ -20,11 +20,11 @@ class JsonEventsReaderSuite extends FunSuite {
     eventByResourceReader(schema, file)
   }
 
-  test("Object EventsReader can read an empty JSON file") {
+  test("Object EventsReader can read an empty JSON eventFile") {
     assert(eventByResourceIterator("/event_json/schema1.json", "/empty_JSON_file.json").isEmpty)
   }
 
-  test("Object JsonEventsReader can read the first entry of a JSON file") {
+  test("Object JsonEventsReader can read the first entry of a JSON eventFile") {
     val iterator: EventByResourceIterator = eventByResourceIterator("/event_json/schema1.json", "/event_json/foo_bar.json")
 
     val eventByResource_0: EventByResource = iterator.next()
@@ -64,7 +64,7 @@ class JsonEventsReaderSuite extends FunSuite {
     assertResult("ping")(predicateObject_1.objectValue)
   }
 
-  test("Object JsonEventsReader can read two entries when in other order in JSON file") {
+  test("Object JsonEventsReader can read two entries when in other order in JSON eventFile") {
     val iterator: EventByResourceIterator = eventByResourceIterator("/event_json/schema1.json", "/event_json/bar_foo.json")
 
     val eventByResource_0: EventByResource = iterator.next()
@@ -82,7 +82,7 @@ class JsonEventsReaderSuite extends FunSuite {
     assertResult("bar")(predicateObject_1.objectValue)
   }
 
-  test("Object JsonEventsReader can two events in a JSON file") {
+  test("Object JsonEventsReader can two events in a JSON eventFile") {
     val iterator: EventByResourceIterator = eventByResourceIterator("/event_json/schema1.json", "/event_json/foo_bar.json")
 
     val eventByResource_0: EventByResource = iterator.next()
