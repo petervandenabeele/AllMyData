@@ -18,15 +18,18 @@ object JsonEventsReader {
   /** Read the actual facts and print them */
   def reader(eventFile: BufferedSource,
              context: Context = Context(None),
-             schemaFileOption: Option[BufferedSource] = None): FactWithStatusIterator = {
-    val eventByResourceIterator = eventByResourceReader(schemaFileOption.get, eventFile)
+             schemaFileOption: Option[BufferedSource] = None,
+             factsAtOption: Option[String] = None): FactWithStatusIterator = {
+    val eventByResourceIterator = eventByResourceReader(schemaFileOption.get, eventFile, factsAtOption)
 
     eventByResourceIterator.flatMap[FactWithStatus](eventByResource => {
       factsFromEventByResource(eventByResource, context).map(fact => (Some(fact), None))
     })
   }
 
-  def eventByResourceReader(schemaFile: BufferedSource, eventFile: BufferedSource): EventByResourceIterator = {
+  def eventByResourceReader(schemaFile: BufferedSource,
+                            eventFile: BufferedSource,
+                            factsAtOption: Option[String] = None): EventByResourceIterator = {
     // parse the schema first
     val schemaString = schemaFile.mkString
     val schemaJson = parse(schemaString)
@@ -55,9 +58,9 @@ object JsonEventsReader {
         // new resource, not trying to find existing
         resource = Resource(),
         event = Event(rawPos.map {
-          case (rawPredicate, JString(objectValue)) => makePredicateObject(schemaJson, rawPredicate, objectValue)
-          case (rawPredicate, JInt(objectValue)) => makePredicateObject(schemaJson, rawPredicate, objectValue.toString())
-          case (rawPredicate, JDecimal(objectValue)) => makePredicateObject(schemaJson, rawPredicate, objectValue.toString)
+          case (rawPredicate, JString(objectValue)) => makePredicateObject(schemaJson, rawPredicate, objectValue, factsAtOption)
+          case (rawPredicate, JInt(objectValue)) => makePredicateObject(schemaJson, rawPredicate, objectValue.toString(), factsAtOption)
+          case (rawPredicate, JDecimal(objectValue)) => makePredicateObject(schemaJson, rawPredicate, objectValue.toString, factsAtOption)
           case other => PredicateObject(
             predicate = "amd:error",
             objectValue = s"Found unsupported JSON type (only string, int and decimal); type is ${other._2.getClass.getSimpleName}",
@@ -67,15 +70,24 @@ object JsonEventsReader {
     }.toIterator
   }
 
-  private def makePredicateObject(schemaJson: JValue, rawPredicate: String, objectValueString: String): PredicateObject = {
+  private def makePredicateObject(schemaJson: JValue, rawPredicate: String, objectValueString: String, factsAtOption: Option[String]): PredicateObject = {
     val predicate: String = (schemaJson \ rawPredicate \ "predicate").values.toString
     val objectType: String = (schemaJson \ rawPredicate \ "objectType").values.toString
     try {
-      PredicateObject(
-        predicate = predicate,
-        objectValue = objectValueString,
-        objectType = objectType
-      )
+      if (factsAtOption.isDefined) {
+        PredicateObject(
+          predicate = predicate,
+          objectValue = objectValueString,
+          objectType = objectType,
+          at = OptionalTimestamp(factsAtOption.get)
+        )
+      } else {
+        PredicateObject(
+          predicate = predicate,
+          objectValue = objectValueString,
+          objectType = objectType
+        )
+      }
     } catch {
       case e: java.lang.IllegalArgumentException =>
         PredicateObject.errorPredicateObject(e.getMessage)

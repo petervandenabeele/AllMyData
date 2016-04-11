@@ -14,9 +14,9 @@ import org.scalatest.junit.JUnitRunner
 @RunWith(classOf[JUnitRunner])
 class EventsReaderSuite extends FunSuite {
 
-  def eventByResourceIterator(filename: String): EventByResourceIterator = {
+  def eventByResourceIterator(filename: String, factsAtOption: Option[String] = None): EventByResourceIterator = {
     val file = scala.io.Source.fromURL(getClass.getResource(filename))
-    eventByResourceReader(file)
+    eventByResourceReader(file, factsAtOption)
   }
 
   test("Object EventsReader can read an empty CSV eventFile") {
@@ -102,6 +102,15 @@ class EventsReaderSuite extends FunSuite {
     assertResult("amd:int")(nextNextPredicateObject_1.predicate)
     assertResult("i")(nextNextPredicateObject_1.objectType)
     assertResult(37)(nextNextPredicateObject_1.objectValue.toInt) // TODO return a real Int for "i" objectType
+  }
+
+  test("Object EventsReader sets the at timestamp to a value set in context with amd:context:facts_at") {
+    val iterator: EventByResourceIterator = eventByResourceIterator("/event_csv/one_data_line.csv", Some("2016-04-01"))
+
+    val eventByResource_0: EventByResource = iterator.next()
+    val resource_0 = eventByResource_0.resource
+    val predicateObject_0 = eventByResource_0.event.pos.head
+    assertResult("2016-04-01") { predicateObject_0.at.get }
   }
 
 }

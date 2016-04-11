@@ -14,10 +14,10 @@ import org.scalatest.junit.JUnitRunner
 @RunWith(classOf[JUnitRunner])
 class JsonEventsReaderSuite extends FunSuite {
 
-  def eventByResourceIterator(schemaName: String, fileName: String): EventByResourceIterator = {
+  def eventByResourceIterator(schemaName: String, fileName: String, factsAtOption: Option[String] = None): EventByResourceIterator = {
     val schema = scala.io.Source.fromURL(getClass.getResource(schemaName))
     val file = scala.io.Source.fromURL(getClass.getResource(fileName))
-    eventByResourceReader(schema, file)
+    eventByResourceReader(schema, file, factsAtOption)
   }
 
   test("Object EventsReader can read an empty JSON eventFile") {
@@ -46,7 +46,16 @@ class JsonEventsReaderSuite extends FunSuite {
     assert(predicateObject_0.at.get.matches("""^\d{4}-\d\d-\d\d$"""))
   }
 
-  test("Object JsonEventsReader can read two entries in one event of a JSON file") {
+  test("Object JsonEventsReader sets the at timestamp to a value set in context with amd:context:facts_at") {
+    val iterator: EventByResourceIterator = eventByResourceIterator("/event_json/schema1.json", "/event_json/foo_bar.json", Some("2016-04-01"))
+
+    val eventByResource_0: EventByResource = iterator.next()
+    val resource_0 = eventByResource_0.resource
+    val predicateObject_0 = eventByResource_0.event.pos.head
+    assert(predicateObject_0.at.get.matches("""^2016-04-01$"""))
+  }
+
+  test("Object JsonEventsReader can read two entries in one event of a JSON eventFile") {
     val iterator: EventByResourceIterator = eventByResourceIterator("/event_json/schema1.json", "/event_json/foo_bar.json")
 
     val eventByResource_0: EventByResource = iterator.next()

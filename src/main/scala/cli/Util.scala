@@ -53,19 +53,22 @@ object Util {
   def readFactsFromFile(fullFilename: String,
                         readerEither : Either[
                           BufferedSource => FactWithStatusIterator,
-                          (BufferedSource, Context, Option[BufferedSource]) => FactWithStatusIterator],
+                          (BufferedSource, Context, Option[BufferedSource], Option[String]) => FactWithStatusIterator],
                         context : Context = Context(None),
-                        schemaFullFilename: Option[String] = None): Iterator[Fact] = {
+                        schemaFullFilename: Option[String] = None,
+                        factsAtOption: Option[String] = None): Iterator[Fact] = {
     val file = scala.io.Source.fromFile(fullFilename)
     val factIterator =
       if (readerEither.isLeft)
+        // fact style (context, schema already in the data)
         readerEither.left.get(file)
       else {
+        // event style (context, schema from external files)
         val reader = readerEither.right.get
         if (schemaFullFilename.isEmpty)
-          reader(file, context, None)
+          reader(file, context, None, factsAtOption)
         else
-          reader(file, context, Some(scala.io.Source.fromFile(schemaFullFilename.get)))
+          reader(file, context, Some(scala.io.Source.fromFile(schemaFullFilename.get)), factsAtOption)
       }
 
     factIterator.collect({
@@ -82,7 +85,7 @@ object Util {
     * @param contextFullFilename filename of the context file (should be of in_facts format)
     * @return A tuple with a context and a fresh iterator over the facts inside
     */
-  def contextAndFacts(contextFullFilename: String): (Context, Iterator[Fact]) = {
+  def contextAndFacts(contextFullFilename: String): (Context, Iterator[Fact], Option[String]) = {
     val contextFacts = readFactsFromFile(
       fullFilename = contextFullFilename,
       readerEither = Left(csv.InFactsReader.reader)
@@ -90,9 +93,10 @@ object Util {
 
     val subjects = contextFacts.map(fact => fact.subject)
     assert(subjects.distinct.length == 1, "All subjects for this context must be the same")
-
     val contextSubject: AMD_Subject = subjects.head
-    (Context(Some(contextSubject)), contextFacts.toIterator)
+
+    val factsAtOption = contextFacts.find(fact => fact.predicate == "amd:context:facts_at").map(fact => fact.objectValue)
+    (Context(Some(contextSubject)), contextFacts.toIterator, factsAtOption)
   }
 
   /** Get the full filename but also logs it to println while at it

@@ -23,9 +23,10 @@ object EventsReader {
   /** Read the actual facts and print them */
   def reader(eventFile: BufferedSource,
              context: Context = Context(None),
-             unusedSchemaFile: Option[BufferedSource] = None): FactWithStatusIterator = {
+             unusedSchemaFile: Option[BufferedSource] = None,
+             factsAtOption: Option[String] = None): FactWithStatusIterator = {
     if (unusedSchemaFile.isDefined) throw new RuntimeException("unusedSchemaFile should not be defined")
-    val eventByResourceIterator = eventByResourceReader(eventFile)
+    val eventByResourceIterator = eventByResourceReader(eventFile, factsAtOption)
 
     eventByResourceIterator.flatMap[FactWithStatus](eventByResource => {
       factsFromEventByResource(eventByResource, context).map(fact => (Some(fact), None))
@@ -33,7 +34,8 @@ object EventsReader {
   }
 
   // TODO only success case covered here
-  def eventByResourceReader(eventFile: BufferedSource): EventByResourceIterator = {
+  def eventByResourceReader(eventFile: BufferedSource,
+                            factsAtOption: Option[String] = None): EventByResourceIterator = {
     val potential_header = eventFile.getLines()
     if (!potential_header.hasNext) return Iterator.empty
 
@@ -50,7 +52,20 @@ object EventsReader {
           zip(objectValues).
           filter(p_ot_ov => !p_ot_ov._2.isEmpty). // drop tuples with empty objectValues
           map { case ((predicate, objectType), objectValue) =>
-          PredicateObject(predicate = predicate, objectValue = objectValue, objectType = objectType)
+          if (factsAtOption.isDefined) {
+            PredicateObject(
+              predicate = predicate,
+              objectValue = objectValue,
+              objectType = objectType,
+              at = OptionalTimestamp(factsAtOption.get)
+            )
+          } else {
+            PredicateObject(
+              predicate = predicate,
+              objectValue = objectValue,
+              objectType = objectType
+            )
+          }
         }
       EventByResource(
         resource = Resource(),

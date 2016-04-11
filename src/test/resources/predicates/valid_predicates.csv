@@ -12,6 +12,7 @@ amd:xyz;z;undefined TODO: make this fail at initial read
 amd:context:source;s;Source
 amd:context:processor;s;processor
 amd:context:ingress_time;t;ingress time [Time]
+amd:context:facts_at;t;when was this fact valid [Date]
 amd:context:visibility;s;visibility (public, private, professional)
 amd:context:encryption;s;encryption (encrypted, clear, ...)
 

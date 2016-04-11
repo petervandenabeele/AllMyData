@@ -18,14 +18,15 @@ object JsonEventsReader {
     val schemaFullFilename  = getAndLogFullFileName(schemaFile.get,  "metadata", "With schema:  ")
     val contextFullFilename = getAndLogFullFileName(contextFile.get, "data",     "With context: ")
 
-    val (context, contextFacts) = contextAndFacts(contextFullFilename)
+    val (context, contextFacts, factsAtOption) = contextAndFacts(contextFullFilename)
     println(s"context is $context")
 
     val facts = readFactsFromFile(
       fullFilename = dataFullFilename,
       readerEither = Right(json.JsonEventsReader.reader),
       context = context,
-      schemaFullFilename = Some(schemaFullFilename)
+      schemaFullFilename = Some(schemaFullFilename),
+      factsAtOption = factsAtOption
     )
 
     handleResults(contextFacts ++ facts)
