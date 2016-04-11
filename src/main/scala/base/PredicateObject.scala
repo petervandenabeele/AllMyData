@@ -11,7 +11,7 @@ import common._
 
 case class PredicateObject(predicate: AMD_Predicate,
                            objectValue: AMD_ObjectValue,
-                           objectType: AMD_ObjectType = "s",
+                           objectType: AMD_ObjectType = PredicateObject.defaultObjectType,
                            at: OptionalTimestamp = OptionalTimestamp(Fact.today),
                            from: OptionalTimestamp = OptionalTimestamp(None),
                            to: OptionalTimestamp = OptionalTimestamp(None)) {
@@ -71,6 +71,8 @@ case class PredicateObject(predicate: AMD_Predicate,
 }
 
 object PredicateObject {
+  val defaultObjectType = "s"
+
   val supportedObjectTypes = List(
     "s", // string (most generic)
     "t", // time (date and optional time ISO, with up to 9 decimals for nanoseconds)
@@ -83,4 +85,25 @@ object PredicateObject {
   def errorPredicateObject(errorMsg: String) = {
     PredicateObject(predicate = "amd:error", objectValue = errorMsg, objectType = "s")
   }
+
+  def withFactsAtOption(predicate: AMD_Predicate,
+                  objectValue: AMD_ObjectValue,
+                  objectType: AMD_ObjectType = defaultObjectType,
+                  factsAtOption: Option[String]): PredicateObject =  {
+    if (factsAtOption.isDefined) {
+      PredicateObject(
+        predicate = predicate,
+        objectValue = objectValue,
+        objectType = objectType,
+        at = OptionalTimestamp(factsAtOption.get)
+      )
+    } else {
+      PredicateObject(
+        predicate = predicate,
+        objectValue = objectValue,
+        objectType = objectType
+      )
+    }
+  }
+
 }

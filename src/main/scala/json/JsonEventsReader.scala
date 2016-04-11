@@ -74,20 +74,11 @@ object JsonEventsReader {
     val predicate: String = (schemaJson \ rawPredicate \ "predicate").values.toString
     val objectType: String = (schemaJson \ rawPredicate \ "objectType").values.toString
     try {
-      if (factsAtOption.isDefined) {
-        PredicateObject(
-          predicate = predicate,
-          objectValue = objectValueString,
-          objectType = objectType,
-          at = OptionalTimestamp(factsAtOption.get)
-        )
-      } else {
-        PredicateObject(
-          predicate = predicate,
-          objectValue = objectValueString,
-          objectType = objectType
-        )
-      }
+      PredicateObject.withFactsAtOption(
+        predicate = predicate,
+        objectValue = objectValueString,
+        objectType = objectType,
+        factsAtOption = factsAtOption)
     } catch {
       case e: java.lang.IllegalArgumentException =>
         PredicateObject.errorPredicateObject(e.getMessage)

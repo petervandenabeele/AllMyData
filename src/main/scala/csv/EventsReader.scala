@@ -52,21 +52,12 @@ object EventsReader {
           zip(objectValues).
           filter(p_ot_ov => !p_ot_ov._2.isEmpty). // drop tuples with empty objectValues
           map { case ((predicate, objectType), objectValue) =>
-          if (factsAtOption.isDefined) {
-            PredicateObject(
+            PredicateObject.withFactsAtOption(
               predicate = predicate,
               objectValue = objectValue,
               objectType = objectType,
-              at = OptionalTimestamp(factsAtOption.get)
-            )
-          } else {
-            PredicateObject(
-              predicate = predicate,
-              objectValue = objectValue,
-              objectType = objectType
-            )
-          }
-        }
+              factsAtOption = factsAtOption)
+            }
       EventByResource(
         resource = Resource(),
         event = Event(predicateObjects))
