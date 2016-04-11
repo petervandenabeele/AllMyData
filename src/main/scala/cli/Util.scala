@@ -20,7 +20,7 @@ object Util {
 
   def getFullFilename(filename: String, dir: String) = {
     val homeDir = System.getProperty("user.home")
-    homeDir + s"/pp/facts/$dir/" + filename
+    homeDir + s"/pp/data/$dir/" + filename
   }
 
   def handleResults(results: Iterator[Fact]) =
