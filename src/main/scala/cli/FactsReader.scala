@@ -4,24 +4,23 @@
 
 package cli
 
-import Util.readFactsFromFile
-import base.Fact
+import Util._
 
 object FactsReader {
 
   def main(args: Array[String]): Unit = {
     println("Starting AllMyData FactsReader.main")
-    val filename = Util.getFileName(args)._1
-    val fullFilename = Util.getFullFilename(filename, "data")
+    val filename = getFileName(args)._1
+    val fullFilename = getFullFilename(filename, "data")
     print("Reading from: ")
     println(fullFilename)
 
-    readFactsFromFile(
+    val facts = readFactsFromFile(
       fullFilename = fullFilename,
       readerEither = Left(csv.FactsReader.reader)
-    ).foreach(
-      (fact: Fact) => println(fact)
     )
+
+    handleResults(facts)
   }
 
 }

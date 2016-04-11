@@ -4,24 +4,23 @@
 
 package cli
 
-import Util.readFactsFromFile
-import base.Fact
+import Util._
 
 object InFactsReader {
 
   def main(args: Array[String]): Unit = {
     println("Starting AllMyData InFactsReader.main")
-    val filename = Util.getFileName(args)._1
-    val fullFilename = Util.getFullFilename(filename, "data")
+    val filename = getFileName(args)._1
+    val fullFilename = getFullFilename(filename, "data")
     print("Reading from: ")
     println(fullFilename)
 
-    readFactsFromFile(
+    val facts = readFactsFromFile(
       fullFilename = fullFilename,
       readerEither = Left(csv.InFactsReader.reader)
-    ).foreach(
-      (fact: Fact) => println(fact)
     )
+
+    handleResults(facts)
   }
 
 }

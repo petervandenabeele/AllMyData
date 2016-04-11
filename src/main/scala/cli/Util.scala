@@ -5,7 +5,7 @@
 package cli
 
 import base._
-import common.FactWithStatusIterator
+import common._
 
 import scala.io.BufferedSource
 
@@ -26,13 +26,12 @@ object Util {
   def handleResults(results: Iterator[Fact]) =
     results.foreach(println)
 
-  def readFactsFromFile(
-                         fullFilename: String,
-                         readerEither : Either[
-                           BufferedSource => FactWithStatusIterator,
-                           (BufferedSource, Context, Option[BufferedSource]) => FactWithStatusIterator],
-                         context : Context = Context(None),
-                         schemaFullFilename: Option[String] = None): Iterator[Fact] = {
+  def readFactsFromFile(fullFilename: String,
+                        readerEither : Either[
+                          BufferedSource => FactWithStatusIterator,
+                          (BufferedSource, Context, Option[BufferedSource]) => FactWithStatusIterator],
+                        context : Context = Context(None),
+                        schemaFullFilename: Option[String] = None): Iterator[Fact] = {
 
     val file = scala.io.Source.fromFile(fullFilename)
     val factIterator =
@@ -53,6 +52,20 @@ object Util {
         Fact(predicateObject = predicateObject)
       }
     })
+  }
+
+  def contextAndFacts(contextFullFilename: String): (Context, Iterator[Fact]) = {
+
+    val contextFacts = readFactsFromFile(
+      fullFilename = contextFullFilename,
+      readerEither = Left(csv.InFactsReader.reader)
+    ).toSeq
+
+    val subjects = contextFacts.map(fact => fact.subject)
+    assert(subjects.distinct.length == 1, "All subjects for this context must be the same")
+
+    val contextSubject: AMD_Subject = subjects.head
+    (Context(Some(contextSubject)), contextFacts.toIterator)
   }
 
 }
