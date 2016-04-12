@@ -12,15 +12,15 @@ import common._
 case class PredicateObject(predicate: AMD_Predicate,
                            objectValue: AMD_ObjectValue,
                            objectType: AMD_ObjectType = PredicateObject.defaultObjectType,
-                           at: OptionalTimestamp = OptionalTimestamp(Fact.today),
-                           from: OptionalTimestamp = OptionalTimestamp(None),
-                           to: OptionalTimestamp = OptionalTimestamp(None)) {
+                           at: OptionalTimestamp = PredicateObject.defaultAt,
+                           from: OptionalTimestamp = PredicateObject.defaultFrom,
+                           to: OptionalTimestamp = PredicateObject.defaultTo) {
 
   if (!Fact.validPredicates.contains(predicate))
     throw new IllegalArgumentException(s"The predicate $predicate is not in list of validPredicates")
 
   if (from.isDefined && to.isDefined && from.get > to.get)
-  throw new IllegalArgumentException(s"The `from` $from cannot be larger than `to` $to timestamp")
+    throw new IllegalArgumentException(s"The `from` $from cannot be larger than `to` $to timestamp")
 
   if (!PredicateObject.supportedObjectTypes.contains(objectType))
     throw new IllegalArgumentException(s"The objectType $objectType is not in supported ${PredicateObject.supportedObjectTypes}")
@@ -72,38 +72,39 @@ case class PredicateObject(predicate: AMD_Predicate,
 
 object PredicateObject {
   val defaultObjectType = "s"
+  val defaultAt = OptionalTimestamp(Fact.today)
+  val defaultFrom = OptionalTimestamp(None)
+  val defaultTo = OptionalTimestamp(None)
 
+  // TODO : support "f" float (issue: JSON fields now safely parsed as decimal)
   val supportedObjectTypes = List(
     "s", // string (most generic)
     "t", // time (date and optional time ISO, with up to 9 decimals for nanoseconds)
     "u", // URI (and external URI, may include prefixes), not yet validated
     "r", // reference (to the subject of a resource, e.g. as a UUID)
     "i", // integer (can be signed)
-    "d"  // decimal (arbitrary precision, correct "decimal" behaviour)
+    "d" // decimal (arbitrary precision, correct "decimal" behaviour)
   )
-  // TODO : support "f" float
+
   def errorPredicateObject(errorMsg: String) = {
-    PredicateObject(predicate = "amd:error", objectValue = errorMsg, objectType = "s")
+    PredicateObject(predicate = "amd:error", objectValue = errorMsg)
   }
 
+  /** Factory for PredicateObject that has a 'factsAtOption' and no 'at' parameter */
   def withFactsAtOption(predicate: AMD_Predicate,
-                  objectValue: AMD_ObjectValue,
-                  objectType: AMD_ObjectType = defaultObjectType,
-                  factsAtOption: Option[String]): PredicateObject =  {
-    if (factsAtOption.isDefined) {
-      PredicateObject(
-        predicate = predicate,
-        objectValue = objectValue,
-        objectType = objectType,
-        at = OptionalTimestamp(factsAtOption.get)
-      )
-    } else {
-      PredicateObject(
-        predicate = predicate,
-        objectValue = objectValue,
-        objectType = objectType
-      )
-    }
+                        objectValue: AMD_ObjectValue,
+                        objectType: AMD_ObjectType = defaultObjectType,
+                        factsAtOption: Option[String],
+                        from: OptionalTimestamp = PredicateObject.defaultFrom,
+                        to: OptionalTimestamp = PredicateObject.defaultTo): PredicateObject = {
+    PredicateObject(
+      predicate = predicate,
+      objectValue = objectValue,
+      objectType = objectType,
+      at = if (factsAtOption.isDefined) OptionalTimestamp(factsAtOption.get) else defaultAt,
+      from = from,
+      to = to
+    )
   }
 
 }
