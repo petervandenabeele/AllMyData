@@ -5,12 +5,12 @@
 package base
 
 import java.io.ByteArrayInputStream
+
 import scala.io.BufferedSource
 import org.scalatest.FunSuite
 import org.junit.runner.RunWith
 import org.scalatest.junit.JUnitRunner
 import org.scalatest.Matchers._
-
 import common._
 import csv.FactsReader
 
@@ -49,16 +49,16 @@ class FactSuite extends FunSuite {
 
   test("Fact has an objectValue attribute") {
     new testFoo {
-      val objectValue: AMD_ObjectValue = fact.objectValue
+      private val objectValue = fact.objectValue
       assert(objectValue === "Bar")
     }
   }
 
   test("Fact has a UUID subject") {
     new testFoo {
-      val testSubject = newUUID
-      val testSubjectString = testSubject.toString
-      val factWithSubject = fact.copy(subject = testSubject)
+      private val testSubject = newUUID
+      private val testSubjectString = testSubject.toString
+      private val factWithSubject = fact.copy(subject = testSubject)
       val subject: AMD_Subject = factWithSubject.subject
       assert(subject === testSubject)
     }
@@ -73,7 +73,7 @@ class FactSuite extends FunSuite {
 
   test("Fact has an optional uuid") {
     new testFoo {
-      val factWithId = fact.copy(id = newUUID)
+      val factWithId: Fact = fact.copy(id = newUUID)
       val id: AMD_Id = factWithId.id
       assert(id.isInstanceOf[AMD_Id])
     }
@@ -88,8 +88,8 @@ class FactSuite extends FunSuite {
 
   test("Fact has an optional timeStamp") {
     new testFoo {
-      val factWithTimestamp = fact.copy(timestamp = "2014-11-21T23:59:36.123456789Z")
-      val timestamp: AMD_Timestamp = factWithTimestamp.timestamp
+      private val factWithTimestamp = fact.copy(timestamp = "2014-11-21T23:59:36.123456789Z")
+      private val timestamp = factWithTimestamp.timestamp
       assert(timestamp === "2014-11-21T23:59:36.123456789Z")
     }
   }
@@ -104,8 +104,8 @@ class FactSuite extends FunSuite {
 
   test("Fact has an optional context") {
     new testFoo {
-      val factWithContext = fact.copy(context = Context(Some(newUUID)))
-      val context: Context = factWithContext.context
+      private val factWithContext = fact.copy(context = Context(Some(newUUID)))
+      private val context = factWithContext.context
       assert(context.toString.length === 36)
     }
   }
@@ -204,9 +204,9 @@ class FactSuite extends FunSuite {
         context = Context(Some(newUUID)),
         predicateObject = testPredicateObject
       )
-      val serializedFact = fact.toString
-      val reader = FactsReader.reader(new BufferedSource(new ByteArrayInputStream(serializedFact.getBytes)))
-      val readFact: Fact = reader.take(1).next._1.get
+      private val serializedFact = fact.toString
+      private val reader = FactsReader.reader(new BufferedSource(new ByteArrayInputStream(serializedFact.getBytes)))
+      private val readFact = reader.take(1).next._1.get
 
       assertResult(fact.timestamp){ readFact.timestamp }
       assertResult(fact.id){ readFact.id }

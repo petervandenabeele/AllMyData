@@ -12,7 +12,7 @@ import scala.io.BufferedSource
 object Util {
 
   /** Naive: extract filename(s) from arguments
-    * TODO: use proper command line parsing
+    * FIXME: use proper command line parsing
     *
     * @param args dataFile and optional schemaFile and optional contextFile
     * @return a tuple with 1, 2 or 3 defined filenams
@@ -30,7 +30,7 @@ object Util {
     * @param dir  is this in the data or metadata directory
     * @return the full filename
     */
-  def getFullFilename(filename: String, dir: String) = {
+  def getFullFilename(filename: String, dir: String): String = {
     val homeDir = System.getProperty("user.home")
     homeDir + s"/pp/data/$dir/" + filename
   }
@@ -39,7 +39,7 @@ object Util {
     *
      * @param results this is an Iterator (so large datasets can be processed)
     */
-  def handleResults(results: Iterator[Fact]) =
+  def handleResults(results: Iterator[Fact]): Unit =
     results.foreach(println)
 
   /** Read the facts from file using different reader types (supplied in the CLI)
@@ -65,18 +65,19 @@ object Util {
       else {
         // event style (context, schema from external files)
         val reader = readerEither.right.get
-        if (schemaFullFilename.isEmpty)
-          reader(file, context, None, factsAtOption)
-        else
-          reader(file, context, Some(scala.io.Source.fromFile(schemaFullFilename.get)), factsAtOption)
+        val schemaOption =
+          if (schemaFullFilename.isEmpty)
+            None
+          else
+            Some(scala.io.Source.fromFile(schemaFullFilename.get))
+        reader(file, context, schemaOption, factsAtOption)
       }
 
     factIterator.collect({
       case (Some(fact), _) => fact
-      case (_, Some(error)) => {
+      case (_, Some(error)) =>
         val predicateObject = PredicateObject.errorPredicateObject(s"ERROR: In $fullFilename : $error")
         Fact(predicateObject = predicateObject)
-      }
     })
   }
 
@@ -106,7 +107,7 @@ object Util {
     * @param logText the log text to append (try similar length)
     * @return the fullFilename
     */
-  def getAndLogFullFileName(file: String, directory: String, logText: String) = {
+  def getAndLogFullFileName(file: String, directory: String, logText: String): String = {
     val fullFilename = getFullFilename(file, directory)
     println(s"$logText $fullFilename")
     fullFilename

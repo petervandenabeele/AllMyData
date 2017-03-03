@@ -27,17 +27,17 @@ case class Fact(timestamp: AMD_Timestamp = Fact.now,
                 subject: AMD_Subject = newUUID,
                 predicateObject: PredicateObject) {
 
-  def predicate = predicateObject.predicate
+  def predicate: AMD_Predicate = predicateObject.predicate
 
-  def objectType = predicateObject.objectType
+  def objectType: AMD_ObjectType = predicateObject.objectType
 
-  def objectValue = predicateObject.objectValue
+  def objectValue: AMD_ObjectValue = predicateObject.objectValue
 
-  def at = predicateObject.at
+  def at: OptionalTimestamp = predicateObject.at
 
-  def from = predicateObject.from
+  def from: OptionalTimestamp = predicateObject.from
 
-  def to = predicateObject.to
+  def to: OptionalTimestamp = predicateObject.to
 
   override def toString: String = {
     List(
@@ -54,10 +54,10 @@ case class Fact(timestamp: AMD_Timestamp = Fact.now,
 
 object Fact {
   /** drop "[UTC]" */
-  def now = ZonedDateTime.now(ZoneId.of("UTC")).toString.takeWhile(c => c != '[')
+  def now: String = ZonedDateTime.now(ZoneId.of("UTC")).toString.takeWhile(c => c != '[')
 
   /** drop the "THH:MM:SS.mmmZ" part */
-  def today = now.takeWhile(c => c != 'T')
+  def today: String = now.takeWhile(c => c != 'T')
 
   val validPredicates: Set[String] = {
     val resourceName = "/predicates/valid_predicates.csv"

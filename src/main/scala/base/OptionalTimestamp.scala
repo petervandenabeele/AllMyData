@@ -6,9 +6,9 @@ package base
 
 case class OptionalTimestamp(timestamp: Option[String]) {
   override def toString: String = timestamp.getOrElse("")
-  def isDefined = timestamp.isDefined
-  def isEmpty = timestamp.isEmpty
-  def get = timestamp.get
+  def isDefined: Boolean = timestamp.isDefined
+  def isEmpty: Boolean = timestamp.isEmpty
+  def get: String = timestamp.get
 }
 
 object OptionalTimestamp {

@@ -44,12 +44,12 @@ class EventByResourceSuite extends FunSuite {
 
   test("factsFromEventByResource are correct with actual context") {
     new testEventByResource {
-      val facts = EventByResource.factsFromEventByResource(
+      val facts: Seq[Fact] = EventByResource.factsFromEventByResource(
         eventByResource = eventByResource,
         context = contextSome)
       // order is important
-      val fact_0 = facts.head
-      val fact_1 = facts.tail.head
+      val fact_0: Fact = facts.head
+      val fact_1: Fact = facts.tail.head
       assertResult(contextSome){ fact_0.context }
       assertResult("amd:foo"){ fact_0.predicate }
       assertResult("Foo"){ fact_0.objectValue }

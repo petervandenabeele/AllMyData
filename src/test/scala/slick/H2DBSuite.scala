@@ -24,14 +24,14 @@ import scala.concurrent.duration._
 class H2DBSuite extends FunSuite {
 
   trait testFoo {
-    val db = H2DB.makeDb
+    val db: Database = H2DB.makeDb
     val predicateObjectBar = PredicateObject(
       predicate = "amd:foo",
       objectType = "s",
       objectValue = "Bar"
     )
     val fact = Fact(predicateObject = predicateObjectBar)
-    val predicateObjectFoo = predicateObjectBar.copy(
+    val predicateObjectFoo: PredicateObject = predicateObjectBar.copy(
       objectValue = "Foo"
     )
     val factWithContext =
@@ -47,7 +47,7 @@ class H2DBSuite extends FunSuite {
       fact.predicate,
       fact.objectType,
       fact.objectValue
-      )
+    )
   }
 
   test("Slick + H2DB works and CREATES TABLE FOOS and FACTS") {
