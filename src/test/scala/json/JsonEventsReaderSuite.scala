@@ -196,7 +196,7 @@ class JsonEventsReaderSuite extends FunSuite {
     assertResult("537")(predicateObject_11.objectValue)
   }
 
-  test("Object JsonEventsReader does not crash on unsupported value type") {
+  test("Object JsonEventsReader does not crash on unsupported value type and read amd:dec") {
     val iterator: EventByResourceIterator = eventByResourceIterator("/event_json/schema2.json", "/event_json/foo_bar_int_with_float.json")
 
     val eventByResource_0: EventByResource = iterator.next()
