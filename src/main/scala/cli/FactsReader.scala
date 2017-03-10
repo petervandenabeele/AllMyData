@@ -12,7 +12,7 @@ object FactsReader {
     println("Starting AllMyData FactsReader.main")
     val (dataFile, unusedSchemaFile, unusedcontextFile) = Util.getFileName(args)
 
-    val dataFullFilename    = getAndLogFullFileName(dataFile,        "data",     "Reading from: ")
+    val dataFullFilename    = getAndLogFullFileName(dataFile,     "Reading from: ")
 
     val facts = readFactsFromFile(
       fullFilename = dataFullFilename,

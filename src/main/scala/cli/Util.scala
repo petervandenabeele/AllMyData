@@ -27,12 +27,11 @@ object Util {
   /** Naive: expand to full filename on local system of @peter_v
     *
     * @param filename  short filename (can contain / like in `test/foo_bar`)
-    * @param dir  is this in the data or metadata directory
     * @return the full filename
     */
-  def getFullFilename(filename: String, dir: String): String = {
+  def getFullFilename(filename: String): String = {
     val homeDir = System.getProperty("user.home")
-    homeDir + s"/pp/data/$dir/" + filename
+    homeDir + s"/dpd/" + filename
   }
 
   /** Naive: just print all results to stdout ; this is used by later scripts
@@ -103,12 +102,11 @@ object Util {
   /** Get the full filename but also logs it to println while at it
     *
     * @param file the local filename
-    * @param directory the directory: data or metadata
     * @param logText the log text to append (try similar length)
     * @return the fullFilename
     */
-  def getAndLogFullFileName(file: String, directory: String, logText: String): String = {
-    val fullFilename = getFullFilename(file, directory)
+  def getAndLogFullFileName(file: String, logText: String): String = {
+    val fullFilename = getFullFilename(file)
     println(s"$logText $fullFilename")
     fullFilename
   }

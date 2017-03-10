@@ -12,7 +12,7 @@ object InFactsReader {
     println("Starting AllMyData InFactsReader.main")
     val (dataFile, unusedSchemaFile, unusedContextFile) = getFileName(args)
 
-    val dataFullFilename    = getAndLogFullFileName(dataFile,        "data",     "Reading from: ")
+    val dataFullFilename    = getAndLogFullFileName(dataFile,     "Reading from: ")
 
     val facts = readFactsFromFile(
       fullFilename = dataFullFilename,

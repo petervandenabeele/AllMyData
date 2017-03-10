@@ -66,7 +66,7 @@ object Fact {
       if (resourceFile.isInstanceOf[URL])
         scala.io.Source.fromURL(resourceFile)
       else
-        scala.io.Source.fromFile(Util.getFullFilename("valid_predicates.csv", "metadata"))
+        scala.io.Source.fromFile(Util.getFullFilename("metadata/valid_predicates.csv"))
 
     file.getLines().filterNot(x => x.isEmpty).map(line => line.split(separator, 2)(0)).toSet
   }
