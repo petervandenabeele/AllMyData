@@ -75,7 +75,7 @@ object JsonEventsReader {
     val predicate: String = (schemaJson \ rawPredicate \ "predicate").values.toString
     val objectType: String = (schemaJson \ rawPredicate \ "objectType").values.toString
     try {
-      PredicateObject.withFactsAtOption(
+      PredicateObject(
         predicate = predicate,
         objectValue = objectValueString,
         objectType = objectType,

@@ -9,12 +9,19 @@ import com.github.nscala_time.time.Imports._
 
 import common._
 
-case class PredicateObject(predicate: AMD_Predicate,
-                           objectValue: AMD_ObjectValue,
-                           objectType: AMD_ObjectType = PredicateObject.defaultObjectType,
-                           at: OptionalTimestamp = PredicateObject.defaultAt,
-                           from: OptionalTimestamp = PredicateObject.defaultFrom,
-                           to: OptionalTimestamp = PredicateObject.defaultTo) {
+class PredicateObject(predicate_ : AMD_Predicate,
+                      objectValue_ : AMD_ObjectValue,
+                      objectType_ : AMD_ObjectType = PredicateObject.defaultObjectType,
+                      at_ : OptionalTimestamp = PredicateObject.defaultAt,
+                      from_ : OptionalTimestamp = PredicateObject.defaultFrom,
+                      to_ : OptionalTimestamp = PredicateObject.defaultTo) {
+
+  def predicate: AMD_Predicate = predicate_
+  def objectValue: AMD_ObjectValue = objectValue_
+  def objectType: AMD_ObjectType = objectType_
+  def at: OptionalTimestamp = at_
+  def from: OptionalTimestamp = from_
+  def to: OptionalTimestamp = to_
 
   if (!Fact.validPredicates.contains(predicate))
     throw new IllegalArgumentException(s"The predicate $predicate is not in list of validPredicates")
@@ -73,6 +80,14 @@ case class PredicateObject(predicate: AMD_Predicate,
       objectValue
     ).mkString(separator)
   }
+
+  override def equals(that: Any): Boolean =
+    that match {
+      case that: PredicateObject => this.toString == that.toString
+      case _ => false
+    }
+
+  override def hashCode: Int = this.toString.hashCode
 }
 
 object PredicateObject {
@@ -92,24 +107,23 @@ object PredicateObject {
     "b"  // boolean (from a JSON with true, false, "true", "false" value)
   )
 
-  def errorPredicateObject(errorMsg: String) = {
+  def errorPredicateObject(errorMsg: String): PredicateObject = {
     PredicateObject(predicate = "amd:error", objectValue = errorMsg)
   }
 
-  /** Factory for PredicateObject that has a 'factsAtOption' and no 'at' parameter */
-  def withFactsAtOption(predicate: AMD_Predicate,
-                        objectValue: AMD_ObjectValue,
-                        objectType: AMD_ObjectType = defaultObjectType,
-                        factsAtOption: Option[String],
-                        from: OptionalTimestamp = PredicateObject.defaultFrom,
-                        to: OptionalTimestamp = PredicateObject.defaultTo): PredicateObject = {
-    PredicateObject(
-      predicate = predicate,
-      objectValue = objectValue,
-      objectType = objectType,
-      at = if (factsAtOption.isDefined) OptionalTimestamp(factsAtOption.get) else defaultAt,
-      from = from,
-      to = to
+  def apply (predicate: AMD_Predicate,
+             objectValue: AMD_ObjectValue,
+             objectType: AMD_ObjectType = PredicateObject.defaultObjectType,
+             factsAtOption: Option[String] = None,
+             from: OptionalTimestamp = PredicateObject.defaultFrom,
+             to: OptionalTimestamp = PredicateObject.defaultTo): PredicateObject = {
+    new PredicateObject(
+      predicate_ = predicate,
+      objectValue_ = objectValue,
+      objectType_ = objectType,
+      at_ = if (factsAtOption.isDefined) OptionalTimestamp(factsAtOption.get) else defaultAt,
+      from_ = from,
+      to_ = to
     )
   }
 

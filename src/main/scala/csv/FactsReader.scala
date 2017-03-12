@@ -42,7 +42,7 @@ object FactsReader {
         predicate = predicate,
         objectValue = objectValue,
         objectType = objectType,
-        at   = OptionalTimestamp(at),
+        factsAtOption   = Some(at),
         from = OptionalTimestamp(from),
         to   = OptionalTimestamp(to)
       )

@@ -52,7 +52,7 @@ object EventsReader {
           zip(objectValues).
           filter(p_ot_ov => !p_ot_ov._2.isEmpty). // drop tuples with empty objectValues
           map { case ((predicate, objectType), objectValue) =>
-            PredicateObject.withFactsAtOption(
+            PredicateObject(
               predicate = predicate,
               objectValue = objectValue,
               objectType = objectType,

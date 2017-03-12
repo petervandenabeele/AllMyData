@@ -30,10 +30,12 @@ class H2DBSuite extends FunSuite {
       objectType = "s",
       objectValue = "Bar"
     )
-    val fact = Fact(predicateObject = predicateObjectBar)
-    val predicateObjectFoo: PredicateObject = predicateObjectBar.copy(
-      objectValue = "Foo"
+    val predicateObjectFoo = PredicateObject(
+      predicate = "amd:foo",
+      objectType = "s",
+      objectValue = "Bar"
     )
+    val fact = Fact(predicateObject = predicateObjectBar)
     val factWithContext =
       Fact(
         context = Context(newUUID.toString),
@@ -52,7 +54,7 @@ class H2DBSuite extends FunSuite {
 
   test("Slick + H2DB works and CREATES TABLE FOOS and FACTS") {
     new testFoo {
-      val setup = DBIO.seq(
+      private val setup = DBIO.seq(
         // Create the foos tables
         H2DB.foos.schema.create,
 
@@ -61,7 +63,7 @@ class H2DBSuite extends FunSuite {
         H2DB.foos +=(102, "ping is tux")
       )
 
-      val setupFuture = db.run(setup)
+      private val setupFuture = db.run(setup)
       setupFuture.onComplete {
         case Success(()) => // println(s"test 1: success creating the tables")
         case Failure(t) => // do nothing, will be trapped by Await
@@ -73,7 +75,7 @@ class H2DBSuite extends FunSuite {
   test("Insert a fact into the Facts table") {
     new testFoo {
       // TODO context.getValue
-      val setup = DBIO.seq(
+      private val setup = DBIO.seq(
         // Create the facts table
         H2DB.facts.schema.create,
 
@@ -81,7 +83,7 @@ class H2DBSuite extends FunSuite {
         H2DB.facts += factTuple(fact)
       )
 
-      val setupFuture = db.run(setup)
+      private val setupFuture = db.run(setup)
 
       setupFuture.onComplete {
         case Success(()) => // println(s"test 2: success inserting a tuple")
@@ -93,9 +95,9 @@ class H2DBSuite extends FunSuite {
 
   test("Read a fact from the Facts table") {
     new testFoo {
-      val results = db.run(H2DB.facts.result)
+      private val results = db.run(H2DB.facts.result)
 
-      val testResult = results.map(r => {
+      private val testResult = results.map(r => {
         r.foreach {
           case (
             timestamp,
@@ -135,16 +137,16 @@ class H2DBSuite extends FunSuite {
   test("Insert and read an additional fact with a context from the Facts table") {
     new testFoo {
 
-      val setup = DBIO.seq(
+      private val setup = DBIO.seq(
         // Insert a fact
         H2DB.facts += factTuple(factWithContext)
       )
 
-      val setupFuture = db.run(setup)
+      private val setupFuture = db.run(setup)
 
-      val results = db.run(H2DB.facts.result)
+      private val results = db.run(H2DB.facts.result)
 
-      val testResult = results.map(r => {
+      private val testResult = results.map(r => {
         r.map {
           case (
             timestamp,
@@ -153,19 +155,17 @@ class H2DBSuite extends FunSuite {
             subject,
             predicate,
             objectType,
-            objectValue) => {
+            objectValue) =>
             // println(s"test 4A: objectValue is $objectValue")
             objectValue
-          }
         }.sorted.mkString(",")
       })
 
       testResult.onComplete {
-        case Success(completedResults) => {
+        case Success(completedResults) =>
           // println(s"test 4B: success reading objectValues $completedResults")
           assertResult("Bar,Foo") {
             completedResults
-          }
         }
         case Failure(t) => // do nothing, will be trapped by Await
       }

@@ -152,7 +152,7 @@ class FactSuite extends FunSuite {
     val testPredicateObject = PredicateObject(
       predicate = "amd:bar",
       objectValue = """bar , ,, ; ;; " \" "" \ \\ \n \t""",
-      at   = OptionalTimestamp("2014-11-21T23:59:36.123456789Z"),
+      factsAtOption = Some("2014-11-21T23:59:36.123456789Z"),
       from = OptionalTimestamp("2013-01-01T00:00:00Z"),
       to   = OptionalTimestamp("2015-12-31T23:59:59.999Z")
     )

@@ -68,7 +68,7 @@ object InFactsReader {
           predicate = predicate,
           objectType = objectTypeOption.get,
           objectValue = objectValueOption.get.toString,
-          at   = OptionalTimestamp(at),
+          factsAtOption = Some(at),
           from = OptionalTimestamp(from),
           to   = OptionalTimestamp(to)
         )

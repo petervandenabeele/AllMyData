@@ -12,7 +12,52 @@ import common._
 @RunWith(classOf[JUnitRunner])
 class PredicateObjectSuite extends FunSuite {
 
-  test("PredicateObject can be created without explicit objectType") {
+  test("PredicateObject equality") {
+    val predicateObjectFoo1 = PredicateObject(
+      predicate = "rdf:type",
+      objectValue = "Foo",
+      objectType = "s"
+    )
+    val predicateObjectFoo2 = PredicateObject(
+      predicate = "rdf:type",
+      objectValue = "Foo",
+      objectType = "s"
+    )
+    val predicateObjectBar = PredicateObject(
+      predicate = "rdf:type",
+      objectValue = "Bar",
+      objectType = "s"
+    )
+    assertResult(true) { predicateObjectFoo1 == predicateObjectFoo1 }
+    assertResult(true) { predicateObjectFoo1 == predicateObjectFoo2 }
+    assertResult(true) { predicateObjectFoo2 == predicateObjectFoo1 }
+    assertResult(false) { predicateObjectFoo1 == predicateObjectBar }
+    assertResult(false) { predicateObjectBar == predicateObjectFoo1 }
+    assertResult(false) { predicateObjectFoo1 == "Foo" }
+  }
+
+  test("PredicateObject hashCode") {
+    val predicateObjectFoo1 = PredicateObject(
+      predicate = "rdf:type",
+      objectValue = "Foo",
+      objectType = "s"
+    )
+    val predicateObjectFoo2 = PredicateObject(
+      predicate = "rdf:type",
+      objectValue = "Foo",
+      objectType = "s"
+    )
+    val predicateObjectBar = PredicateObject(
+      predicate = "rdf:type",
+      objectValue = "Bar",
+      objectType = "s"
+    )
+    assertResult(true) { predicateObjectFoo1.hashCode == predicateObjectFoo1.hashCode }
+    assertResult(true) { predicateObjectFoo1.hashCode == predicateObjectFoo2.hashCode }
+    assertResult(false) { predicateObjectFoo1.hashCode == predicateObjectBar.hashCode }
+  }
+
+  test("PredicateObject can be created without explicit objectType (defaults to string)") {
     val predicateObject = PredicateObject(
       predicate = "rdf:type",
       objectValue = "Foo"
@@ -130,7 +175,7 @@ class PredicateObjectSuite extends FunSuite {
     val testPredicateObject = PredicateObject(
       predicate = "amd:bar",
       objectValue = "",
-      at   = OptionalTimestamp("2014-11-21T23:59:36.123456789Z"),
+      factsAtOption   = Some("2014-11-21T23:59:36.123456789Z"),
       from = OptionalTimestamp("2013-01-01T00:00:00Z"),
       to   = OptionalTimestamp("2015-12-31T23:59:59.999Z")
     )
@@ -143,7 +188,7 @@ class PredicateObjectSuite extends FunSuite {
     PredicateObject(
       predicate = "amd:bar",
       objectValue = "",
-      at   = OptionalTimestamp("2014-11-21T23:59:36.123456789Z")
+      factsAtOption = Some("2014-11-21T23:59:36.123456789Z")
     )
   }
 
@@ -186,7 +231,7 @@ class PredicateObjectSuite extends FunSuite {
     val testPredicateObject = PredicateObject(
       predicate = "amd:bar",
       objectValue = "bar",
-      at   = OptionalTimestamp("2014-11-21T23:59:36.123456789Z"),
+      factsAtOption = Some("2014-11-21T23:59:36.123456789Z"),
       from = OptionalTimestamp("2013-01-01T00:00:00Z"),
       to   = OptionalTimestamp("2015-12-31T23:59:59.999Z")
     )
