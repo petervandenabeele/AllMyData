@@ -35,14 +35,14 @@ class FactSuite extends FunSuite {
 
   test("Fact has a predicate attribute") {
     new testFoo {
-      val predicate: AMD_Predicate = fact.predicate
+      private val predicate = fact.predicate
       assert(predicate === "amd:foo")
     }
   }
 
   test("Fact has an objectType attribute") {
     new testFoo {
-      val objectType: AMD_ObjectType = fact.objectType
+      private val objectType = fact.objectType
       assert(objectType === "s")
     }
   }
@@ -59,29 +59,29 @@ class FactSuite extends FunSuite {
       private val testSubject = newUUID
       private val testSubjectString = testSubject.toString
       private val factWithSubject = fact.copy(subject = testSubject)
-      val subject: AMD_Subject = factWithSubject.subject
+      private val subject = factWithSubject.subject
       assert(subject === testSubject)
     }
   }
 
   test("Fact has a default arg for subject and default is a UUID") {
     new testFoo {
-      val subject: AMD_Subject = fact.subject
+      private val subject = fact.subject
       assert(subject.toString.length === 36)
     }
   }
 
   test("Fact has an optional uuid") {
     new testFoo {
-      val factWithId: Fact = fact.copy(id = newUUID)
-      val id: AMD_Id = factWithId.id
+      private val factWithId = fact.copy(id = newUUID)
+      private val id = factWithId.id
       assert(id.isInstanceOf[AMD_Id])
     }
   }
 
   test("Fact has an optional uuid and default is a new random UUID") {
     new testFoo {
-      val id: AMD_Id = fact.id
+      private val id = fact.id
       assert(id.isInstanceOf[AMD_Id])
     }
   }
@@ -96,7 +96,7 @@ class FactSuite extends FunSuite {
 
   test("Fact has an optional timeStamp and default is a UTC time") {
     new testFoo {
-      val timestamp: AMD_Timestamp = fact.timestamp
+      private val timestamp = fact.timestamp
       assert(timestamp.toString.length === 24) // 3 fractionals a Z and no [UTC]
       assert(timestamp.startsWith("20"))
     }
@@ -124,7 +124,6 @@ class FactSuite extends FunSuite {
         objectType = "s",
         objectValue = "Bar"
       )
-      Fact(predicateObject = predicateObject) // code never reached
     }
   }
 
@@ -133,9 +132,8 @@ class FactSuite extends FunSuite {
       val predicateObject = PredicateObject(
         predicate = "amd:ping",
         objectType = "i",
-        objectValue = ""
+        objectValue = "" // cannot be empty
       )
-      Fact(predicateObject = predicateObject) // code never reached
     }
   }
 
@@ -151,7 +149,7 @@ class FactSuite extends FunSuite {
   trait PredicateObjectWithTimestamps {
     val testPredicateObject = PredicateObject(
       predicate = "amd:bar",
-      objectValue = """bar , ,, ; ;; " \" "" \ \\ \n \t""",
+      objectValue = """bar , ,, ; ;; " \" "" \ \\ \n \\n \t""",
       factsAtOption = Some("2014-11-21T23:59:36.123456789Z"),
       from = OptionalTimestamp("2013-01-01T00:00:00Z"),
       to   = OptionalTimestamp("2015-12-31T23:59:59.999Z")
@@ -193,7 +191,7 @@ class FactSuite extends FunSuite {
       val d2 = """\d{2}"""
       val d3 = """\d{3}"""
       val d4 = """\d{4}"""
-      val re = s"""$d4-$d2-${d2}T$d2:$d2:$d2.${d3}Z;$uuidRegex;$uuidRegex;$uuidRegex;2014-11-21T23:59:36.123456789Z;2013-01-01T00:00:00Z;2015-12-31T23:59:59.999Z;amd:bar;s;bar , ,, ; ;; " \\\\" "" \\\\ \\\\\\\\ \\\\n \\\\t"""
+      val re = s"""$d4-$d2-${d2}T$d2:$d2:$d2.${d3}Z;$uuidRegex;$uuidRegex;$uuidRegex;2014-11-21T23:59:36.123456789Z;2013-01-01T00:00:00Z;2015-12-31T23:59:59.999Z;amd:bar;s;bar , ,, ; ;; " \\\\" "" \\\\ \\\\\\\\ \\\\n \\\\\\\\n \\\\t"""
       fact.toString should fullyMatch regex re
     }
   }
@@ -214,6 +212,7 @@ class FactSuite extends FunSuite {
       assertResult(fact.subject){ readFact.subject }
       assertResult(fact.predicate){ readFact.predicate }
       assertResult(fact.objectType){ readFact.objectType }
+      assertResult(fact.objectValue){ readFact.objectValue }
       assertResult(fact.at){ readFact.at }
       assertResult(fact.from){ readFact.from }
       assertResult(fact.to){ readFact.to }

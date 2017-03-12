@@ -321,4 +321,38 @@ class JsonEventsReaderSuite extends FunSuite {
     assertResult("i")(predicateObject_11.objectType)
     assertResult("537")(predicateObject_11.objectValue)
   }
+
+  test("Object JsonEventsReader reads value with backslash n in 1 proper line") {
+    val iterator: EventByResourceIterator = eventByResourceIterator("/event_json/schema1.json", "/event_json/object_with_backslash_n.json")
+
+    val eventByResource_0: EventByResource = iterator.next()
+    val resource_0 = eventByResource_0.resource
+    assertResult(36)(resource_0.subject.toString.length)
+
+    val predicateObject_00 = eventByResource_0.event.pos.head
+    assertResult("amd:foo")(predicateObject_00.predicate)
+    assertResult("s")(predicateObject_00.objectType)
+    assertResult("""foo 4\n\ud83d\ude03\nin bar.\n\n me and my guitar. \working @ http://mycompany.be  Buzzwords: streamprocessing""")(predicateObject_00.objectValue)
+
+
+    val eventByResource_1: EventByResource = iterator.next()
+    val resource_1 = eventByResource_1.resource
+    assertResult(36)(resource_1.subject.toString.length)
+
+    val predicateObject_10 = eventByResource_1.event.pos.head
+    assertResult("amd:foo")(predicateObject_10.predicate)
+    assertResult("s")(predicateObject_10.objectType)
+    assertResult("""Great \r@foobar]\r\nO(n) \n\r@barO\nMusic""")(predicateObject_10.objectValue)
+
+
+    val eventByResource_2: EventByResource = iterator.next()
+    val resource_2 = eventByResource_2.resource
+    assertResult(36)(resource_1.subject.toString.length)
+
+    val predicateObject_20 = eventByResource_2.event.pos.head
+    assertResult("amd:foo")(predicateObject_20.predicate)
+    assertResult("s")(predicateObject_20.objectType)
+    assertResult("""foo\t \n\n\n'my'\n\n\nnot""")(predicateObject_20.objectValue)
+  }
+
 }

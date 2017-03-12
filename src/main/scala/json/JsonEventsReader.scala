@@ -58,7 +58,7 @@ object JsonEventsReader {
         // new resource, not trying to find existing
         resource = Resource(),
         event = Event(rawPOs.map {
-          case (rawPredicate, JString(objectValue)) => makePredicateObject(schemaJson, rawPredicate, objectValue, factsAtOption)
+          case (rawPredicate, JString(objectValue)) => makePredicateObject(schemaJson, rawPredicate, escaped(objectValue), factsAtOption)
           case (rawPredicate, JInt(objectValue)) => makePredicateObject(schemaJson, rawPredicate, objectValue.toString(), factsAtOption)
           case (rawPredicate, JDecimal(objectValue)) => makePredicateObject(schemaJson, rawPredicate, objectValue.toString, factsAtOption)
           case (rawPredicate, JBool(objectValue)) => makePredicateObject(schemaJson, rawPredicate, objectValue.toString, factsAtOption)
@@ -69,6 +69,13 @@ object JsonEventsReader {
         })
       )
     }.toIterator
+  }
+
+  private def escaped(unEscaped: String): String = {
+    unEscaped.
+      replace("\n", """\n""").
+      replace("\t", """\t""").
+      replace("\r", """\r""")
   }
 
   private def makePredicateObject(schemaJson: JValue, rawPredicate: String, objectValueString: String, factsAtOption: Option[String]): PredicateObject = {

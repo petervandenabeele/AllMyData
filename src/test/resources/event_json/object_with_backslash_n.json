@@ -1,0 +1,11 @@
+[
+  {
+    "foo": "foo 4\n\ud83d\ude03\nin bar.\n\n me and my guitar. \\working @ http://mycompany.be  Buzzwords: streamprocessing"
+  },
+  {
+    "foo": "Great \r@foobar]\r\nO(n) \n\r@barO\nMusic"
+  },
+  {
+    "foo": "foo\t \n\n\n'my'\\n\\n\\nnot"
+  }
+]
