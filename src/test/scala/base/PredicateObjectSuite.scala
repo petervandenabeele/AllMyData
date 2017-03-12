@@ -7,21 +7,17 @@ package base
 import org.junit.runner.RunWith
 import org.scalatest.FunSuite
 import org.scalatest.junit.JUnitRunner
+import common._
 
 @RunWith(classOf[JUnitRunner])
 class PredicateObjectSuite extends FunSuite {
 
-  trait testPredicateObject {
+  test("PredicateObject can be created without explicit objectType") {
     val predicateObject = PredicateObject(
       predicate = "rdf:type",
       objectValue = "Foo"
     )
-  }
-
-  test("PredicateObject can be created without explicit objectType") {
-    new testPredicateObject {
-      assertResult(PredicateObject("rdf:type", "Foo", "s")) { predicateObject }
-    }
+    assertResult(PredicateObject("rdf:type", "Foo", "s")) { predicateObject }
   }
 
   test("PredicateObject fails with empty predicate") {
@@ -115,6 +111,19 @@ class PredicateObjectSuite extends FunSuite {
       objectValue = ""
     )
     assertResult(PredicateObject("amd:bar", "", "s")) { testPredicateObject }
+  }
+
+  test("PredicateObject with empty object be split to same length as non-empty object") {
+    val testPredicateObject = PredicateObject(
+      predicate = "amd:bar",
+      objectValue = "bar"
+    )
+    val testPredicateObjectEmpty = PredicateObject(
+      predicate = "amd:bar",
+      objectValue = ""
+    )
+    assertResult(6) { testPredicateObject.toString.split(separator, 6).length }
+    assertResult(6) { testPredicateObjectEmpty.toString.split(separator, 6).length }
   }
 
   test("PredicateObject can be created with at, from, to timestamps") {
