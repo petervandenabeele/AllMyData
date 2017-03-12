@@ -31,6 +31,11 @@ case class PredicateObject(predicate: AMD_Predicate,
     DateTime.parse(objectValue)
   }
 
+  if (objectType == "b") {
+    if (!List("true", "false").contains(objectValue))
+      throw new IllegalArgumentException(s"amd:boolean must be 'true' or 'false'")
+  }
+
   if (objectType == "r") {
     try {
       UUID.fromString(objectValue)
@@ -83,7 +88,8 @@ object PredicateObject {
     "u", // URI (and external URI, may include prefixes), not yet validated
     "r", // reference (to the subject of a resource, e.g. as a UUID)
     "i", // integer (can be signed)
-    "d" // decimal (arbitrary precision, correct "decimal" behaviour)
+    "d", // decimal (arbitrary precision, correct "decimal" behaviour)
+    "b"  // boolean (from a JSON with true, false, "true", "false" value)
   )
 
   def errorPredicateObject(errorMsg: String) = {

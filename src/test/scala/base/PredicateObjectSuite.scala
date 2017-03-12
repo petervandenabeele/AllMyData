@@ -86,6 +86,17 @@ class PredicateObjectSuite extends FunSuite {
     PredicateObject("amd:uri", "a83hjcx$%#^&", "u")
   }
 
+  test("PredicateObject succeeds with a boolean") {
+    PredicateObject("amd:boolean", "true", "b")
+    PredicateObject("amd:boolean", "false", "b")
+  }
+
+  test("PredicateObject fails with invalid object for a boolean") {
+    intercept[IllegalArgumentException] {
+      PredicateObject("amd:boolean", "61-02-03", "b")
+    }
+  }
+
   test("PredicateObject fails with undefined objectType") {
     intercept[IllegalArgumentException] {
       PredicateObject("amd:xyz", "abc", "z")

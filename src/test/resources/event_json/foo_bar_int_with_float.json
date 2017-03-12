@@ -2,7 +2,7 @@
   {
     "city": "London",
     "foo_float": 442.5,
-    "bars": true,
+    "bars": null,
     "foo_decimal": 22.65
   },
   {

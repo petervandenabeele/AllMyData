@@ -1,0 +1,22 @@
+[
+  {
+    "city": "London",
+    "europe": true
+  },
+  {
+    "city": "SFO",
+    "europe": false
+  },
+  {
+    "city": "space",
+    "europe": "don't know"
+  },
+  {
+    "city": "Paris",
+    "europe": "true"
+  },
+  {
+    "city": "NYC",
+    "europe": "false"
+  }
+]

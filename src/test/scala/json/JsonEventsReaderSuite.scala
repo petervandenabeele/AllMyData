@@ -161,6 +161,87 @@ class JsonEventsReaderSuite extends FunSuite {
     assertResult("537")(predicateObject_11.objectValue)
   }
 
+  test("Object JsonEventsReader can read a boolean and write a \"b\" objectType") {
+    val iterator: EventByResourceIterator = eventByResourceIterator("/event_json/schema3.json", "/event_json/foo_bar_boolean.json")
+
+    val eventByResource_0: EventByResource = iterator.next()
+
+    val resource_0 = eventByResource_0.resource
+    assertResult(36)(resource_0.subject.toString.length)
+
+    val predicateObject_00 = eventByResource_0.event.pos.head
+    assertResult("amd:foo")(predicateObject_00.predicate)
+    assertResult("s")(predicateObject_00.objectType)
+    assertResult("London")(predicateObject_00.objectValue)
+
+    val predicateObject_01 = eventByResource_0.event.pos.tail.head
+    assertResult("amd:boolean")(predicateObject_01.predicate)
+    assertResult("b")(predicateObject_01.objectType)
+    assertResult("true")(predicateObject_01.objectValue)
+
+
+    val eventByResource_1: EventByResource = iterator.next()
+
+    val resource_1 = eventByResource_1.resource
+    assertResult(36)(resource_1.subject.toString.length)
+
+    val predicateObject_10 = eventByResource_1.event.pos.head
+    assertResult("amd:foo")(predicateObject_10.predicate)
+    assertResult("s")(predicateObject_10.objectType)
+    assertResult("SFO")(predicateObject_10.objectValue)
+
+    val predicateObject_11 = eventByResource_1.event.pos.tail.head
+    assertResult("amd:boolean")(predicateObject_11.predicate)
+    assertResult("b")(predicateObject_11.objectType)
+    assertResult("false")(predicateObject_11.objectValue)
+
+    val eventByResource_2: EventByResource = iterator.next()
+
+    val resource_2 = eventByResource_2.resource
+    assertResult(36)(resource_2.subject.toString.length)
+
+    val predicateObject_20 = eventByResource_2.event.pos.head
+    assertResult("amd:foo")(predicateObject_20.predicate)
+    assertResult("s")(predicateObject_20.objectType)
+    assertResult("space")(predicateObject_20.objectValue)
+
+    val predicateObject_21 = eventByResource_2.event.pos.tail.head
+    assertResult("amd:error")(predicateObject_21.predicate)
+    assertResult("s")(predicateObject_21.objectType)
+    assertResult("amd:boolean must be 'true' or 'false'")(predicateObject_21.objectValue)
+
+    val eventByResource_3: EventByResource = iterator.next()
+
+    val resource_3 = eventByResource_3.resource
+    assertResult(36)(resource_3.subject.toString.length)
+
+    val predicateObject_30 = eventByResource_3.event.pos.head
+    assertResult("amd:foo")(predicateObject_30.predicate)
+    assertResult("s")(predicateObject_30.objectType)
+    assertResult("Paris")(predicateObject_30.objectValue)
+
+    val predicateObject_31 = eventByResource_3.event.pos.tail.head
+    assertResult("amd:boolean")(predicateObject_31.predicate)
+    assertResult("b")(predicateObject_31.objectType)
+    assertResult("true")(predicateObject_31.objectValue)
+
+
+    val eventByResource_4: EventByResource = iterator.next()
+
+    val resource_4 = eventByResource_4.resource
+    assertResult(36)(resource_4.subject.toString.length)
+
+    val predicateObject_40 = eventByResource_4.event.pos.head
+    assertResult("amd:foo")(predicateObject_40.predicate)
+    assertResult("s")(predicateObject_40.objectType)
+    assertResult("NYC")(predicateObject_40.objectValue)
+
+    val predicateObject_41 = eventByResource_4.event.pos.tail.head
+    assertResult("amd:boolean")(predicateObject_41.predicate)
+    assertResult("b")(predicateObject_41.objectType)
+    assertResult("false")(predicateObject_41.objectValue)
+  }
+
   test("Object JsonEventsReader uses the schema2.json info") {
     val iterator: EventByResourceIterator = eventByResourceIterator("/event_json/schema2.json", "/event_json/foo_bar_int.json")
 
@@ -212,12 +293,12 @@ class JsonEventsReaderSuite extends FunSuite {
     val predicateObject_01 = eventByResource_0.event.pos.tail.head
     assertResult("amd:error")(predicateObject_01.predicate)
     assertResult("s")(predicateObject_01.objectType)
-    assertResult("The objectType f is not in supported List(s, t, u, r, i, d)")(predicateObject_01.objectValue)
+    assertResult("The objectType f is not in supported List(s, t, u, r, i, d, b)")(predicateObject_01.objectValue)
 
     val predicateObject_02 = eventByResource_0.event.pos.tail.tail.head
     assertResult("amd:error")(predicateObject_02.predicate)
     assertResult("s")(predicateObject_02.objectType)
-    assertResult("Found unsupported JSON type (only string, int and decimal); type is JBool")(predicateObject_02.objectValue)
+    assertResult("Found unsupported JSON type (only string, int, decimal and boolean); type is JNull$")(predicateObject_02.objectValue)
 
     val predicateObject_03 = eventByResource_0.event.pos.tail.tail.tail.head
     assertResult("amd:dec")(predicateObject_03.predicate)

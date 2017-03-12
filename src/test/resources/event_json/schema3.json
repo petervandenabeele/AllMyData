@@ -1,0 +1,22 @@
+{
+  "city": {
+    "predicate": "amd:foo",
+    "objectType": "s"
+  },
+  "bars": {
+    "predicate": "amd:int",
+    "objectType": "i"
+  },
+  "foo_float": {
+    "predicate": "amd:float",
+    "objectType": "f"
+  },
+  "foo_decimal": {
+    "predicate": "amd:dec",
+    "objectType": "d"
+  },
+  "europe": {
+    "predicate": "amd:boolean",
+    "objectType": "b"
+  }
+}

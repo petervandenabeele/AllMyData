@@ -42,7 +42,7 @@ object JsonEventsReader {
     val topList = eventJson match {
       case JObject(list) => Some(list)
       case JArray(list) => Some(list)
-      // all other types not supported at this level
+      // all other types not supported at this level (do not add new types here)
       case JBool(_) => None
       case JDecimal(_) => None
       case JDouble(_) => None
@@ -53,17 +53,18 @@ object JsonEventsReader {
       case JString(_) => None
     }
 
-    topList.get.map { case JObject(rawPos) =>
+    topList.get.map { case JObject(rawPOs) =>
       EventByResource(
         // new resource, not trying to find existing
         resource = Resource(),
-        event = Event(rawPos.map {
+        event = Event(rawPOs.map {
           case (rawPredicate, JString(objectValue)) => makePredicateObject(schemaJson, rawPredicate, objectValue, factsAtOption)
           case (rawPredicate, JInt(objectValue)) => makePredicateObject(schemaJson, rawPredicate, objectValue.toString(), factsAtOption)
           case (rawPredicate, JDecimal(objectValue)) => makePredicateObject(schemaJson, rawPredicate, objectValue.toString, factsAtOption)
+          case (rawPredicate, JBool(objectValue)) => makePredicateObject(schemaJson, rawPredicate, objectValue.toString, factsAtOption)
           case other => PredicateObject(
             predicate = "amd:error",
-            objectValue = s"Found unsupported JSON type (only string, int and decimal); type is ${other._2.getClass.getSimpleName}",
+            objectValue = s"Found unsupported JSON type (only string, int, decimal and boolean); type is ${other._2.getClass.getSimpleName}",
             objectType = "s")
         })
       )
