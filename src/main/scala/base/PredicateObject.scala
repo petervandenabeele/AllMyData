@@ -5,8 +5,8 @@
 package base
 
 import java.util.UUID
-import com.github.nscala_time.time.Imports._
 
+import com.github.nscala_time.time.Imports._
 import common._
 
 class PredicateObject(predicate_ : AMD_Predicate,
@@ -121,7 +121,7 @@ object PredicateObject {
       predicate_ = predicate,
       objectValue_ = objectValue,
       objectType_ = objectType,
-      at_ = if (factsAtOption.isDefined) OptionalTimestamp(factsAtOption.get) else defaultAt,
+      at_ = factsAtOption.map(factAt => OptionalTimestamp(factAt)).getOrElse(defaultAt),
       from_ = from,
       to_ = to
     )
