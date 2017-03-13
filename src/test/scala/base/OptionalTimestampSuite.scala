@@ -34,6 +34,12 @@ class OptionalTimestampSuite extends FunSuite {
     }
   }
 
+  test("OptionalTimestamp(Some(\"foobar\")) throws exception") {
+    intercept[IllegalArgumentException] {
+      OptionalTimestamp(Some("foobar"))
+    }
+  }
+
   test("isEmpty, isDefined, get delegate to timestamp") {
     new testOptionalTimestamps {
       assertResult(false) {optionalTimestampNone.isDefined}
