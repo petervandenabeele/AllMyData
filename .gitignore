@@ -1,3 +1,4 @@
 target/
 src/main/resources/predicates
 .idea
+project/build.properties
