@@ -51,6 +51,7 @@ object JsonEventsReader {
       case JNothing => None
       case JNull => None
       case JString(_) => None
+      case JSet(_) => None
     }
 
     topList.get.map { case JObject(rawPOs) =>
