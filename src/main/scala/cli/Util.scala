@@ -24,14 +24,14 @@ object Util {
     case _ => throw new RuntimeException("provide a dataFile and optional schemaFile and optional contextFile to read from")
   }
 
-  /** Naive: expand to full filename on local system of @peter_v
+  /** Use top level dir as base
     *
     * @param filename  short filename (can contain / like in `test/foo_bar`)
     * @return the full filename
     */
   def getFullFilename(filename: String): String = {
-    val homeDir = System.getProperty("user.home")
-    homeDir + s"/dpd/" + filename
+    val baseDir = System.getProperty("user.dir")
+    baseDir + "/../" + filename
   }
 
   /** Naive: just print all results to stdout ; this is used by later scripts
